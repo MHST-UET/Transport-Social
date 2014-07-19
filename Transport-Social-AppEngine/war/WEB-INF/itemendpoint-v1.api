@@ -1,0 +1,207 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://transportsocialduclv.appspot.com/_ah/api",
+  "name" : "itemendpoint",
+  "version" : "v1",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "https://transportsocialduclv.appspot.com/_ah/spi",
+    "deadline" : 65.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "ownerDomain" : "uet.com",
+  "ownerName" : "uet.com",
+  "packagePath" : "mhst",
+  "methods" : {
+    "itemendpoint.getItem" : {
+      "path" : "item/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.uet.mhst.ItemEndpoint.getItem",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "itemendpoint.removeItem" : {
+      "path" : "item/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.uet.mhst.ItemEndpoint.removeItem",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "itemendpoint.listItem" : {
+      "path" : "item",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.uet.mhst.ItemEndpoint.listItem",
+      "request" : {
+        "parameters" : {
+          "cursor" : {
+            "type" : "string",
+            "required" : false
+          },
+          "limit" : {
+            "type" : "int32",
+            "required" : false
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "itemendpoint.insertItem" : {
+      "path" : "item",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "169112209312-b414ngp468k01gl77ic23jh6v3l6cisp.apps.googleusercontent.com", "169112209312-22t663q3f68j41nt8a445i3lgvir3arv.apps.googleusercontent.com" ],
+      "clientIds" : [ "169112209312-b414ngp468k01gl77ic23jh6v3l6cisp.apps.googleusercontent.com", "169112209312-22t663q3f68j41nt8a445i3lgvir3arv.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.uet.mhst.ItemEndpoint.insertItem",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "itemendpoint.updateItem" : {
+      "path" : "item",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.uet.mhst.ItemEndpoint.updateItem",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "Item" : {
+        "id" : "Item",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "timeStamp" : {
+            "type" : "string"
+          },
+          "url" : {
+            "type" : "string"
+          },
+          "idFB" : {
+            "type" : "string"
+          },
+          "imge" : {
+            "type" : "string"
+          }
+        }
+      },
+      "CollectionResponse_Item" : {
+        "id" : "CollectionResponse_Item",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Item"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "methods" : {
+      "com.uet.mhst.ItemEndpoint.getItem" : {
+        "response" : {
+          "$ref" : "Item"
+        }
+      },
+      "com.uet.mhst.ItemEndpoint.removeItem" : {
+      },
+      "com.uet.mhst.ItemEndpoint.listItem" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Item"
+        }
+      },
+      "com.uet.mhst.ItemEndpoint.insertItem" : {
+        "request" : {
+          "$ref" : "Item"
+        },
+        "response" : {
+          "$ref" : "Item"
+        }
+      },
+      "com.uet.mhst.ItemEndpoint.updateItem" : {
+        "request" : {
+          "$ref" : "Item"
+        },
+        "response" : {
+          "$ref" : "Item"
+        }
+      }
+    }
+  }
+}
