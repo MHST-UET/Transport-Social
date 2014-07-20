@@ -39,12 +39,12 @@ public class LoginFacebookActivity extends Activity {
 
 		try {
 			PackageInfo info = getPackageManager().getPackageInfo(
-					"com.facebook.samples.hellofacebook",
+					"com.uet.mhst",
 					PackageManager.GET_SIGNATURES);
 			for (Signature signature : info.signatures) {
 				MessageDigest md = MessageDigest.getInstance("SHA");
 				md.update(signature.toByteArray());
-				Log.d("KeyHash:",
+				Log.d("XXXXXXXXX:",
 						Base64.encodeToString(md.digest(), Base64.DEFAULT));
 			}
 		} catch (NameNotFoundException e) {

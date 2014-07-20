@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -26,6 +27,7 @@ public class FeedListAdapter extends BaseAdapter {
 	private Activity activity;
 	private LayoutInflater inflater;
 	private List<Item> Items;
+	int i = 0;
 	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
 	public FeedListAdapter(Activity activity, List<Item> Items) {
@@ -56,25 +58,44 @@ public class FeedListAdapter extends BaseAdapter {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		if (convertView == null)
 			convertView = inflater.inflate(R.layout.feed_item, null);
-
 		if (imageLoader == null)
 			imageLoader = AppController.getInstance().getImageLoader();
-
 		TextView name = (TextView) convertView.findViewById(R.id.name);
 		TextView timestamp = (TextView) convertView
 				.findViewById(R.id.timestamp);
 		TextView statusMsg = (TextView) convertView
 				.findViewById(R.id.txtStatusMsg);
-		TextView url = (TextView) convertView.findViewById(R.id.txtUrl);
-		// NetworkImageView profilePic = (NetworkImageView) convertView
-		// .findViewById(R.id.profilePic);
+		TextView status = (TextView) convertView.findViewById(R.id.txtStatus);
+		final TextView voteUp = (TextView) convertView
+				.findViewById(R.id.txtView_vote_up);
+		TextView voteDown = (TextView) convertView
+				.findViewById(R.id.txtView_vote_down);
 		ProfilePictureView profilePic = (ProfilePictureView) convertView
 				.findViewById(R.id.profilePic);
 		FeedImageView feedImageView = (FeedImageView) convertView
 				.findViewById(R.id.feedImage1);
+		Button voteUpBtn = (Button) convertView.findViewById(R.id.btn_vote_up);
+
+		Button voteDownBtn = (Button) convertView
+				.findViewById(R.id.btn_vote_down);
+		voteUpBtn.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+		voteDownBtn.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 
 		Item item = Items.get(position);
-
 		name.setText(item.getName());
 
 		// Converting timestamp into x ago format
@@ -92,25 +113,15 @@ public class FeedListAdapter extends BaseAdapter {
 			statusMsg.setVisibility(View.GONE);
 		}
 
-		// Checking for null feed url
-		if (item.getUrl() != null) {
-			url.setText(Html.fromHtml("<a href=\"" + item.getUrl() + "\">"
-					+ item.getUrl() + "</a> "));
-
-			// Making url clickable
-			url.setMovementMethod(LinkMovementMethod.getInstance());
-			url.setVisibility(View.VISIBLE);
-		} else {
-			// url is null, remove from the view
-			url.setVisibility(View.GONE);
-		}
+		status.setText("Tắc đường");
 
 		// user profile pic
-		// profilePic.setImageUrl(item.getProfilePic(), imageLoader);
+
 		profilePic.setProfileId(item.getIdFB());
 
 		// Feed image
 		if (item.getImge() != null) {
+
 			feedImageView.setImageUrl(item.getImge(), imageLoader);
 			feedImageView.setVisibility(View.VISIBLE);
 			feedImageView
@@ -129,5 +140,4 @@ public class FeedListAdapter extends BaseAdapter {
 
 		return convertView;
 	}
-
 }

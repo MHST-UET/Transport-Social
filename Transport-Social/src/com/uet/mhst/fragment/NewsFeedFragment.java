@@ -9,7 +9,11 @@ import com.uet.mhst.adapter.FeedListAdapter;
 import com.uet.mhst.itemendpoint.model.*;
 import com.uet.mhst.itemendpoint.*;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,22 +23,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 public class NewsFeedFragment extends Fragment {
 	private FeedListAdapter listAdapter;
 	private ListView listView;
 	private List<Item> feedItems;
+	private ProgressBar progressbar;
 
 	@SuppressWarnings("unused")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
 		View rootView = inflater.inflate(R.layout.fragment_news_feed,
 				container, false);
+
+		progressbar = (ProgressBar) rootView.findViewById(R.id.progressBar);
 		listView = (ListView) rootView.findViewById(R.id.list);
 		ImageView imageViewUpStatus = (ImageView) rootView
 				.findViewById(R.id.imageView_upstatus);
+
 		imageViewUpStatus.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -56,6 +64,10 @@ public class NewsFeedFragment extends Fragment {
 		public NewsFeedAsyncTask() {
 		}
 
+		protected void onPreExecute() {
+
+		}
+
 		protected CollectionResponseItem doInBackground(Void... unused) {
 			CollectionResponseItem items = null;
 			try {
@@ -71,6 +83,7 @@ public class NewsFeedFragment extends Fragment {
 		}
 
 		protected void onPostExecute(CollectionResponseItem items) {
+			progressbar.setVisibility(View.GONE);
 			List<Item> _list = items.getItems();
 			feedItems = new ArrayList<Item>();
 			for (Item item : _list) {
@@ -78,6 +91,7 @@ public class NewsFeedFragment extends Fragment {
 			}
 			listAdapter = new FeedListAdapter(getActivity(), feedItems);
 			listView.setAdapter(listAdapter);
+
 		}
 	}
 }
