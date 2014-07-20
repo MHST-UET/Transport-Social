@@ -8,6 +8,8 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.uet.mhst.adapter.FeedListAdapter;
 import com.uet.mhst.itemendpoint.model.*;
 import com.uet.mhst.itemendpoint.*;
+
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 public class NewsFeedFragment extends Fragment {
@@ -22,6 +25,7 @@ public class NewsFeedFragment extends Fragment {
 	private ListView listView;
 	private List<Item> feedItems;
 
+	@SuppressWarnings("unused")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -29,6 +33,18 @@ public class NewsFeedFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_news_feed,
 				container, false);
 		listView = (ListView) rootView.findViewById(R.id.list);
+		ImageView imageViewUpStatus = (ImageView) rootView
+				.findViewById(R.id.imageView_upstatus);
+		imageViewUpStatus.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent upstatus = new Intent("com.uet.mhst.UpNewsFeedActivity");
+				startActivity(upstatus);
+			}
+		});
+
 		new NewsFeedAsyncTask().execute();
 
 		return rootView;
