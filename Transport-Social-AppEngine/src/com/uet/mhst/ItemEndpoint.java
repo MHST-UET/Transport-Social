@@ -44,6 +44,7 @@ public class ItemEndpoint {
 		try {
 			mgr = getPersistenceManager();
 			Query query = mgr.newQuery(Item.class);
+			query.setOrdering("datetime desc");
 			if (cursorString != null && cursorString != "") {
 				cursor = Cursor.fromWebSafeString(cursorString);
 				HashMap<String, Object> extensionMap = new HashMap<String, Object>();

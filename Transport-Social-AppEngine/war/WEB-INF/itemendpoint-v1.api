@@ -1,12 +1,12 @@
 {
   "extends" : "thirdParty.api",
   "abstract" : false,
-  "root" : "https://transportsocialduclv.appspot.com/_ah/api",
+  "root" : "https://transportsocial2014.appspot.com/_ah/api",
   "name" : "itemendpoint",
   "version" : "v1",
   "defaultVersion" : false,
   "adapter" : {
-    "bns" : "https://transportsocialduclv.appspot.com/_ah/spi",
+    "bns" : "https://transportsocial2014.appspot.com/_ah/spi",
     "deadline" : 65.0,
     "type" : "lily"
   },
@@ -99,8 +99,8 @@
       "httpMethod" : "POST",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
-      "audiences" : [ "169112209312-b414ngp468k01gl77ic23jh6v3l6cisp.apps.googleusercontent.com", "169112209312-22t663q3f68j41nt8a445i3lgvir3arv.apps.googleusercontent.com" ],
-      "clientIds" : [ "169112209312-b414ngp468k01gl77ic23jh6v3l6cisp.apps.googleusercontent.com", "169112209312-22t663q3f68j41nt8a445i3lgvir3arv.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "audiences" : [ "275231022763-13a5ievdg1ucblrg0buttgogudgmppcs.apps.googleusercontent.com", "275231022763-2dalqm4trurvlnc1319lrheumti2ro8a.apps.googleusercontent.com" ],
+      "clientIds" : [ "275231022763-13a5ievdg1ucblrg0buttgogudgmppcs.apps.googleusercontent.com", "275231022763-2dalqm4trurvlnc1319lrheumti2ro8a.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
       "rosyMethod" : "com.uet.mhst.ItemEndpoint.insertItem",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
@@ -140,20 +140,33 @@
           "name" : {
             "type" : "string"
           },
+          "lat" : {
+            "type" : "string"
+          },
+          "lag" : {
+            "type" : "string"
+          },
+          "img" : {
+            "type" : "string"
+          },
+          "content" : {
+            "type" : "string"
+          },
           "status" : {
-            "type" : "string"
+            "type" : "integer"
           },
-          "timeStamp" : {
-            "type" : "string"
-          },
-          "url" : {
-            "type" : "string"
+          "time" : {
+            "type" : "string",
+            "format" : "date-time"
           },
           "idFB" : {
             "type" : "string"
           },
-          "imge" : {
-            "type" : "string"
+          "voteUp" : {
+            "type" : "integer"
+          },
+          "voteDw" : {
+            "type" : "integer"
           }
         }
       },

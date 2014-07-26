@@ -4,10 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.text.Html;
-import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,20 +96,19 @@ public class FeedListAdapter extends BaseAdapter {
 		name.setText(item.getName());
 
 		// Converting timestamp into x ago format
-		CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(
-				Long.parseLong(item.getTimeStamp()),
+		CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(item.getTime().getValue(),
 				System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
 		timestamp.setText(timeAgo);
 
 		// Chcek for empty status message
-		if (!TextUtils.isEmpty(item.getStatus())) {
-			statusMsg.setText(item.getStatus());
-			statusMsg.setVisibility(View.VISIBLE);
-		} else {
-			// status is empty, remove from view
-			statusMsg.setVisibility(View.GONE);
-		}
-
+//		if (!TextUtils.isEmpty(item.getStatus())) {
+//			statusMsg.setText(item.getStatus());
+//			statusMsg.setVisibility(View.VISIBLE);
+//		} else {
+//			// status is empty, remove from view
+//			statusMsg.setVisibility(View.GONE);
+//		}
+		statusMsg.setText(item.getContent());
 		status.setText("Tắc đường");
 
 		// user profile pic
@@ -120,9 +116,9 @@ public class FeedListAdapter extends BaseAdapter {
 		profilePic.setProfileId(item.getIdFB());
 
 		// Feed image
-		if (item.getImge() != null) {
+		if (item.getImg() != null) {
 
-			feedImageView.setImageUrl(item.getImge(), imageLoader);
+			feedImageView.setImageUrl(item.getImg(), imageLoader);
 			feedImageView.setVisibility(View.VISIBLE);
 			feedImageView
 					.setResponseObserver(new FeedImageView.ResponseObserver() {

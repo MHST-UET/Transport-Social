@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/Kt1sw4LMEDk-OGbhbefJA1B0qfA\"",
+ "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/JfFtpKo5Ij1sowQiL4ugqWlizzQ\"",
  "discoveryVersion": "v1",
  "id": "itemendpoint:v1",
  "name": "itemendpoint",
@@ -14,9 +14,9 @@
   "x32": "http://www.google.com/images/icons/product/search-32.gif"
  },
  "protocol": "rest",
- "baseUrl": "https://transportsocialduclv.appspot.com/_ah/api/itemendpoint/v1/",
+ "baseUrl": "https://transportsocial2014.appspot.com/_ah/api/itemendpoint/v1/",
  "basePath": "/_ah/api/itemendpoint/v1/",
- "rootUrl": "https://transportsocialduclv.appspot.com/_ah/api/",
+ "rootUrl": "https://transportsocial2014.appspot.com/_ah/api/",
  "servicePath": "itemendpoint/v1/",
  "batchPath": "batch",
  "parameters": {
@@ -96,6 +96,9 @@
    "id": "Item",
    "type": "object",
    "properties": {
+    "content": {
+     "type": "string"
+    },
     "id": {
      "type": "string",
      "format": "int64"
@@ -103,20 +106,33 @@
     "idFB": {
      "type": "string"
     },
-    "imge": {
+    "img": {
+     "type": "string"
+    },
+    "lag": {
+     "type": "string"
+    },
+    "lat": {
      "type": "string"
     },
     "name": {
      "type": "string"
     },
     "status": {
-     "type": "string"
+     "type": "integer",
+     "format": "int32"
     },
-    "timeStamp": {
-     "type": "string"
+    "time": {
+     "type": "string",
+     "format": "date-time"
     },
-    "url": {
-     "type": "string"
+    "voteDw": {
+     "type": "integer",
+     "format": "int32"
+    },
+    "voteUp": {
+     "type": "integer",
+     "format": "int32"
     }
    }
   }

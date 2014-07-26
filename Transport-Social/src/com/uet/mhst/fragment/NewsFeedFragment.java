@@ -9,11 +9,7 @@ import com.uet.mhst.adapter.FeedListAdapter;
 import com.uet.mhst.itemendpoint.model.*;
 import com.uet.mhst.itemendpoint.*;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -60,13 +56,6 @@ public class NewsFeedFragment extends Fragment {
 
 	private class NewsFeedAsyncTask extends
 			AsyncTask<Void, Void, CollectionResponseItem> {
-
-		public NewsFeedAsyncTask() {
-		}
-
-		protected void onPreExecute() {
-
-		}
 
 		protected CollectionResponseItem doInBackground(Void... unused) {
 			CollectionResponseItem items = null;
