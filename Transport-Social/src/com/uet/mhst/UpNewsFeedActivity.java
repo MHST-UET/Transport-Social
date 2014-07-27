@@ -103,10 +103,11 @@ public class UpNewsFeedActivity extends Activity {
 				item.setLag(lag);
 				item.setTime(new DateTime(System.currentTimeMillis()));
 				item.setStatus(status);
-				item.setImg("");
+				item.setImg("http://res.vtc.vn/media/vtcnews/2012/05/17/maps.png");
 				item.setContent(content);
 				Item [] params = {item};
 				new AddItemAsyncTask().execute(params);
+				
 			}
 		});
 	}
@@ -130,6 +131,7 @@ public class UpNewsFeedActivity extends Activity {
 			  contentEditText.setHint("Write Something");
 			  //Display success message to user
 			  Toast.makeText(getBaseContext(), "Item added succesfully", Toast.LENGTH_SHORT).show();
+			
 		  }
 		}
 

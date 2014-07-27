@@ -54,7 +54,17 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/txtStatusMsg"
+            android:id="@+id/txtStatus"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingLeft="@dimen/feed_item_status_pad_left_right"
+            android:paddingRight="@dimen/feed_item_status_pad_left_right"
+            android:paddingTop="@dimen/feed_item_status_pad_top"
+            android:textSize="19sp" />
+
+        <TextView
+            android:id="@+id/txtContent"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
@@ -62,22 +72,13 @@
             android:paddingRight="@dimen/feed_item_status_pad_left_right"
             android:paddingTop="@dimen/feed_item_status_pad_top" />
 
-        <TextView
-            android:id="@+id/txtStatus"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:gravity="right"
-            android:paddingBottom="10dp"
-            android:textColor="#579C32"
-            android:textSize="20dp" />
-
         <com.uet.mhst.volley.FeedImageView
             android:id="@+id/feedImage1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@color/white"
+            android:paddingTop="@dimen/feed_item_status_pad_top"
             android:scaleType="fitXY"
             android:visibility="visible" />
 
@@ -91,14 +92,16 @@
                 android:id="@+id/txtView_vote_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="vote up" />
+                android:text="vote up"
+                android:textColor="@color/timestamp" />
 
             <TextView
                 android:id="@+id/txtView_vote_down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:text="Vote down" />
+                android:layout_marginLeft="20dp"
+                android:text="Vote down"
+                android:textColor="@color/timestamp" />
         </LinearLayout>
 
         <LinearLayout
@@ -110,18 +113,20 @@
 
             <Button
                 android:id="@+id/btn_vote_up"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:background="@drawable/bg_button"
+                android:background="@drawable/bg_selector"
+                android:soundEffectsEnabled="true"
                 android:text="Vote up" />
 
             <Button
                 android:id="@+id/btn_vote_down"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:background="@drawable/bg_button"
+                android:background="@drawable/bg_selector"
+                android:soundEffectsEnabled="true"
                 android:text="Vote down" />
         </LinearLayout>
     </LinearLayout>

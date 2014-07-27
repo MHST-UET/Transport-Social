@@ -11,7 +11,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_parent_rounded_corner"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:soundEffectsEnabled="true" >
 
         <RadioButton
             android:id="@+id/radio_tac"
@@ -69,7 +70,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/bg_button"
+            android:background="@drawable/bg_selector"
+            android:soundEffectsEnabled="true"
             android:text="Photo" />
 
         <Button
@@ -77,17 +79,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/bg_button"
+            android:background="@drawable/bg_selector"
+            android:soundEffectsEnabled="true"
             android:text="Post" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/imageView1"
-        android:background="@drawable/bg_button"
-        android:padding="10dp"
         android:layout_width="fill_parent"
         android:layout_height="320dp"
         android:layout_gravity="center"
+        android:background="@drawable/bg_button"
+        android:padding="10dp"
         android:scaleType="fitXY" />
 
 </LinearLayout>

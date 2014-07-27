@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,9 +61,8 @@ public class FeedListAdapter extends BaseAdapter {
 		TextView name = (TextView) convertView.findViewById(R.id.name);
 		TextView timestamp = (TextView) convertView
 				.findViewById(R.id.timestamp);
-		TextView statusMsg = (TextView) convertView
-				.findViewById(R.id.txtStatusMsg);
 		TextView status = (TextView) convertView.findViewById(R.id.txtStatus);
+		TextView content = (TextView) convertView.findViewById(R.id.txtContent);
 		final TextView voteUp = (TextView) convertView
 				.findViewById(R.id.txtView_vote_up);
 		TextView voteDown = (TextView) convertView
@@ -72,9 +72,9 @@ public class FeedListAdapter extends BaseAdapter {
 		FeedImageView feedImageView = (FeedImageView) convertView
 				.findViewById(R.id.feedImage1);
 		Button voteUpBtn = (Button) convertView.findViewById(R.id.btn_vote_up);
-
 		Button voteDownBtn = (Button) convertView
 				.findViewById(R.id.btn_vote_down);
+
 		voteUpBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -94,30 +94,27 @@ public class FeedListAdapter extends BaseAdapter {
 
 		Item item = Items.get(position);
 		name.setText(item.getName());
-
-		// Converting timestamp into x ago format
-		CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(item.getTime().getValue(),
-				System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
+		CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(item
+				.getTime().getValue(), System.currentTimeMillis(),
+				DateUtils.SECOND_IN_MILLIS);
 		timestamp.setText(timeAgo);
-
-		// Chcek for empty status message
-//		if (!TextUtils.isEmpty(item.getStatus())) {
-//			statusMsg.setText(item.getStatus());
-//			statusMsg.setVisibility(View.VISIBLE);
-//		} else {
-//			// status is empty, remove from view
-//			statusMsg.setVisibility(View.GONE);
-//		}
-		statusMsg.setText(item.getContent());
-		status.setText("Tắc đường");
-
-		// user profile pic
-
+		switch (item.getStatus()) {
+		case 1:
+			status.setText("Tắc đường");
+			break;
+		case 2:
+			status.setText("Đường đông");
+			break;
+		case 3:
+			status.setText("Tại nạn");
+			break;
+		case 4:
+			status.setText("Bình thường");
+			break;
+		}
+		content.setText(item.getContent());
 		profilePic.setProfileId(item.getIdFB());
-
-		// Feed image
 		if (item.getImg() != null) {
-
 			feedImageView.setImageUrl(item.getImg(), imageLoader);
 			feedImageView.setVisibility(View.VISIBLE);
 			feedImageView
@@ -134,6 +131,9 @@ public class FeedListAdapter extends BaseAdapter {
 			feedImageView.setVisibility(View.GONE);
 		}
 
+		voteUp.setText(String.valueOf(item.getVoteUp()) + " vote up");
+		Log.e("VOTE", String.valueOf(item.getVoteUp()));
+		voteDown.setText(String.valueOf(item.getVoteDw()) + " vote down");
 		return convertView;
 	}
 }

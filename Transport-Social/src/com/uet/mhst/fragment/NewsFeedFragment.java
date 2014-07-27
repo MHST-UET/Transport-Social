@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.gson.GsonFactory;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+
 import com.uet.mhst.adapter.FeedListAdapter;
 import com.uet.mhst.itemendpoint.model.*;
 import com.uet.mhst.itemendpoint.*;
@@ -23,7 +27,7 @@ import android.widget.ProgressBar;
 
 public class NewsFeedFragment extends Fragment {
 	private FeedListAdapter listAdapter;
-	private ListView listView;
+	private PullToRefreshListView listView;
 	private List<Item> feedItems;
 	private ProgressBar progressbar;
 
@@ -35,10 +39,18 @@ public class NewsFeedFragment extends Fragment {
 				container, false);
 
 		progressbar = (ProgressBar) rootView.findViewById(R.id.progressBar);
-		listView = (ListView) rootView.findViewById(R.id.list);
+		listView = (PullToRefreshListView) rootView.findViewById(R.id.list);
+		// listView = (ListView) rootView.findViewById(R.id.list);
 		ImageView imageViewUpStatus = (ImageView) rootView
 				.findViewById(R.id.imageView_upstatus);
 
+		listView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+			@Override
+			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+				// Do work to refresh the list here.
+				new NewsFeedAsyncTask().execute();
+			}
+		});
 		imageViewUpStatus.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -74,13 +86,15 @@ public class NewsFeedFragment extends Fragment {
 		protected void onPostExecute(CollectionResponseItem items) {
 			progressbar.setVisibility(View.GONE);
 			List<Item> _list = items.getItems();
-			feedItems = new ArrayList<Item>();
+			 feedItems = new ArrayList<Item>();
 			for (Item item : _list) {
 				feedItems.add(item);
 			}
+			listView.onRefreshComplete();
+
 			listAdapter = new FeedListAdapter(getActivity(), feedItems);
 			listView.setAdapter(listAdapter);
-
+			super.onPostExecute(items);
 		}
 	}
 }
