@@ -1,9 +1,11 @@
 package com.uet.mhst.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,41 +17,51 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.facebook.widget.ProfilePictureView;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.json.gson.GsonFactory;
 
 import com.uet.mhst.R;
+import com.uet.mhst.itemendpoint.Itemendpoint;
 import com.uet.mhst.itemendpoint.model.*;
 import com.uet.mhst.volley.AppController;
 import com.uet.mhst.volley.FeedImageView;
+import com.uet.mhst.vote.Vote;
 
-public class FeedListAdapter extends BaseAdapter {
+public class FeedListAdapter extends BaseAdapter
+{
 	private Activity activity;
 	private LayoutInflater inflater;
 	private List<Item> Items;
 	int i = 0;
 	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
-	public FeedListAdapter(Activity activity, List<Item> Items) {
+	public FeedListAdapter(Activity activity, List<Item> Items)
+	{
 		this.activity = activity;
 		this.Items = Items;
 	}
 
 	@Override
-	public int getCount() {
+	public int getCount()
+	{
 		return Items.size();
 	}
 
 	@Override
-	public Object getItem(int location) {
+	public Object getItem(int location)
+	{
 		return Items.get(location);
 	}
 
 	@Override
-	public long getItemId(int position) {
+	public long getItemId(int position)
+	{
 		return position;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent)
+	{
 
 		if (inflater == null)
 			inflater = (LayoutInflater) activity
@@ -74,60 +86,69 @@ public class FeedListAdapter extends BaseAdapter {
 		Button voteUpBtn = (Button) convertView.findViewById(R.id.btn_vote_up);
 		Button voteDownBtn = (Button) convertView
 				.findViewById(R.id.btn_vote_down);
-
-		voteUpBtn.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-		voteDownBtn.setOnClickListener(new View.OnClickListener() {
+		final Item item = Items.get(position);
+		voteUpBtn.setOnClickListener(new View.OnClickListener()
+		{
 
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				// TODO Auto-generated method stub
-
+				new VoteAsyncTask(item.getId(), true).execute();
 			}
 		});
+		voteDownBtn.setOnClickListener(new View.OnClickListener()
+		{
 
-		Item item = Items.get(position);
+			@Override
+			public void onClick(View v)
+			{
+				// TODO Auto-generated method stub
+				new VoteAsyncTask(item.getId(), false).execute();
+			}
+		});
 		name.setText(item.getName());
 		CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(item
 				.getTime().getValue(), System.currentTimeMillis(),
 				DateUtils.SECOND_IN_MILLIS);
 		timestamp.setText(timeAgo);
-		switch (item.getStatus()) {
-		case 1:
-			status.setText("Tắc đường");
-			break;
-		case 2:
-			status.setText("Đường đông");
-			break;
-		case 3:
-			status.setText("Tại nạn");
-			break;
-		case 4:
-			status.setText("Bình thường");
-			break;
+		switch (item.getStatus())
+		{
+			case 1:
+				status.setText("Tắc đường");
+				break;
+			case 2:
+				status.setText("Đường đông");
+				break;
+			case 3:
+				status.setText("Tai nạn");
+				break;
+			case 4:
+				status.setText("Bình thường");
+				break;
 		}
 		content.setText(item.getContent());
 		profilePic.setProfileId(item.getIdFB());
-		if (item.getImg() != null) {
+		if (item.getImg() != null)
+		{
 			feedImageView.setImageUrl(item.getImg(), imageLoader);
 			feedImageView.setVisibility(View.VISIBLE);
 			feedImageView
-					.setResponseObserver(new FeedImageView.ResponseObserver() {
+					.setResponseObserver(new FeedImageView.ResponseObserver()
+					{
 						@Override
-						public void onError() {
+						public void onError()
+						{
 						}
 
 						@Override
-						public void onSuccess() {
+						public void onSuccess()
+						{
 						}
 					});
-		} else {
+		}
+		else
+		{
 			feedImageView.setVisibility(View.GONE);
 		}
 
@@ -135,5 +156,41 @@ public class FeedListAdapter extends BaseAdapter {
 		Log.e("VOTE", String.valueOf(item.getVoteUp()));
 		voteDown.setText(String.valueOf(item.getVoteDw()) + " vote down");
 		return convertView;
+	}
+
+	private class VoteAsyncTask extends AsyncTask<Void, Void, Void>
+	{
+		Long id;
+		boolean up;
+
+		protected VoteAsyncTask(Long id, boolean up)
+		{
+			this.id = id;
+			this.up = up;
+		}
+
+		protected Void doInBackground(Void... unused)
+		{
+			Void res = null;
+			try
+			{
+				Vote.Builder builder = new Vote.Builder(
+						AndroidHttp.newCompatibleTransport(),
+						new GsonFactory(), null);
+				Vote service = builder.build();
+				res = this.up ? service.voteUp(id).execute() : service.voteDw(
+						id).execute();
+			}
+			catch (Exception e)
+			{
+				Log.d("Could not VoteUp", e.getMessage(), e);
+			}
+			return res;
+		}
+
+		protected void onPostExecute(Void... unused)
+		{
+
+		}
 	}
 }

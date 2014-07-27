@@ -5,7 +5,7 @@
   <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
   <init-param>
    <param-name>services</param-name>
-   <param-value>com.uet.mhst.ItemEndpoint</param-value>
+   <param-value>com.uet.mhst.ItemEndpoint,com.uet.mhst.Vote</param-value>
   </init-param>
  </servlet>
  <servlet-mapping>

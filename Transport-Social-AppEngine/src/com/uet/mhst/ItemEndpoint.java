@@ -132,7 +132,7 @@ public class ItemEndpoint {
 	 * @param item the entity to be updated.
 	 * @return The updated entity.
 	 */
-	@ApiMethod(name = "updateItem")
+
 	public Item updateItem(Item item) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
@@ -152,7 +152,7 @@ public class ItemEndpoint {
 	 *
 	 * @param id the primary key of the entity to be deleted.
 	 */
-	@ApiMethod(name = "removeItem")
+
 	public void removeItem(@Named("id") Long id) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {

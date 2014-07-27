@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/JfFtpKo5Ij1sowQiL4ugqWlizzQ\"",
+ "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/ONXTvAcQwY9OkchAhszEWITye74\"",
  "discoveryVersion": "v1",
  "id": "itemendpoint:v1",
  "name": "itemendpoint",
@@ -197,40 +197,46 @@
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]
-  },
-  "removeItem": {
-   "id": "itemendpoint.removeItem",
-   "path": "item/{id}",
-   "httpMethod": "DELETE",
-   "parameters": {
-    "id": {
-     "type": "string",
-     "required": true,
-     "format": "int64",
-     "location": "path"
+  }
+ },
+ "resources": {
+  "itemEndpoint": {
+   "methods": {
+    "removeItem": {
+     "id": "itemendpoint.itemEndpoint.removeItem",
+     "path": "item/{id}",
+     "httpMethod": "DELETE",
+     "parameters": {
+      "id": {
+       "type": "string",
+       "required": true,
+       "format": "int64",
+       "location": "path"
+      }
+     },
+     "parameterOrder": [
+      "id"
+     ],
+     "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email"
+     ]
+    },
+    "updateItem": {
+     "id": "itemendpoint.itemEndpoint.updateItem",
+     "path": "item",
+     "httpMethod": "PUT",
+     "request": {
+      "$ref": "Item",
+      "parameterName": "resource"
+     },
+     "response": {
+      "$ref": "Item"
+     },
+     "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email"
+     ]
     }
-   },
-   "parameterOrder": [
-    "id"
-   ],
-   "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
-   ]
-  },
-  "updateItem": {
-   "id": "itemendpoint.updateItem",
-   "path": "item",
-   "httpMethod": "PUT",
-   "request": {
-    "$ref": "Item",
-    "parameterName": "resource"
-   },
-   "response": {
-    "$ref": "Item"
-   },
-   "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
-   ]
+   }
   }
  }
 }

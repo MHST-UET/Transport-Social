@@ -48,7 +48,7 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "itemendpoint.removeItem" : {
+    "itemendpoint.itemEndpoint.removeItem" : {
       "path" : "item/{id}",
       "httpMethod" : "DELETE",
       "authLevel" : "NONE",
@@ -99,8 +99,8 @@
       "httpMethod" : "POST",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
-      "audiences" : [ "275231022763-13a5ievdg1ucblrg0buttgogudgmppcs.apps.googleusercontent.com", "275231022763-2dalqm4trurvlnc1319lrheumti2ro8a.apps.googleusercontent.com" ],
-      "clientIds" : [ "275231022763-13a5ievdg1ucblrg0buttgogudgmppcs.apps.googleusercontent.com", "275231022763-2dalqm4trurvlnc1319lrheumti2ro8a.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "audiences" : [ "275231022763-13a5ievdg1ucblrg0buttgogudgmppcs.apps.googleusercontent.com", "275231022763-up7ehk88ggh9j1crs0msa6l49enuo5p9.apps.googleusercontent.com" ],
+      "clientIds" : [ "275231022763-13a5ievdg1ucblrg0buttgogudgmppcs.apps.googleusercontent.com", "275231022763-up7ehk88ggh9j1crs0msa6l49enuo5p9.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
       "rosyMethod" : "com.uet.mhst.ItemEndpoint.insertItem",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
@@ -110,7 +110,7 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "itemendpoint.updateItem" : {
+    "itemendpoint.itemEndpoint.updateItem" : {
       "path" : "item",
       "httpMethod" : "PUT",
       "authLevel" : "NONE",
@@ -159,11 +159,11 @@
             "type" : "string",
             "format" : "date-time"
           },
-          "idFB" : {
-            "type" : "string"
-          },
           "voteUp" : {
             "type" : "integer"
+          },
+          "idFB" : {
+            "type" : "string"
           },
           "voteDw" : {
             "type" : "integer"

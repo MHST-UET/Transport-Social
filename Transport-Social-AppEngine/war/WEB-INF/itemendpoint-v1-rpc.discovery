@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/JfFtpKo5Ij1sowQiL4ugqWlizzQ\"",
+ "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/ONXTvAcQwY9OkchAhszEWITye74\"",
  "discoveryVersion": "v1",
  "id": "itemendpoint:v1",
  "name": "itemendpoint",
@@ -174,27 +174,8 @@
     "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
-  "itemendpoint.listItem": {
-   "id": "itemendpoint.listItem",
-   "allowGet": true,
-   "parameters": {
-    "cursor": {
-     "type": "string"
-    },
-    "limit": {
-     "type": "integer",
-     "format": "int32"
-    }
-   },
-   "returns": {
-    "$ref": "CollectionResponse_Item"
-   },
-   "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
-   ]
-  },
-  "itemendpoint.removeItem": {
-   "id": "itemendpoint.removeItem",
+  "itemendpoint.itemEndpoint.removeItem": {
+   "id": "itemendpoint.itemEndpoint.removeItem",
    "parameters": {
     "id": {
      "type": "string",
@@ -209,8 +190,8 @@
     "https://www.googleapis.com/auth/userinfo.email"
    ]
   },
-  "itemendpoint.updateItem": {
-   "id": "itemendpoint.updateItem",
+  "itemendpoint.itemEndpoint.updateItem": {
+   "id": "itemendpoint.itemEndpoint.updateItem",
    "parameters": {
     "resource": {
      "$ref": "Item"
@@ -221,6 +202,25 @@
    ],
    "returns": {
     "$ref": "Item"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "itemendpoint.listItem": {
+   "id": "itemendpoint.listItem",
+   "allowGet": true,
+   "parameters": {
+    "cursor": {
+     "type": "string"
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int32"
+    }
+   },
+   "returns": {
+    "$ref": "CollectionResponse_Item"
    },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
