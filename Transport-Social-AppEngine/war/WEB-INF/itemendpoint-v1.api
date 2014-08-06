@@ -152,21 +152,24 @@
           "content" : {
             "type" : "string"
           },
+          "address" : {
+            "type" : "string"
+          },
           "status" : {
-            "type" : "integer"
-          },
-          "time" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "voteUp" : {
             "type" : "integer"
           },
           "idFB" : {
             "type" : "string"
           },
+          "voteUp" : {
+            "type" : "integer"
+          },
           "voteDw" : {
             "type" : "integer"
+          },
+          "time" : {
+            "type" : "string",
+            "format" : "date-time"
           }
         }
       },

@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/ONXTvAcQwY9OkchAhszEWITye74\"",
+ "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/skv3-y-TWscLWW1dvph-CfhMM9I\"",
  "discoveryVersion": "v1",
  "id": "itemendpoint:v1",
  "name": "itemendpoint",
@@ -94,6 +94,9 @@
    "id": "Item",
    "type": "object",
    "properties": {
+    "address": {
+     "type": "string"
+    },
     "content": {
      "type": "string"
     },

@@ -14,7 +14,7 @@ public class Item {
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	Long id;
 	@Persistent
-	String idfb, name, lat, lag, img, content;
+	String idfb, name, lat, lag, img, content, address;
 	@Persistent
 	Date datetime;
 	int voteup, votedw, status;
@@ -124,4 +124,13 @@ public class Item {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
 }
