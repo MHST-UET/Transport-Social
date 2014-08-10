@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/_Ugz0SoB0zIXFId4Pt0Gp_gNoZ8\"",
+ "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/vnAyVe8kxS7TRiGzg1oDOr2FOR4\"",
  "discoveryVersion": "v1",
  "id": "itemendpoint:v1",
  "name": "itemendpoint",
@@ -188,14 +188,14 @@
      "type": "string",
      "location": "query"
     },
-    "datetime": {
-     "type": "string",
-     "format": "date-time",
-     "location": "query"
-    },
     "limit": {
      "type": "integer",
      "format": "int32",
+     "location": "query"
+    },
+    "time": {
+     "type": "string",
+     "format": "date-time",
      "location": "query"
     }
    },

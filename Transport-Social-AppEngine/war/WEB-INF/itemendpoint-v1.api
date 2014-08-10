@@ -87,7 +87,7 @@
             "type" : "int32",
             "required" : false
           },
-          "datetime" : {
+          "time" : {
             "type" : "datetime",
             "required" : false
           }

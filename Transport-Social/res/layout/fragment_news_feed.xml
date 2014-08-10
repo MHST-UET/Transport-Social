@@ -4,10 +4,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+    <com.costum.android.widget.PullAndLoadListView
         android:id="@+id/list"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:divider="@null" />
 
     <ImageView
         android:id="@+id/imageView_upstatus"
@@ -19,12 +20,5 @@
         android:background="@drawable/bg_btnewfeed"
         android:soundEffectsEnabled="true"
         android:src="@drawable/ic_update_status" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
 
 </FrameLayout>

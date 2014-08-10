@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.facebook.Session;
 import com.uet.mhst.adapter.NavDrawerListAdapter;
 import com.uet.mhst.adapter.TabsPagerAdapter;
+import com.uet.mhst.itemendpoint.model.Item;
 import com.uet.mhst.model.NavDrawerItem;
 import com.uet.mhst.sqlite.DatabaseHandler;
 
@@ -24,9 +25,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-//sssssssssssssssssssssssssssssss
+import com.uet.mhst.communicator.*;
+
 public class MainActivity extends FragmentActivity implements
-		ActionBar.TabListener {
+		ActionBar.TabListener, Communicator.ActivityCommunicator {
 	private ViewPager viewPager;
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
@@ -43,6 +45,8 @@ public class MainActivity extends FragmentActivity implements
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
 	private DatabaseHandler db;
+	public Communicator.FragmentCommunicator fragmentCommunicator;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,6 +56,7 @@ public class MainActivity extends FragmentActivity implements
 		actionBar = getActionBar();
 		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(mAdapter);
+
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -60,6 +65,8 @@ public class MainActivity extends FragmentActivity implements
 			actionBar.addTab(actionBar.newTab().setText(tab_name)
 					.setTabListener(this));
 		}
+		viewPager.setOffscreenPageLimit(2);
+		this.selectTab(1);
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
 			@Override
@@ -282,6 +289,18 @@ public class MainActivity extends FragmentActivity implements
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void selectTab(int position) {
+		actionBar.setSelectedNavigationItem(position);
+		viewPager.setCurrentItem(position);
+
+	}
+
+	@Override
+	public void passDataToActivity(Item item) {
+		// TODO Auto-generated method stub
+		fragmentCommunicator.passDataToFragment(item);
 	}
 
 }

@@ -36,7 +36,7 @@ public class ItemEndpoint {
 	@ApiMethod(name = "listItem")
 	public CollectionResponse<Item> listItem(
 			@Nullable @Named("cursor") String cursorString,
-			@Nullable @Named("limit") Integer limit, @Nullable @Named("datetime") Date datetime) {
+			@Nullable @Named("limit") Integer limit, @Nullable @Named("time") Date time) {
 
 		PersistenceManager mgr = null;
 		Cursor cursor = null;
@@ -44,9 +44,14 @@ public class ItemEndpoint {
 
 		try {
 			mgr = getPersistenceManager();
-			Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Query query = mgr.newQuery("select * from "+Item.class.getName()+" where datetime<DATETIME( '"+formatter.format(datetime)+"' ) order by datetime desc limit 10");
-			//query.setOrdering("datetime desc");
+			Query query = mgr.newQuery(Item.class);
+			if(time!=null)
+			{
+				query.setFilter("datetime<time");
+				query.declareImports("import java.util.Date");
+				query.declareParameters("Date time");
+			}
+			query.setOrdering("datetime desc");
 			if (cursorString != null && cursorString != "") {
 				cursor = Cursor.fromWebSafeString(cursorString);
 				HashMap<String, Object> extensionMap = new HashMap<String, Object>();
@@ -58,7 +63,7 @@ public class ItemEndpoint {
 				query.setRange(0, limit);
 			}
 
-			execute = (List<Item>) query.execute();
+			execute = (List<Item>) query.execute(time);
 			cursor = JDOCursorHelper.getCursor(execute);
 			if (cursor != null)
 				cursorString = cursor.toWebSafeString();
