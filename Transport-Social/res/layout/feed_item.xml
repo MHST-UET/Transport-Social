@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     android:background="@color/feed_bg"
     android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="@dimen/feed_item_margin"
         android:layout_marginLeft="@dimen/feed_item_margin"
         android:layout_marginRight="@dimen/feed_item_margin"
         android:layout_marginTop="@dimen/feed_item_margin"
         android:background="@drawable/bg_parent_rounded_corner"
         android:orientation="vertical"
+        android:paddingBottom="@dimen/feed_item_padding_top_bottom"
         android:paddingTop="@dimen/feed_item_padding_top_bottom" >
 
         <LinearLayout
@@ -24,12 +27,10 @@
             android:paddingRight="@dimen/feed_item_padding_left_right" >
 
             <com.facebook.widget.ProfilePictureView
-                android:id="@+id/profilePic"
+                android:id="@+id/picture_facebook"
                 android:layout_width="@dimen/feed_item_profile_pic"
                 android:layout_height="@dimen/feed_item_profile_pic"
-                android:scaleType="fitCenter"
-                facebook:preset_size="normal" >
-            </com.facebook.widget.ProfilePictureView>
+                android:scaleType="fitCenter" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -50,85 +51,34 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/timestamp"
                     android:textSize="@dimen/feed_item_timestamp" />
+
+                <TextView
+                    android:id="@+id/txt_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/timestamp"
+                    android:textSize="@dimen/feed_item_address" />
             </LinearLayout>
         </LinearLayout>
 
         <TextView
-            android:id="@+id/txtStatus"
-            android:layout_width="fill_parent"
+            android:id="@+id/txt_status"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="5dp"
             android:paddingLeft="@dimen/feed_item_status_pad_left_right"
             android:paddingRight="@dimen/feed_item_status_pad_left_right"
             android:paddingTop="@dimen/feed_item_status_pad_top"
-            android:textSize="19sp" />
+           
+            android:textSize="@dimen/feed_item_timestamp" />
 
         <TextView
-            android:id="@+id/txtContent"
+            android:id="@+id/txt_content"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
             android:paddingLeft="@dimen/feed_item_status_pad_left_right"
             android:paddingRight="@dimen/feed_item_status_pad_left_right"
             android:paddingTop="@dimen/feed_item_status_pad_top" />
-
-        <com.uet.mhst.volley.FeedImageView
-            android:id="@+id/feedImage1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/white"
-            android:paddingTop="@dimen/feed_item_status_pad_top"
-            android:scaleType="fitXY"
-            android:visibility="visible" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp" >
-
-            <TextView
-                android:id="@+id/txtView_vote_up"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="vote up"
-                android:textColor="@color/timestamp" />
-
-            <TextView
-                android:id="@+id/txtView_vote_down"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="Vote down"
-                android:textColor="@color/timestamp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginTop="10dp"
-            android:layout_weight="2"
-            android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/btn_vote_up"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:background="@drawable/bg_selector"
-                android:soundEffectsEnabled="true"
-                android:text="Vote up" />
-
-            <Button
-                android:id="@+id/btn_vote_down"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:background="@drawable/bg_selector"
-                android:soundEffectsEnabled="true"
-                android:text="Vote down" />
-        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

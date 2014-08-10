@@ -39,12 +39,11 @@ public class LoginFacebookActivity extends Activity {
 
 		try {
 			PackageInfo info = getPackageManager().getPackageInfo(
-					"com.uet.mhst",
-					PackageManager.GET_SIGNATURES);
+					"com.uet.mhst", PackageManager.GET_SIGNATURES);
 			for (Signature signature : info.signatures) {
 				MessageDigest md = MessageDigest.getInstance("SHA");
 				md.update(signature.toByteArray());
-				Log.d("XXXXXXXXX:",
+				Log.d("KeyHash:",
 						Base64.encodeToString(md.digest(), Base64.DEFAULT));
 			}
 		} catch (NameNotFoundException e) {
@@ -115,6 +114,7 @@ public class LoginFacebookActivity extends Activity {
 						DatabaseHandler db = new DatabaseHandler(
 								getApplicationContext());
 						db.addUser(user.getId(), user.getName());
+
 					}
 				}
 			}).executeAsync();

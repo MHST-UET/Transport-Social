@@ -1,5 +1,6 @@
 package com.uet.mhst;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.gson.GsonFactory;
@@ -8,6 +9,7 @@ import com.uet.mhst.itemendpoint.Itemendpoint;
 import com.uet.mhst.itemendpoint.model.Item;
 import com.uet.mhst.sqlite.DatabaseHandler;
 import com.uet.mhst.utility.GPSTracker;
+import com.uet.mhst.utility.ReverseGeocodingTask;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -62,7 +64,7 @@ public class UpNewsFeedActivity extends Activity {
 			// Not signed in, show login window or request an account.
 			chooseAccount();
 		}
-		
+
 		photoButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -105,35 +107,43 @@ public class UpNewsFeedActivity extends Activity {
 				item.setStatus(status);
 				item.setImg("http://res.vtc.vn/media/vtcnews/2012/05/17/maps.png");
 				item.setContent(content);
-				Item [] params = {item};
+				LatLng latLng = new LatLng(myLocation.getLatitude(), myLocation
+						.getLongitude());
+				item.setAddress(new ReverseGeocodingTask(getBaseContext())
+						.getAddressText(latLng));
+				Item[] params = { item };
+
 				new AddItemAsyncTask().execute(params);
-				
+
 			}
 		});
 	}
-	
-	private class AddItemAsyncTask extends AsyncTask<Item, Void, Void>{
 
-		  protected Void doInBackground(Item ... params) {
-		    try {
-		    	Itemendpoint.Builder builder = new Itemendpoint.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), credential);
-				Itemendpoint service =  builder.build();
+	private class AddItemAsyncTask extends AsyncTask<Item, Void, Void> {
+
+		protected Void doInBackground(Item... params) {
+			try {
+				Itemendpoint.Builder builder = new Itemendpoint.Builder(
+						AndroidHttp.newCompatibleTransport(),
+						new GsonFactory(), credential);
+				Itemendpoint service = builder.build();
 				service.insertItem(params[0]).execute();
-		    } catch (Exception e) {
-		      Log.d("Could not Add Item", e.getMessage(), e);
-		    }
-		    return null;
-		  }
-
-		  protected void onPostExecute(Void unused) {
-			  //Clear the progress dialog and the fields
-			  contentEditText.setText("");
-			  contentEditText.setHint("Write Something");
-			  //Display success message to user
-			  Toast.makeText(getBaseContext(), "Item added succesfully", Toast.LENGTH_SHORT).show();
-			
-		  }
+			} catch (Exception e) {
+				Log.d("Could not Add Item", e.getMessage(), e);
+			}
+			return null;
 		}
+
+		protected void onPostExecute(Void unused) {
+			// Clear the progress dialog and the fields
+			contentEditText.setText("");
+			contentEditText.setHint("Write Something");
+			// Display success message to user
+			Toast.makeText(getBaseContext(), "Item added succesfully",
+					Toast.LENGTH_SHORT).show();
+
+		}
+	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -152,18 +162,18 @@ public class UpNewsFeedActivity extends Activity {
 			}
 			break;
 		}
-		
+
 		if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
 			Bitmap photo = (Bitmap) data.getExtras().get("data");
 			imageView.setImageBitmap(photo);
 		}
 	}
-	
+
 	private void chooseAccount() {
 		startActivityForResult(credential.newChooseAccountIntent(),
 				REQUEST_ACCOUNT_PICKER);
 	}
-	
+
 	private void setAccountName(String accountName) {
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putString("ACCOUNT_NAME", accountName);
