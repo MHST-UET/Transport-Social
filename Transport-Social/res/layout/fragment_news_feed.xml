@@ -4,11 +4,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <com.costum.android.widget.PullAndLoadListView
+    <me.maxwin.view.XListView
         android:id="@+id/list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:divider="@null" />
+        android:cacheColorHint="#00000000"
+        android:divider="@null" >
+    </me.maxwin.view.XListView>
 
     <ImageView
         android:id="@+id/imageView_upstatus"
