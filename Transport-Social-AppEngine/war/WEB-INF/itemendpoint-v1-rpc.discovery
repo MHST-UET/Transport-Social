@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/skv3-y-TWscLWW1dvph-CfhMM9I\"",
+ "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/_Ugz0SoB0zIXFId4Pt0Gp_gNoZ8\"",
  "discoveryVersion": "v1",
  "id": "itemendpoint:v1",
  "name": "itemendpoint",
@@ -216,6 +216,10 @@
    "parameters": {
     "cursor": {
      "type": "string"
+    },
+    "datetime": {
+     "type": "string",
+     "format": "date-time"
     },
     "limit": {
      "type": "integer",
