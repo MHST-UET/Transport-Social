@@ -86,6 +86,10 @@
           "limit" : {
             "type" : "int32",
             "required" : false
+          },
+          "time" : {
+            "type" : "datetime",
+            "required" : false
           }
         },
         "body" : "empty"
@@ -134,16 +138,9 @@
         "type" : "object",
         "properties" : {
           "id" : {
-            "type" : "string",
-            "format" : "int64"
+            "$ref" : "Key"
           },
           "name" : {
-            "type" : "string"
-          },
-          "lat" : {
-            "type" : "string"
-          },
-          "lag" : {
             "type" : "string"
           },
           "img" : {
@@ -155,17 +152,114 @@
           "address" : {
             "type" : "string"
           },
+          "point" : {
+            "$ref" : "GeoPt"
+          },
           "status" : {
             "type" : "integer"
+          },
+          "vote" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Vote"
+            }
+          },
+          "comment" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Comment"
+            }
           },
           "idFB" : {
             "type" : "string"
           },
-          "voteUp" : {
-            "type" : "integer"
+          "time" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "Key" : {
+        "id" : "Key",
+        "type" : "object",
+        "properties" : {
+          "kind" : {
+            "type" : "string"
           },
-          "voteDw" : {
-            "type" : "integer"
+          "appId" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "complete" : {
+            "type" : "boolean"
+          },
+          "namespace" : {
+            "type" : "string"
+          },
+          "parent" : {
+            "$ref" : "Key"
+          }
+        }
+      },
+      "GeoPt" : {
+        "id" : "GeoPt",
+        "type" : "object",
+        "properties" : {
+          "latitude" : {
+            "type" : "number",
+            "format" : "float"
+          },
+          "longitude" : {
+            "type" : "number",
+            "format" : "float"
+          }
+        }
+      },
+      "Vote" : {
+        "id" : "Vote",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "$ref" : "Key"
+          },
+          "idfb" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "up" : {
+            "type" : "boolean"
+          },
+          "item" : {
+            "$ref" : "Item"
+          }
+        }
+      },
+      "Comment" : {
+        "id" : "Comment",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "$ref" : "Key"
+          },
+          "idfb" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "content" : {
+            "type" : "string"
+          },
+          "item" : {
+            "$ref" : "Item"
           },
           "time" : {
             "type" : "string",

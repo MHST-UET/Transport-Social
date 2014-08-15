@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/skv3-y-TWscLWW1dvph-CfhMM9I\"",
+ "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/khh-YSlXYvhuqt0rOZh8ZihcE_8\"",
  "discoveryVersion": "v1",
  "id": "itemendpoint:v1",
  "name": "itemendpoint",
@@ -92,6 +92,45 @@
     }
    }
   },
+  "Comment": {
+   "id": "Comment",
+   "type": "object",
+   "properties": {
+    "content": {
+     "type": "string"
+    },
+    "id": {
+     "$ref": "Key"
+    },
+    "idfb": {
+     "type": "string"
+    },
+    "item": {
+     "$ref": "Item"
+    },
+    "name": {
+     "type": "string"
+    },
+    "time": {
+     "type": "string",
+     "format": "date-time"
+    }
+   }
+  },
+  "GeoPt": {
+   "id": "GeoPt",
+   "type": "object",
+   "properties": {
+    "latitude": {
+     "type": "number",
+     "format": "float"
+    },
+    "longitude": {
+     "type": "number",
+     "format": "float"
+    }
+   }
+  },
   "Item": {
    "id": "Item",
    "type": "object",
@@ -99,12 +138,17 @@
     "address": {
      "type": "string"
     },
+    "comment": {
+     "type": "array",
+     "items": {
+      "$ref": "Comment"
+     }
+    },
     "content": {
      "type": "string"
     },
     "id": {
-     "type": "string",
-     "format": "int64"
+     "$ref": "Key"
     },
     "idFB": {
      "type": "string"
@@ -112,14 +156,11 @@
     "img": {
      "type": "string"
     },
-    "lag": {
-     "type": "string"
-    },
-    "lat": {
-     "type": "string"
-    },
     "name": {
      "type": "string"
+    },
+    "point": {
+     "$ref": "GeoPt"
     },
     "status": {
      "type": "integer",
@@ -129,13 +170,60 @@
      "type": "string",
      "format": "date-time"
     },
-    "voteDw": {
-     "type": "integer",
-     "format": "int32"
+    "vote": {
+     "type": "array",
+     "items": {
+      "$ref": "Vote"
+     }
+    }
+   }
+  },
+  "Key": {
+   "id": "Key",
+   "type": "object",
+   "properties": {
+    "appId": {
+     "type": "string"
     },
-    "voteUp": {
-     "type": "integer",
-     "format": "int32"
+    "complete": {
+     "type": "boolean"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "kind": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    },
+    "namespace": {
+     "type": "string"
+    },
+    "parent": {
+     "$ref": "Key"
+    }
+   }
+  },
+  "Vote": {
+   "id": "Vote",
+   "type": "object",
+   "properties": {
+    "id": {
+     "$ref": "Key"
+    },
+    "idfb": {
+     "type": "string"
+    },
+    "item": {
+     "$ref": "Item"
+    },
+    "name": {
+     "type": "string"
+    },
+    "up": {
+     "type": "boolean"
     }
    }
   }
@@ -191,6 +279,11 @@
     "limit": {
      "type": "integer",
      "format": "int32",
+     "location": "query"
+    },
+    "time": {
+     "type": "string",
+     "format": "date-time",
      "location": "query"
     }
    },

@@ -1,28 +1,70 @@
 package com.uet.mhst;
 
-import javax.inject.Named;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-import com.google.api.server.spi.config.Api;
-import com.google.api.server.spi.config.ApiMethod;
-import com.google.api.server.spi.config.ApiNamespace;
+import com.google.appengine.api.datastore.Key;
 
-@Api(name = "vote", namespace = @ApiNamespace(ownerDomain = "uet.com", ownerName = "uet.com", packagePath = "mhst"))
+@Entity
 public class Vote
 {
-	@ApiMethod(name = "voteUp")
-	public void voteUp(@Named("id") Long id)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Key id;
+	String idfb, name;
+	boolean up;
+	Item item;
+
+	public Key getId()
 	{
-		ItemEndpoint endpoint = new ItemEndpoint();
-		Item item = endpoint.getItem(id);
-		item.voteUp();
-		endpoint.updateItem(item);
+		return id;
 	}
-	@ApiMethod(name = "voteDw")
-	public void voteDw(@Named("id") Long id)
+
+	public void setId(Key id)
 	{
-		ItemEndpoint endpoint = new ItemEndpoint();
-		Item item = endpoint.getItem(id);
-		item.voteDw();
-		endpoint.updateItem(item);
+		this.id = id;
 	}
+
+	public Item getItem()
+	{
+		return item;
+	}
+
+	public void setItem(Item item)
+	{
+		this.item = item;
+	}
+
+	public String getIdfb()
+	{
+		return idfb;
+	}
+
+	public void setIdfb(String idfb)
+	{
+		this.idfb = idfb;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public boolean isUp()
+	{
+		return up;
+	}
+
+	public void setUp(boolean up)
+	{
+		this.up = up;
+	}
+
 }
