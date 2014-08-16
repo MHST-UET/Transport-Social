@@ -182,7 +182,8 @@
         "type" : "object",
         "properties" : {
           "id" : {
-            "$ref" : "Key"
+            "type" : "string",
+            "format" : "int64"
           },
           "content" : {
             "type" : "string"
@@ -214,34 +215,6 @@
           }
         }
       },
-      "Key" : {
-        "id" : "Key",
-        "type" : "object",
-        "properties" : {
-          "kind" : {
-            "type" : "string"
-          },
-          "appId" : {
-            "type" : "string"
-          },
-          "id" : {
-            "type" : "string",
-            "format" : "int64"
-          },
-          "name" : {
-            "type" : "string"
-          },
-          "complete" : {
-            "type" : "boolean"
-          },
-          "namespace" : {
-            "type" : "string"
-          },
-          "parent" : {
-            "$ref" : "Key"
-          }
-        }
-      },
       "GeoPt" : {
         "id" : "GeoPt",
         "type" : "object",
@@ -261,7 +234,8 @@
         "type" : "object",
         "properties" : {
           "id" : {
-            "$ref" : "Key"
+            "type" : "string",
+            "format" : "int64"
           },
           "idfb" : {
             "type" : "string"
@@ -276,7 +250,8 @@
         "type" : "object",
         "properties" : {
           "id" : {
-            "$ref" : "Key"
+            "type" : "string",
+            "format" : "int64"
           },
           "idfb" : {
             "type" : "string"

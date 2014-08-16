@@ -1,8 +1,5 @@
 package com.uet.mhst;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
@@ -18,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.gson.GsonFactory;
@@ -27,10 +23,9 @@ import com.uet.mhst.itemendpoint.Itemendpoint;
 import com.uet.mhst.itemendpoint.model.Comment;
 import com.uet.mhst.itemendpoint.model.GeoPt;
 import com.uet.mhst.itemendpoint.model.Item;
-import com.uet.mhst.itemendpoint.model.Vote;
+import com.uet.mhst.itemendpoint.model.Key;
 import com.uet.mhst.sqlite.DatabaseHandler;
 import com.uet.mhst.utility.GPSTracker;
-import com.uet.mhst.utility.ReverseGeocodingTask;
 
 public class UpNewsFeedActivity extends Activity
 {
@@ -114,7 +109,7 @@ public class UpNewsFeedActivity extends Activity
 				}
 				Item item = new Item();
 				item.setIdFB(id);
-				item.setName(name);
+//				item.setName(name);
 				item.setPoint(new GeoPt().setLatitude(
 						(float) myLocation.getLatitude()).setLongitude(
 						(float) myLocation.getLongitude()));
@@ -125,10 +120,10 @@ public class UpNewsFeedActivity extends Activity
 //				List<Vote> _vote = new ArrayList<Vote>();
 //				_vote.add(vote);
 //				item.setVote(_vote);
-//				Comment cm = new Comment();
-//				cm.setIdfb(id);
-//				cm.setName(name);
-//				cm.setContent("cha co gi hot ca");
+				Comment cm = new Comment();
+				cm.setIdfb(id);
+				cm.setId(new Key().setId(Long.valueOf("5668600916475904")));
+				cm.setContent("cha co gi hot ca");
 //				cm.setTime(new DateTime(System.currentTimeMillis()));
 //				List<Comment> _cm = new ArrayList<Comment>();
 //				_cm.add(cm);
@@ -137,13 +132,13 @@ public class UpNewsFeedActivity extends Activity
 //				item.setComment(_cm);
 				item.setTime(new DateTime(System.currentTimeMillis()));
 				item.setStatus(status);
-				item.setImg("http://res.vtc.vn/media/vtcnews/2012/05/17/maps.png");
+//				item.setImg("http://res.vtc.vn/media/vtcnews/2012/05/17/maps.png");
 				item.setContent(content);
 //				LatLng latLng = new LatLng(myLocation.getLatitude(), myLocation
 //						.getLongitude());
 //				item.setAddress(new ReverseGeocodingTask(getBaseContext())
 //						.getAddressText(latLng));
-				Item[] params = { item };
+				Comment[] params = { cm };
 
 				new AddItemAsyncTask().execute(params);
 
@@ -151,10 +146,10 @@ public class UpNewsFeedActivity extends Activity
 		});
 	}
 
-	private class AddItemAsyncTask extends AsyncTask<Item, Void, Void>
+	private class AddItemAsyncTask extends AsyncTask<Comment, Void, Void>
 	{
 
-		protected Void doInBackground(Item... params)
+		protected Void doInBackground(Comment... params)
 		{
 			try
 			{
@@ -162,7 +157,7 @@ public class UpNewsFeedActivity extends Activity
 						AndroidHttp.newCompatibleTransport(),
 						new GsonFactory(), credential);
 				Itemendpoint service = builder.build();
-				service.insertItem(params[0]).execute();
+				service.comment(Long.parseLong("5163657986048000"),params[0]).execute();
 			}
 			catch (Exception e)
 			{

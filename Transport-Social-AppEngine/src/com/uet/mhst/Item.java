@@ -11,14 +11,13 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.GeoPt;
-import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Item
 {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	Key id;
+	Long id;
 	@Persistent
 	String idfb, content;
 	GeoPt point;
@@ -39,12 +38,12 @@ public class Item
 	// voteup, votedw dùng cho Vote up, Vote down
 	// datetime: thời gian lúc up
 
-	public Key getId()
+	public Long getId()
 	{
 		return id;
 	}
 
-	public void setId(Key id)
+	public void setId(Long id)
 	{
 		this.id = id;
 	}
@@ -101,8 +100,7 @@ public class Item
 
 	public List<Vote> getVote()
 	{
-		if (vote == null)
-			vote = new ArrayList<Vote>();
+		if (vote == null) vote = new ArrayList<Vote>();
 		return vote;
 	}
 
@@ -113,8 +111,7 @@ public class Item
 
 	public List<Comment> getComment()
 	{
-		if (comment == null)
-			comment = new ArrayList<Comment>();
+		if (comment == null) comment = new ArrayList<Comment>();
 		return comment;
 	}
 

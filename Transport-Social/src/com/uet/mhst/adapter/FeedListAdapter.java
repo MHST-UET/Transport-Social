@@ -63,7 +63,7 @@ public class FeedListAdapter extends BaseAdapter {
 				.findViewById(R.id.txt_content);
 
 		pictureFb.setProfileId(item.getIdFB());
-		name.setText(item.getName());
+//		name.setText(item.getName());
 		CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(item
 				.getTime().getValue(), System.currentTimeMillis(),
 				DateUtils.SECOND_IN_MILLIS);
@@ -89,7 +89,7 @@ public class FeedListAdapter extends BaseAdapter {
 			break;
 		}
 		status.setText("Tình trạng: " + var);
-		address.setText(item.getAddress());
+//		address.setText(item.getAddress());
 		content.setText(item.getContent());
 		return convertView;
 	}

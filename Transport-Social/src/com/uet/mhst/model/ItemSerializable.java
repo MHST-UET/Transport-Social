@@ -15,9 +15,9 @@ public class ItemSerializable implements Serializable {
 		super();
 
 		this.idfb = item.getIdFB();
-		this.name = item.getName();
-		this.img = item.getImg();
-		this.address = item.getAddress();
+//		this.name = item.getName();
+//		this.img = item.getImg();
+//		this.address = item.getAddress();
 		this.datetime = item.getTime();
 		this.content = item.getContent();
 		this.status = item.getStatus();

@@ -5,23 +5,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.google.appengine.api.datastore.Key;
-
 @Entity
 public class Vote
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Key id;
+	Long id;
 	String idfb;
 	boolean up;
 
-	public Key getId()
+	public Long getId()
 	{
 		return id;
 	}
 
-	public void setId(Key id)
+	public void setId(Long id)
 	{
 		this.id = id;
 	}
@@ -53,12 +51,9 @@ public class Vote
 		if (obj != null && obj instanceof Vote)
 		{
 			Vote vote = (Vote) obj;
-			if (vote.getIdfb().matches(this.idfb))
-			{
-				return true;
-			}
+			if (vote.getIdfb().matches(this.idfb)) { return true; }
 		}
 		return false;
 	}
-	
+
 }

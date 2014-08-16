@@ -8,24 +8,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.google.appengine.api.datastore.GeoPt;
-import com.google.appengine.api.datastore.Key;
 
 @Entity
 public class Comment
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Key id;
+	Long id;
 	String idfb, content;
 	Date datetime;
 	GeoPt point;
 
-	public Key getId()
+	public Long getId()
 	{
 		return id;
 	}
 
-	public void setId(Key id)
+	public void setId(Long id)
 	{
 		this.id = id;
 	}
@@ -77,13 +76,9 @@ public class Comment
 		if (obj != null && obj instanceof Comment)
 		{
 			Comment cm = (Comment) obj;
-			if (cm.getId().compareTo(this.id) == 0)
-			{
-				return true;
-			}
+			if (cm.getId().compareTo(this.id) == 0) { return true; }
 		}
 		return false;
 	}
-	
-	
+
 }
