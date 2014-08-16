@@ -3,29 +3,27 @@ package com.uet.mhst;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import com.facebook.LoggingBehavior;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.Settings;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
-
 import android.os.Bundle;
-
-import com.facebook.*;
-import com.facebook.model.*;
-import com.uet.mhst.sqlite.DatabaseHandler;
-
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+
+import com.facebook.LoggingBehavior;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.Settings;
+import com.facebook.model.GraphUser;
+import com.uet.mhst.sqlite.DatabaseHandler;
 
 public class LoginFacebookActivity extends Activity {
 

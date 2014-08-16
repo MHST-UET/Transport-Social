@@ -48,6 +48,28 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+    "itemendpoint.vote" : {
+      "path" : "vote/{idstt}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.uet.mhst.ItemEndpoint.vote",
+      "request" : {
+        "parameters" : {
+          "idstt" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
     "itemendpoint.itemEndpoint.removeItem" : {
       "path" : "item/{id}",
       "httpMethod" : "DELETE",
@@ -64,6 +86,28 @@
           }
         },
         "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "itemendpoint.comment" : {
+      "path" : "comment/{idstt}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.uet.mhst.ItemEndpoint.comment",
+      "request" : {
+        "parameters" : {
+          "idstt" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
       },
       "response" : {
         "body" : "empty"
@@ -140,16 +184,7 @@
           "id" : {
             "$ref" : "Key"
           },
-          "name" : {
-            "type" : "string"
-          },
-          "img" : {
-            "type" : "string"
-          },
           "content" : {
-            "type" : "string"
-          },
-          "address" : {
             "type" : "string"
           },
           "point" : {
@@ -170,12 +205,12 @@
               "$ref" : "Comment"
             }
           },
-          "idFB" : {
-            "type" : "string"
-          },
           "time" : {
             "type" : "string",
             "format" : "date-time"
+          },
+          "idFB" : {
+            "type" : "string"
           }
         }
       },
@@ -231,14 +266,8 @@
           "idfb" : {
             "type" : "string"
           },
-          "name" : {
-            "type" : "string"
-          },
           "up" : {
             "type" : "boolean"
-          },
-          "item" : {
-            "$ref" : "Item"
           }
         }
       },
@@ -252,14 +281,11 @@
           "idfb" : {
             "type" : "string"
           },
-          "name" : {
-            "type" : "string"
-          },
           "content" : {
             "type" : "string"
           },
-          "item" : {
-            "$ref" : "Item"
+          "point" : {
+            "$ref" : "GeoPt"
           },
           "time" : {
             "type" : "string",
@@ -289,7 +315,17 @@
           "$ref" : "Item"
         }
       },
+      "com.uet.mhst.ItemEndpoint.vote" : {
+        "request" : {
+          "$ref" : "Vote"
+        }
+      },
       "com.uet.mhst.ItemEndpoint.removeItem" : {
+      },
+      "com.uet.mhst.ItemEndpoint.comment" : {
+        "request" : {
+          "$ref" : "Comment"
+        }
       },
       "com.uet.mhst.ItemEndpoint.listItem" : {
         "response" : {

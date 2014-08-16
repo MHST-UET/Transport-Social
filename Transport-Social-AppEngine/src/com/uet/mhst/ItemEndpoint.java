@@ -25,11 +25,11 @@ public class ItemEndpoint
 {
 
 	/**
-	 * This method lists all the entities inserted in datastore. It uses HTTP
-	 * GET method and paging support.
-	 * 
+	 * This method lists all the entities inserted in datastore.
+	 * It uses HTTP GET method and paging support.
+	 *
 	 * @return A CollectionResponse class containing the list of all entities
-	 *         persisted and a cursor to the next page.
+	 * persisted and a cursor to the next page.
 	 */
 	@SuppressWarnings({ "unchecked", "unused" })
 	@ApiMethod(name = "listItem")
@@ -67,12 +67,11 @@ public class ItemEndpoint
 				query.setRange(0, limit);
 			}
 
-			execute = (List<Item>) query.execute(time);
+			execute = (List<Item>) query.execute();
 			cursor = JDOCursorHelper.getCursor(execute);
 			if (cursor != null) cursorString = cursor.toWebSafeString();
 
-			// Tight loop for fetching all entities from datastore and
-			// accomodate
+			// Tight loop for fetching all entities from datastore and accomodate
 			// for lazy fetch.
 			for (Item obj : execute)
 				;
@@ -87,11 +86,9 @@ public class ItemEndpoint
 	}
 
 	/**
-	 * This method gets the entity having primary key id. It uses HTTP GET
-	 * method.
-	 * 
-	 * @param id
-	 *            the primary key of the java bean.
+	 * This method gets the entity having primary key id. It uses HTTP GET method.
+	 *
+	 * @param id the primary key of the java bean.
 	 * @return The entity with primary key id.
 	 */
 	@ApiMethod(name = "getItem")
@@ -111,12 +108,11 @@ public class ItemEndpoint
 	}
 
 	/**
-	 * This inserts a new entity into App Engine datastore. If the entity
-	 * already exists in the datastore, an exception is thrown. It uses HTTP
-	 * POST method.
-	 * 
-	 * @param item
-	 *            the entity to be inserted.
+	 * This inserts a new entity into App Engine datastore. If the entity already
+	 * exists in the datastore, an exception is thrown.
+	 * It uses HTTP POST method.
+	 *
+	 * @param item the entity to be inserted.
 	 * @return The inserted entity.
 	 */
 	@ApiMethod(name = "insertItem", clientIds = { Ids.WEB_CLIENT_ID,
@@ -146,12 +142,11 @@ public class ItemEndpoint
 	}
 
 	/**
-	 * This method is used for updating an existing entity. If the entity does
-	 * not exist in the datastore, an exception is thrown. It uses HTTP PUT
-	 * method.
-	 * 
-	 * @param item
-	 *            the entity to be updated.
+	 * This method is used for updating an existing entity. If the entity does not
+	 * exist in the datastore, an exception is thrown.
+	 * It uses HTTP PUT method.
+	 *
+	 * @param item the entity to be updated.
 	 * @return The updated entity.
 	 */
 
@@ -172,11 +167,10 @@ public class ItemEndpoint
 	}
 
 	/**
-	 * This method removes the entity with primary key id. It uses HTTP DELETE
-	 * method.
-	 * 
-	 * @param id
-	 *            the primary key of the entity to be deleted.
+	 * This method removes the entity with primary key id.
+	 * It uses HTTP DELETE method.
+	 *
+	 * @param id the primary key of the entity to be deleted.
 	 */
 
 	public void removeItem(@Named("id") Long id)
@@ -216,5 +210,33 @@ public class ItemEndpoint
 	{
 		return PMF.get().getPersistenceManager();
 	}
-
+	
+	@ApiMethod(name = "vote")
+	public void vote(@Named("idstt") Long idstt, Vote vote)
+	{
+		Item item = getItem(idstt);
+		if(!item.getVote().contains(vote))
+		{
+			item.getVote().add(vote);
+		}
+		else if(item.getVote().contains(vote))
+		{
+			item.getVote().remove(vote);
+		}
+		updateItem(item);
+	}
+	@ApiMethod(name = "comment")
+	public void comment(@Named("idstt") Long idstt, Comment cm)
+	{
+		Item item = getItem(idstt);
+		if(!item.getComment().contains(cm))
+		{
+			item.getComment().add(cm);
+		}
+		else if(item.getComment().contains(cm))
+		{
+			item.getComment().remove(cm);
+		}
+		updateItem(item);
+	}	
 }

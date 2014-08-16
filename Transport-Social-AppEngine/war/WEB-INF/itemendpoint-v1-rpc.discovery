@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/khh-YSlXYvhuqt0rOZh8ZihcE_8\"",
+ "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/NVrK7cbdrOviyDEd0Xn3OytFzLE\"",
  "discoveryVersion": "v1",
  "id": "itemendpoint:v1",
  "name": "itemendpoint",
@@ -103,11 +103,8 @@
     "idfb": {
      "type": "string"
     },
-    "item": {
-     "$ref": "Item"
-    },
-    "name": {
-     "type": "string"
+    "point": {
+     "$ref": "GeoPt"
     },
     "time": {
      "type": "string",
@@ -133,9 +130,6 @@
    "id": "Item",
    "type": "object",
    "properties": {
-    "address": {
-     "type": "string"
-    },
     "comment": {
      "type": "array",
      "items": {
@@ -149,12 +143,6 @@
      "$ref": "Key"
     },
     "idFB": {
-     "type": "string"
-    },
-    "img": {
-     "type": "string"
-    },
-    "name": {
      "type": "string"
     },
     "point": {
@@ -214,12 +202,6 @@
     "idfb": {
      "type": "string"
     },
-    "item": {
-     "$ref": "Item"
-    },
-    "name": {
-     "type": "string"
-    },
     "up": {
      "type": "boolean"
     }
@@ -227,6 +209,26 @@
   }
  },
  "methods": {
+  "itemendpoint.comment": {
+   "id": "itemendpoint.comment",
+   "parameters": {
+    "idstt": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    },
+    "resource": {
+     "$ref": "Comment"
+    }
+   },
+   "parameterOrder": [
+    "resource",
+    "idstt"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
   "itemendpoint.getItem": {
    "id": "itemendpoint.getItem",
    "allowGet": true,
@@ -317,6 +319,26 @@
    "returns": {
     "$ref": "CollectionResponse_Item"
    },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "itemendpoint.vote": {
+   "id": "itemendpoint.vote",
+   "parameters": {
+    "idstt": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    },
+    "resource": {
+     "$ref": "Vote"
+    }
+   },
+   "parameterOrder": [
+    "resource",
+    "idstt"
+   ],
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]

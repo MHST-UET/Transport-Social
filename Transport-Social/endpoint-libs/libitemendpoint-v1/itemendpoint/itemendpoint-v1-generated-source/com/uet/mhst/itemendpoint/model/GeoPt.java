@@ -19,7 +19,7 @@
 package com.uet.mhst.itemendpoint.model;
 
 /**
- * Model definition for CollectionResponseItem.
+ * Model definition for GeoPt.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the itemendpoint. For a detailed explanation see:
@@ -29,58 +29,58 @@ package com.uet.mhst.itemendpoint.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class CollectionResponseItem extends com.google.api.client.json.GenericJson {
+public final class GeoPt extends com.google.api.client.json.GenericJson {
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.util.List<Item> items;
+  private java.lang.Float latitude;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.String nextPageToken;
+  private java.lang.Float longitude;
 
   /**
    * @return value or {@code null} for none
    */
-  public java.util.List<Item> getItems() {
-    return items;
+  public java.lang.Float getLatitude() {
+    return latitude;
   }
 
   /**
-   * @param items items or {@code null} for none
+   * @param latitude latitude or {@code null} for none
    */
-  public CollectionResponseItem setItems(java.util.List<Item> items) {
-    this.items = items;
+  public GeoPt setLatitude(java.lang.Float latitude) {
+    this.latitude = latitude;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.String getNextPageToken() {
-    return nextPageToken;
+  public java.lang.Float getLongitude() {
+    return longitude;
   }
 
   /**
-   * @param nextPageToken nextPageToken or {@code null} for none
+   * @param longitude longitude or {@code null} for none
    */
-  public CollectionResponseItem setNextPageToken(java.lang.String nextPageToken) {
-    this.nextPageToken = nextPageToken;
+  public GeoPt setLongitude(java.lang.Float longitude) {
+    this.longitude = longitude;
     return this;
   }
 
   @Override
-  public CollectionResponseItem set(String fieldName, Object value) {
-    return (CollectionResponseItem) super.set(fieldName, value);
+  public GeoPt set(String fieldName, Object value) {
+    return (GeoPt) super.set(fieldName, value);
   }
 
   @Override
-  public CollectionResponseItem clone() {
-    return (CollectionResponseItem) super.clone();
+  public GeoPt clone() {
+    return (GeoPt) super.clone();
   }
 
 }

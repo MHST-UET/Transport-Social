@@ -19,7 +19,7 @@
 package com.uet.mhst.itemendpoint.model;
 
 /**
- * Model definition for CollectionResponseItem.
+ * Model definition for Vote.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the itemendpoint. For a detailed explanation see:
@@ -29,58 +29,79 @@ package com.uet.mhst.itemendpoint.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class CollectionResponseItem extends com.google.api.client.json.GenericJson {
+public final class Vote extends com.google.api.client.json.GenericJson {
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.util.List<Item> items;
+  private Key id;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.String nextPageToken;
+  private java.lang.String idfb;
+
+  /**
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
+  private java.lang.Boolean up;
 
   /**
    * @return value or {@code null} for none
    */
-  public java.util.List<Item> getItems() {
-    return items;
+  public Key getId() {
+    return id;
   }
 
   /**
-   * @param items items or {@code null} for none
+   * @param id id or {@code null} for none
    */
-  public CollectionResponseItem setItems(java.util.List<Item> items) {
-    this.items = items;
+  public Vote setId(Key id) {
+    this.id = id;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.String getNextPageToken() {
-    return nextPageToken;
+  public java.lang.String getIdfb() {
+    return idfb;
   }
 
   /**
-   * @param nextPageToken nextPageToken or {@code null} for none
+   * @param idfb idfb or {@code null} for none
    */
-  public CollectionResponseItem setNextPageToken(java.lang.String nextPageToken) {
-    this.nextPageToken = nextPageToken;
+  public Vote setIdfb(java.lang.String idfb) {
+    this.idfb = idfb;
+    return this;
+  }
+
+  /**
+   * @return value or {@code null} for none
+   */
+  public java.lang.Boolean getUp() {
+    return up;
+  }
+
+  /**
+   * @param up up or {@code null} for none
+   */
+  public Vote setUp(java.lang.Boolean up) {
+    this.up = up;
     return this;
   }
 
   @Override
-  public CollectionResponseItem set(String fieldName, Object value) {
-    return (CollectionResponseItem) super.set(fieldName, value);
+  public Vote set(String fieldName, Object value) {
+    return (Vote) super.set(fieldName, value);
   }
 
   @Override
-  public CollectionResponseItem clone() {
-    return (CollectionResponseItem) super.clone();
+  public Vote clone() {
+    return (Vote) super.clone();
   }
 
 }

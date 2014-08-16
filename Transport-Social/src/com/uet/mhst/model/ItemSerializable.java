@@ -1,7 +1,6 @@
 package com.uet.mhst.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import com.google.api.client.util.DateTime;
 import com.uet.mhst.itemendpoint.model.Item;
@@ -17,14 +16,10 @@ public class ItemSerializable implements Serializable {
 
 		this.idfb = item.getIdFB();
 		this.name = item.getName();
-		this.lat = item.getLat();
-		this.lag = item.getLag();
 		this.img = item.getImg();
 		this.address = item.getAddress();
 		this.datetime = item.getTime();
 		this.content = item.getContent();
-		this.voteup = item.getVoteUp();
-		this.votedw = item.getVoteDw();
 		this.status = item.getStatus();
 	}
 
@@ -54,14 +49,6 @@ public class ItemSerializable implements Serializable {
 
 	public DateTime getTime() {
 		return datetime;
-	}
-
-	public int getVoteUp() {
-		return voteup;
-	}
-
-	public int getVoteDw() {
-		return votedw;
 	}
 
 	public String getContent() {

@@ -19,7 +19,7 @@
 package com.uet.mhst.itemendpoint.model;
 
 /**
- * Model definition for Item.
+ * Model definition for Key.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the itemendpoint. For a detailed explanation see:
@@ -29,103 +29,91 @@ package com.uet.mhst.itemendpoint.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class Item extends com.google.api.client.json.GenericJson {
+public final class Key extends com.google.api.client.json.GenericJson {
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.util.List<Comment> comment;
-
-  static {
-    // hack to force ProGuard to consider Comment used, since otherwise it would be stripped out
-    // see http://code.google.com/p/google-api-java-client/issues/detail?id=528
-    com.google.api.client.util.Data.nullOf(Comment.class);
-  }
+  private java.lang.String appId;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.String content;
+  private java.lang.Boolean complete;
+
+  /**
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key @com.google.api.client.json.JsonString
+  private java.lang.Long id;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private Key id;
+  private java.lang.String kind;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.String idFB;
+  private java.lang.String name;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private GeoPt point;
+  private java.lang.String namespace;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.Integer status;
-
-  /**
-   * The value may be {@code null}.
-   */
-  @com.google.api.client.util.Key
-  private com.google.api.client.util.DateTime time;
-
-  /**
-   * The value may be {@code null}.
-   */
-  @com.google.api.client.util.Key
-  private java.util.List<Vote> vote;
+  private Key parent;
 
   /**
    * @return value or {@code null} for none
    */
-  public java.util.List<Comment> getComment() {
-    return comment;
+  public java.lang.String getAppId() {
+    return appId;
   }
 
   /**
-   * @param comment comment or {@code null} for none
+   * @param appId appId or {@code null} for none
    */
-  public Item setComment(java.util.List<Comment> comment) {
-    this.comment = comment;
+  public Key setAppId(java.lang.String appId) {
+    this.appId = appId;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.String getContent() {
-    return content;
+  public java.lang.Boolean getComplete() {
+    return complete;
   }
 
   /**
-   * @param content content or {@code null} for none
+   * @param complete complete or {@code null} for none
    */
-  public Item setContent(java.lang.String content) {
-    this.content = content;
+  public Key setComplete(java.lang.Boolean complete) {
+    this.complete = complete;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public Key getId() {
+  public java.lang.Long getId() {
     return id;
   }
 
   /**
    * @param id id or {@code null} for none
    */
-  public Item setId(Key id) {
+  public Key setId(java.lang.Long id) {
     this.id = id;
     return this;
   }
@@ -133,86 +121,71 @@ public final class Item extends com.google.api.client.json.GenericJson {
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.String getIdFB() {
-    return idFB;
+  public java.lang.String getKind() {
+    return kind;
   }
 
   /**
-   * @param idFB idFB or {@code null} for none
+   * @param kind kind or {@code null} for none
    */
-  public Item setIdFB(java.lang.String idFB) {
-    this.idFB = idFB;
+  public Key setKind(java.lang.String kind) {
+    this.kind = kind;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public GeoPt getPoint() {
-    return point;
+  public java.lang.String getName() {
+    return name;
   }
 
   /**
-   * @param point point or {@code null} for none
+   * @param name name or {@code null} for none
    */
-  public Item setPoint(GeoPt point) {
-    this.point = point;
+  public Key setName(java.lang.String name) {
+    this.name = name;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.Integer getStatus() {
-    return status;
+  public java.lang.String getNamespace() {
+    return namespace;
   }
 
   /**
-   * @param status status or {@code null} for none
+   * @param namespace namespace or {@code null} for none
    */
-  public Item setStatus(java.lang.Integer status) {
-    this.status = status;
+  public Key setNamespace(java.lang.String namespace) {
+    this.namespace = namespace;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public com.google.api.client.util.DateTime getTime() {
-    return time;
+  public Key getParent() {
+    return parent;
   }
 
   /**
-   * @param time time or {@code null} for none
+   * @param parent parent or {@code null} for none
    */
-  public Item setTime(com.google.api.client.util.DateTime time) {
-    this.time = time;
-    return this;
-  }
-
-  /**
-   * @return value or {@code null} for none
-   */
-  public java.util.List<Vote> getVote() {
-    return vote;
-  }
-
-  /**
-   * @param vote vote or {@code null} for none
-   */
-  public Item setVote(java.util.List<Vote> vote) {
-    this.vote = vote;
+  public Key setParent(Key parent) {
+    this.parent = parent;
     return this;
   }
 
   @Override
-  public Item set(String fieldName, Object value) {
-    return (Item) super.set(fieldName, value);
+  public Key set(String fieldName, Object value) {
+    return (Key) super.set(fieldName, value);
   }
 
   @Override
-  public Item clone() {
-    return (Item) super.clone();
+  public Key clone() {
+    return (Key) super.clone();
   }
 
 }

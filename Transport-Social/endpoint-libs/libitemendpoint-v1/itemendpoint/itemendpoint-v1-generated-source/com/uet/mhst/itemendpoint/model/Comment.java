@@ -19,7 +19,7 @@
 package com.uet.mhst.itemendpoint.model;
 
 /**
- * Model definition for Item.
+ * Model definition for Comment.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the itemendpoint. For a detailed explanation see:
@@ -29,19 +29,7 @@ package com.uet.mhst.itemendpoint.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class Item extends com.google.api.client.json.GenericJson {
-
-  /**
-   * The value may be {@code null}.
-   */
-  @com.google.api.client.util.Key
-  private java.util.List<Comment> comment;
-
-  static {
-    // hack to force ProGuard to consider Comment used, since otherwise it would be stripped out
-    // see http://code.google.com/p/google-api-java-client/issues/detail?id=528
-    com.google.api.client.util.Data.nullOf(Comment.class);
-  }
+public final class Comment extends com.google.api.client.json.GenericJson {
 
   /**
    * The value may be {@code null}.
@@ -59,7 +47,7 @@ public final class Item extends com.google.api.client.json.GenericJson {
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.String idFB;
+  private java.lang.String idfb;
 
   /**
    * The value may be {@code null}.
@@ -71,34 +59,7 @@ public final class Item extends com.google.api.client.json.GenericJson {
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.Integer status;
-
-  /**
-   * The value may be {@code null}.
-   */
-  @com.google.api.client.util.Key
   private com.google.api.client.util.DateTime time;
-
-  /**
-   * The value may be {@code null}.
-   */
-  @com.google.api.client.util.Key
-  private java.util.List<Vote> vote;
-
-  /**
-   * @return value or {@code null} for none
-   */
-  public java.util.List<Comment> getComment() {
-    return comment;
-  }
-
-  /**
-   * @param comment comment or {@code null} for none
-   */
-  public Item setComment(java.util.List<Comment> comment) {
-    this.comment = comment;
-    return this;
-  }
 
   /**
    * @return value or {@code null} for none
@@ -110,7 +71,7 @@ public final class Item extends com.google.api.client.json.GenericJson {
   /**
    * @param content content or {@code null} for none
    */
-  public Item setContent(java.lang.String content) {
+  public Comment setContent(java.lang.String content) {
     this.content = content;
     return this;
   }
@@ -125,7 +86,7 @@ public final class Item extends com.google.api.client.json.GenericJson {
   /**
    * @param id id or {@code null} for none
    */
-  public Item setId(Key id) {
+  public Comment setId(Key id) {
     this.id = id;
     return this;
   }
@@ -133,15 +94,15 @@ public final class Item extends com.google.api.client.json.GenericJson {
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.String getIdFB() {
-    return idFB;
+  public java.lang.String getIdfb() {
+    return idfb;
   }
 
   /**
-   * @param idFB idFB or {@code null} for none
+   * @param idfb idfb or {@code null} for none
    */
-  public Item setIdFB(java.lang.String idFB) {
-    this.idFB = idFB;
+  public Comment setIdfb(java.lang.String idfb) {
+    this.idfb = idfb;
     return this;
   }
 
@@ -155,23 +116,8 @@ public final class Item extends com.google.api.client.json.GenericJson {
   /**
    * @param point point or {@code null} for none
    */
-  public Item setPoint(GeoPt point) {
+  public Comment setPoint(GeoPt point) {
     this.point = point;
-    return this;
-  }
-
-  /**
-   * @return value or {@code null} for none
-   */
-  public java.lang.Integer getStatus() {
-    return status;
-  }
-
-  /**
-   * @param status status or {@code null} for none
-   */
-  public Item setStatus(java.lang.Integer status) {
-    this.status = status;
     return this;
   }
 
@@ -185,34 +131,19 @@ public final class Item extends com.google.api.client.json.GenericJson {
   /**
    * @param time time or {@code null} for none
    */
-  public Item setTime(com.google.api.client.util.DateTime time) {
+  public Comment setTime(com.google.api.client.util.DateTime time) {
     this.time = time;
     return this;
   }
 
-  /**
-   * @return value or {@code null} for none
-   */
-  public java.util.List<Vote> getVote() {
-    return vote;
-  }
-
-  /**
-   * @param vote vote or {@code null} for none
-   */
-  public Item setVote(java.util.List<Vote> vote) {
-    this.vote = vote;
-    return this;
+  @Override
+  public Comment set(String fieldName, Object value) {
+    return (Comment) super.set(fieldName, value);
   }
 
   @Override
-  public Item set(String fieldName, Object value) {
-    return (Item) super.set(fieldName, value);
-  }
-
-  @Override
-  public Item clone() {
-    return (Item) super.clone();
+  public Comment clone() {
+    return (Comment) super.clone();
   }
 
 }

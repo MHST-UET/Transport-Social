@@ -1,20 +1,10 @@
 package com.uet.mhst.fragment;
 
-import com.uet.mhst.MainActivity;
-import com.uet.mhst.R;
 import java.util.ArrayList;
 import java.util.List;
+
 import me.maxwin.view.XListView;
 import me.maxwin.view.XListView.IXListViewListener;
-
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.json.gson.GsonFactory;
-
-import com.uet.mhst.adapter.FeedListAdapter;
-import com.uet.mhst.communicator.Communicator;
-import com.uet.mhst.itemendpoint.model.*;
-import com.uet.mhst.itemendpoint.*;
-import com.uet.mhst.model.ItemSerializable;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -28,6 +18,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
+
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.json.gson.GsonFactory;
+import com.uet.mhst.MainActivity;
+import com.uet.mhst.R;
+import com.uet.mhst.adapter.FeedListAdapter;
+import com.uet.mhst.communicator.Communicator;
+import com.uet.mhst.itemendpoint.Itemendpoint;
+import com.uet.mhst.itemendpoint.model.CollectionResponseItem;
+import com.uet.mhst.itemendpoint.model.Item;
+import com.uet.mhst.model.ItemSerializable;
 
 public class NewsFeedFragment extends Fragment implements IXListViewListener {
 	private FeedListAdapter listAdapter;

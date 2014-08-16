@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.jdo.annotations.Element;
-import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.Order;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -16,20 +13,20 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.GeoPt;
 import com.google.appengine.api.datastore.Key;
 
-@PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
+@PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Item
 {
 	@PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private Key id;
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	Key id;
 	@Persistent
-	String idfb, name, img, content, address;
+	String idfb, content;
 	GeoPt point;
 	Date datetime;
 	int status;
-	List<Vote> vote = new ArrayList<Vote>();
-	@Order(extensions = @Extension(vendorName="datanucleus",key="list-ordering", value="datetime asc"))
-	List<Comment> comment = new ArrayList<Comment>();
+	@Persistent
+	List<Vote> vote;
+	List<Comment> comment;
 
 	// id: khóa chính trên datastore
 	// idfb: id người dùng facebook
@@ -62,26 +59,6 @@ public class Item
 		this.idfb = idfb;
 	}
 
-	public String getName()
-	{
-		return name;
-	}
-
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-
-	public String getImg()
-	{
-		return img;
-	}
-
-	public void setImg(String img)
-	{
-		this.img = img;
-	}
-
 	public int getStatus()
 	{
 		return status;
@@ -112,16 +89,6 @@ public class Item
 		this.content = content;
 	}
 
-	public String getAddress()
-	{
-		return address;
-	}
-
-	public void setAddress(String address)
-	{
-		this.address = address;
-	}
-
 	public GeoPt getPoint()
 	{
 		return point;
@@ -134,6 +101,8 @@ public class Item
 
 	public List<Vote> getVote()
 	{
+		if (vote == null)
+			vote = new ArrayList<Vote>();
 		return vote;
 	}
 
@@ -144,6 +113,8 @@ public class Item
 
 	public List<Comment> getComment()
 	{
+		if (comment == null)
+			comment = new ArrayList<Comment>();
 		return comment;
 	}
 

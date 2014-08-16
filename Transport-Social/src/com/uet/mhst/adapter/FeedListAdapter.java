@@ -1,6 +1,7 @@
 package com.uet.mhst.adapter;
 
 import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -12,10 +13,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.facebook.widget.ProfilePictureView;
-import com.google.android.gms.maps.model.LatLng;
 import com.uet.mhst.R;
-import com.uet.mhst.itemendpoint.model.*;
-import com.uet.mhst.utility.ReverseGeocodingTask;
+import com.uet.mhst.itemendpoint.model.Item;
 
 public class FeedListAdapter extends BaseAdapter {
 	private Activity activity;

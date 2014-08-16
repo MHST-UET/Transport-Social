@@ -1,15 +1,13 @@
 package com.uet.mhst;
 
-import com.uet.mhst.itemendpoint.model.Item;
-import com.uet.mhst.model.ItemSerializable;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.uet.mhst.model.ItemSerializable;
 
 public class StatusDetailActivity extends Activity {
 
@@ -46,8 +44,8 @@ public class StatusDetailActivity extends Activity {
 		t2.setText(itemSer.getContent());
 		t3.setText(itemSer.getName());
 		t4.setText(String.valueOf(itemSer.getStatus()));
-		t5.setText(String.valueOf(itemSer.getVoteUp()));
-		t6.setText(String.valueOf(itemSer.getVoteUp()));
+//		t5.setText(String.valueOf(itemSer.getVoteUp()));
+//		t6.setText(String.valueOf(itemSer.getVoteUp()));
 		t7.setText(String.valueOf(itemSer.getLat()));
 		t8.setText(String.valueOf(itemSer.getLag()));
 	}

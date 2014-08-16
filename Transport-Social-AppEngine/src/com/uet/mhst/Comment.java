@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.google.appengine.api.datastore.GeoPt;
 import com.google.appengine.api.datastore.Key;
 
 @Entity
@@ -14,10 +15,10 @@ public class Comment
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Key id;
-	String idfb, name, content;
-	Item item;
+	Key id;
+	String idfb, content;
 	Date datetime;
+	GeoPt point;
 
 	public Key getId()
 	{
@@ -27,11 +28,6 @@ public class Comment
 	public void setId(Key id)
 	{
 		this.id = id;
-	}
-
-	public Item getItem()
-	{
-		return item;
 	}
 
 	public Date getTime()
@@ -44,11 +40,6 @@ public class Comment
 		this.datetime = datetime;
 	}
 
-	public void setItem(Item item)
-	{
-		this.item = item;
-	}
-
 	public String getIdfb()
 	{
 		return idfb;
@@ -57,16 +48,6 @@ public class Comment
 	public void setIdfb(String idfb)
 	{
 		this.idfb = idfb;
-	}
-
-	public String getName()
-	{
-		return name;
-	}
-
-	public void setName(String name)
-	{
-		this.name = name;
 	}
 
 	public String getContent()
@@ -79,4 +60,30 @@ public class Comment
 		this.content = content;
 	}
 
+	public GeoPt getPoint()
+	{
+		return point;
+	}
+
+	public void setPoint(GeoPt point)
+	{
+		this.point = point;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		// TODO Auto-generated method stub
+		if (obj != null && obj instanceof Comment)
+		{
+			Comment cm = (Comment) obj;
+			if (cm.getId().compareTo(this.id) == 0)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 }

@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/khh-YSlXYvhuqt0rOZh8ZihcE_8\"",
+ "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/NVrK7cbdrOviyDEd0Xn3OytFzLE\"",
  "discoveryVersion": "v1",
  "id": "itemendpoint:v1",
  "name": "itemendpoint",
@@ -105,11 +105,8 @@
     "idfb": {
      "type": "string"
     },
-    "item": {
-     "$ref": "Item"
-    },
-    "name": {
-     "type": "string"
+    "point": {
+     "$ref": "GeoPt"
     },
     "time": {
      "type": "string",
@@ -135,9 +132,6 @@
    "id": "Item",
    "type": "object",
    "properties": {
-    "address": {
-     "type": "string"
-    },
     "comment": {
      "type": "array",
      "items": {
@@ -151,12 +145,6 @@
      "$ref": "Key"
     },
     "idFB": {
-     "type": "string"
-    },
-    "img": {
-     "type": "string"
-    },
-    "name": {
      "type": "string"
     },
     "point": {
@@ -216,12 +204,6 @@
     "idfb": {
      "type": "string"
     },
-    "item": {
-     "$ref": "Item"
-    },
-    "name": {
-     "type": "string"
-    },
     "up": {
      "type": "boolean"
     }
@@ -229,6 +211,29 @@
   }
  },
  "methods": {
+  "comment": {
+   "id": "itemendpoint.comment",
+   "path": "comment/{idstt}",
+   "httpMethod": "POST",
+   "parameters": {
+    "idstt": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "idstt"
+   ],
+   "request": {
+    "$ref": "Comment",
+    "parameterName": "resource"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
   "getItem": {
    "id": "itemendpoint.getItem",
    "path": "item/{id}",
@@ -289,6 +294,29 @@
    },
    "response": {
     "$ref": "CollectionResponse_Item"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "vote": {
+   "id": "itemendpoint.vote",
+   "path": "vote/{idstt}",
+   "httpMethod": "POST",
+   "parameters": {
+    "idstt": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "idstt"
+   ],
+   "request": {
+    "$ref": "Vote",
+    "parameterName": "resource"
    },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
