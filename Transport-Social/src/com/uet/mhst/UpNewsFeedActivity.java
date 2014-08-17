@@ -20,10 +20,8 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.DateTime;
 import com.uet.mhst.itemendpoint.Itemendpoint;
-import com.uet.mhst.itemendpoint.model.Comment;
-import com.uet.mhst.itemendpoint.model.GeoPt;
 import com.uet.mhst.itemendpoint.model.Item;
-import com.uet.mhst.itemendpoint.model.Key;
+import com.uet.mhst.itemendpoint.model.Vote;
 import com.uet.mhst.sqlite.DatabaseHandler;
 import com.uet.mhst.utility.GPSTracker;
 
@@ -110,9 +108,9 @@ public class UpNewsFeedActivity extends Activity
 				Item item = new Item();
 				item.setIdFB(id);
 //				item.setName(name);
-				item.setPoint(new GeoPt().setLatitude(
-						(float) myLocation.getLatitude()).setLongitude(
-						(float) myLocation.getLongitude()));
+//				item.setPoint(new GeoPt().setLatitude(
+//						(float) myLocation.getLatitude()).setLongitude(
+//						(float) myLocation.getLongitude()));
 //				Vote vote = new Vote();
 //				vote.setIdfb(id);
 //				vote.setName(name);
@@ -120,10 +118,11 @@ public class UpNewsFeedActivity extends Activity
 //				List<Vote> _vote = new ArrayList<Vote>();
 //				_vote.add(vote);
 //				item.setVote(_vote);
-				Comment cm = new Comment();
+				Vote cm = new Vote();
 				cm.setIdfb(id);
-				cm.setId(new Key().setId(Long.valueOf("5668600916475904")));
-				cm.setContent("cha co gi hot ca");
+//				cm.setName(name);
+//				cm.setId(new Key().setId(Long.parseLong("5668600916475904")));
+//				cm.setContent("cha co gi hot ca");
 //				cm.setTime(new DateTime(System.currentTimeMillis()));
 //				List<Comment> _cm = new ArrayList<Comment>();
 //				_cm.add(cm);
@@ -138,7 +137,7 @@ public class UpNewsFeedActivity extends Activity
 //						.getLongitude());
 //				item.setAddress(new ReverseGeocodingTask(getBaseContext())
 //						.getAddressText(latLng));
-				Comment[] params = { cm };
+				Vote[] params = { cm };
 
 				new AddItemAsyncTask().execute(params);
 
@@ -146,10 +145,10 @@ public class UpNewsFeedActivity extends Activity
 		});
 	}
 
-	private class AddItemAsyncTask extends AsyncTask<Comment, Void, Void>
+	private class AddItemAsyncTask extends AsyncTask<Vote, Void, Void>
 	{
 
-		protected Void doInBackground(Comment... params)
+		protected Void doInBackground(Vote... params)
 		{
 			try
 			{
@@ -157,7 +156,7 @@ public class UpNewsFeedActivity extends Activity
 						AndroidHttp.newCompatibleTransport(),
 						new GsonFactory(), credential);
 				Itemendpoint service = builder.build();
-				service.comment(Long.parseLong("5163657986048000"),params[0]).execute();
+				service.vote(Long.parseLong("5676830073815040"),params[0]).execute();
 			}
 			catch (Exception e)
 			{

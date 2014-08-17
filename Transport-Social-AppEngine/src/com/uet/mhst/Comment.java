@@ -2,29 +2,31 @@ package com.uet.mhst;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.GeoPt;
+import com.google.appengine.api.datastore.Key;
 
-@Entity
+@PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class Comment
 {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+	@PrimaryKey
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	Key id;
 	String idfb, content;
 	Date datetime;
 	GeoPt point;
 
-	public Long getId()
+	public Key getId()
 	{
 		return id;
 	}
 
-	public void setId(Long id)
+	public void setId(Key id)
 	{
 		this.id = id;
 	}
@@ -76,9 +78,10 @@ public class Comment
 		if (obj != null && obj instanceof Comment)
 		{
 			Comment cm = (Comment) obj;
-			if (cm.getId().compareTo(this.id) == 0) { return true; }
+			if (cm.getId().compareTo(this.id) == 0)
+				return true;
 		}
 		return false;
 	}
-
+	
 }

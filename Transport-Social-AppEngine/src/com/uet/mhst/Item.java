@@ -11,21 +11,21 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.GeoPt;
+import com.google.appengine.api.datastore.Key;
 
-@PersistenceCapable(identityType = IdentityType.APPLICATION)
+@PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class Item
 {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	Long id;
+	Key id;
 	@Persistent
 	String idfb, content;
 	GeoPt point;
 	Date datetime;
 	int status;
-	@Persistent
-	List<Vote> vote;
-	List<Comment> comment;
+	List<Comment> comment = new ArrayList<Comment>();
+	List<Vote> vote = new ArrayList<Vote>();
 
 	// id: khóa chính trên datastore
 	// idfb: id người dùng facebook
@@ -38,12 +38,12 @@ public class Item
 	// voteup, votedw dùng cho Vote up, Vote down
 	// datetime: thời gian lúc up
 
-	public Long getId()
+	public Key getId()
 	{
 		return id;
 	}
 
-	public void setId(Long id)
+	public void setId(Key id)
 	{
 		this.id = id;
 	}

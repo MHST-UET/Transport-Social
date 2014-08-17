@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/6cWwFaaJC4DXCLFJXKTHOQMxfGk\"",
+ "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/NVrK7cbdrOviyDEd0Xn3OytFzLE\"",
  "discoveryVersion": "v1",
  "id": "itemendpoint:v1",
  "name": "itemendpoint",
@@ -100,8 +100,7 @@
      "type": "string"
     },
     "id": {
-     "type": "string",
-     "format": "int64"
+     "$ref": "Key"
     },
     "idfb": {
      "type": "string"
@@ -143,8 +142,7 @@
      "type": "string"
     },
     "id": {
-     "type": "string",
-     "format": "int64"
+     "$ref": "Key"
     },
     "idFB": {
      "type": "string"
@@ -168,13 +166,40 @@
     }
    }
   },
+  "Key": {
+   "id": "Key",
+   "type": "object",
+   "properties": {
+    "appId": {
+     "type": "string"
+    },
+    "complete": {
+     "type": "boolean"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "kind": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    },
+    "namespace": {
+     "type": "string"
+    },
+    "parent": {
+     "$ref": "Key"
+    }
+   }
+  },
   "Vote": {
    "id": "Vote",
    "type": "object",
    "properties": {
     "id": {
-     "type": "string",
-     "format": "int64"
+     "$ref": "Key"
     },
     "idfb": {
      "type": "string"

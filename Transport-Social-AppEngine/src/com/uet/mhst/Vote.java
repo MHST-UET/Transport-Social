@@ -1,25 +1,28 @@
 package com.uet.mhst;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
-@Entity
+import com.google.appengine.api.datastore.Key;
+
+@PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class Vote
 {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+	@PrimaryKey
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	Key id;
 	String idfb;
 	boolean up;
 
-	public Long getId()
+	public Key getId()
 	{
 		return id;
 	}
 
-	public void setId(Long id)
+	public void setId(Key id)
 	{
 		this.id = id;
 	}
@@ -51,7 +54,8 @@ public class Vote
 		if (obj != null && obj instanceof Vote)
 		{
 			Vote vote = (Vote) obj;
-			if (vote.getIdfb().matches(this.idfb)) { return true; }
+			if (vote.getIdfb().matches(this.idfb))
+				return true;
 		}
 		return false;
 	}

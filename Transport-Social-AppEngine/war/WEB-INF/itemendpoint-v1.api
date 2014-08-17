@@ -182,8 +182,7 @@
         "type" : "object",
         "properties" : {
           "id" : {
-            "type" : "string",
-            "format" : "int64"
+            "$ref" : "Key"
           },
           "content" : {
             "type" : "string"
@@ -194,16 +193,16 @@
           "status" : {
             "type" : "integer"
           },
-          "vote" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "Vote"
-            }
-          },
           "comment" : {
             "type" : "array",
             "items" : {
               "$ref" : "Comment"
+            }
+          },
+          "vote" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Vote"
             }
           },
           "time" : {
@@ -212,6 +211,34 @@
           },
           "idFB" : {
             "type" : "string"
+          }
+        }
+      },
+      "Key" : {
+        "id" : "Key",
+        "type" : "object",
+        "properties" : {
+          "kind" : {
+            "type" : "string"
+          },
+          "appId" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "complete" : {
+            "type" : "boolean"
+          },
+          "namespace" : {
+            "type" : "string"
+          },
+          "parent" : {
+            "$ref" : "Key"
           }
         }
       },
@@ -229,29 +256,12 @@
           }
         }
       },
-      "Vote" : {
-        "id" : "Vote",
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string",
-            "format" : "int64"
-          },
-          "idfb" : {
-            "type" : "string"
-          },
-          "up" : {
-            "type" : "boolean"
-          }
-        }
-      },
       "Comment" : {
         "id" : "Comment",
         "type" : "object",
         "properties" : {
           "id" : {
-            "type" : "string",
-            "format" : "int64"
+            "$ref" : "Key"
           },
           "idfb" : {
             "type" : "string"
@@ -265,6 +275,21 @@
           "time" : {
             "type" : "string",
             "format" : "date-time"
+          }
+        }
+      },
+      "Vote" : {
+        "id" : "Vote",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "$ref" : "Key"
+          },
+          "idfb" : {
+            "type" : "string"
+          },
+          "up" : {
+            "type" : "boolean"
           }
         }
       },

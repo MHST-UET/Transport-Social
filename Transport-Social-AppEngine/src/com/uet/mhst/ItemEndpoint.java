@@ -1,5 +1,6 @@
 package com.uet.mhst;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -215,28 +216,24 @@ public class ItemEndpoint
 	public void vote(@Named("idstt") Long idstt, Vote vote)
 	{
 		Item item = getItem(idstt);
-		if(!item.getVote().contains(vote))
-		{
-			item.getVote().add(vote);
-		}
-		else if(item.getVote().contains(vote))
-		{
-			item.getVote().remove(vote);
-		}
+		ArrayList<Vote> vt = (ArrayList<Vote>) item.getVote();
+		if(!vt.contains(vote))
+			vt.add(vote);
+		else if(vt.contains(vote))
+			vt.remove(vote);
+		item.setVote(vt);
 		updateItem(item);
 	}
 	@ApiMethod(name = "comment")
 	public void comment(@Named("idstt") Long idstt, Comment cm)
 	{
 		Item item = getItem(idstt);
-		if(!item.getComment().contains(cm))
-		{
-			item.getComment().add(cm);
-		}
-		else if(item.getComment().contains(cm))
-		{
-			item.getComment().remove(cm);
-		}
+		ArrayList<Comment> _cm = (ArrayList<Comment>) item.getComment(); 
+		if(!_cm.contains(cm))
+			_cm.add(cm);
+		else if(_cm.contains(cm))
+			_cm.remove(cm);
+		item.setComment(_cm);
 		updateItem(item);
 	}	
 }
