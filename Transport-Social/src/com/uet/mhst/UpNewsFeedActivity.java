@@ -1,5 +1,7 @@
 package com.uet.mhst;
 
+import java.util.ArrayList;
+
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
@@ -20,6 +22,7 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.DateTime;
 import com.uet.mhst.itemendpoint.Itemendpoint;
+import com.uet.mhst.itemendpoint.model.Comment;
 import com.uet.mhst.itemendpoint.model.Item;
 import com.uet.mhst.itemendpoint.model.Vote;
 import com.uet.mhst.sqlite.DatabaseHandler;
@@ -118,8 +121,9 @@ public class UpNewsFeedActivity extends Activity
 //				List<Vote> _vote = new ArrayList<Vote>();
 //				_vote.add(vote);
 //				item.setVote(_vote);
-				Vote cm = new Vote();
+				Comment cm = new Comment();
 				cm.setIdfb(id);
+				cm.setContent("cha co gi hot");
 //				cm.setName(name);
 //				cm.setId(new Key().setId(Long.parseLong("5668600916475904")));
 //				cm.setContent("cha co gi hot ca");
@@ -131,13 +135,15 @@ public class UpNewsFeedActivity extends Activity
 //				item.setComment(_cm);
 				item.setTime(new DateTime(System.currentTimeMillis()));
 				item.setStatus(status);
+				item.setComment(new ArrayList<Comment>());
+				item.setVote(new ArrayList<Vote>());
 //				item.setImg("http://res.vtc.vn/media/vtcnews/2012/05/17/maps.png");
 				item.setContent(content);
 //				LatLng latLng = new LatLng(myLocation.getLatitude(), myLocation
 //						.getLongitude());
 //				item.setAddress(new ReverseGeocodingTask(getBaseContext())
 //						.getAddressText(latLng));
-				Vote[] params = { cm };
+				Comment[] params = { cm };
 
 				new AddItemAsyncTask().execute(params);
 
@@ -145,10 +151,10 @@ public class UpNewsFeedActivity extends Activity
 		});
 	}
 
-	private class AddItemAsyncTask extends AsyncTask<Vote, Void, Void>
+	private class AddItemAsyncTask extends AsyncTask<Comment, Void, Void>
 	{
 
-		protected Void doInBackground(Vote... params)
+		protected Void doInBackground(Comment... params)
 		{
 			try
 			{
@@ -156,7 +162,7 @@ public class UpNewsFeedActivity extends Activity
 						AndroidHttp.newCompatibleTransport(),
 						new GsonFactory(), credential);
 				Itemendpoint service = builder.build();
-				service.vote(Long.parseLong("5676830073815040"),params[0]).execute();
+				service.comment(Long.parseLong("5671831268753408"), params[0]).execute();
 			}
 			catch (Exception e)
 			{

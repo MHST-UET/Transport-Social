@@ -205,12 +205,12 @@
               "$ref" : "Vote"
             }
           },
+          "idFB" : {
+            "type" : "string"
+          },
           "time" : {
             "type" : "string",
             "format" : "date-time"
-          },
-          "idFB" : {
-            "type" : "string"
           }
         }
       },
@@ -272,6 +272,9 @@
           "point" : {
             "$ref" : "GeoPt"
           },
+          "item" : {
+            "$ref" : "Item"
+          },
           "time" : {
             "type" : "string",
             "format" : "date-time"
@@ -290,6 +293,9 @@
           },
           "up" : {
             "type" : "boolean"
+          },
+          "item" : {
+            "$ref" : "Item"
           }
         }
       },

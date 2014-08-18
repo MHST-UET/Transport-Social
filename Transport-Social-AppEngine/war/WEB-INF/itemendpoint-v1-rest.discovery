@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/NVrK7cbdrOviyDEd0Xn3OytFzLE\"",
+ "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/Yz0bCUvfhLQW7yTab6vhQ2TvQgU\"",
  "discoveryVersion": "v1",
  "id": "itemendpoint:v1",
  "name": "itemendpoint",
@@ -105,6 +105,9 @@
     "idfb": {
      "type": "string"
     },
+    "item": {
+     "$ref": "Item"
+    },
     "point": {
      "$ref": "GeoPt"
     },
@@ -203,6 +206,9 @@
     },
     "idfb": {
      "type": "string"
+    },
+    "item": {
+     "$ref": "Item"
     },
     "up": {
      "type": "boolean"

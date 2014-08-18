@@ -20,6 +20,7 @@ public class Comment
 	String idfb, content;
 	Date datetime;
 	GeoPt point;
+	Item item;
 
 	public Key getId()
 	{
@@ -71,17 +72,27 @@ public class Comment
 		this.point = point;
 	}
 
+	public Item getItem()
+	{
+		return item;
+	}
+
+	public void setItem(Item item)
+	{
+		this.item = item;
+	}
+
 	@Override
 	public boolean equals(Object obj)
 	{
 		// TODO Auto-generated method stub
+		if (this.id == null) return false;
 		if (obj != null && obj instanceof Comment)
 		{
 			Comment cm = (Comment) obj;
-			if (cm.getId().compareTo(this.id) == 0)
-				return true;
+			if (cm.getId().compareTo(this.id) == 0) return true;
 		}
 		return false;
 	}
-	
+
 }

@@ -16,6 +16,7 @@ public class Vote
 	Key id;
 	String idfb;
 	boolean up;
+	Item item;
 
 	public Key getId()
 	{
@@ -47,6 +48,16 @@ public class Vote
 		this.up = up;
 	}
 
+	public Item getItem()
+	{
+		return item;
+	}
+
+	public void setItem(Item item)
+	{
+		this.item = item;
+	}
+
 	@Override
 	public boolean equals(Object obj)
 	{
@@ -54,8 +65,7 @@ public class Vote
 		if (obj != null && obj instanceof Vote)
 		{
 			Vote vote = (Vote) obj;
-			if (vote.getIdfb().matches(this.idfb))
-				return true;
+			if (vote.getIdfb().matches(this.idfb)) return true;
 		}
 		return false;
 	}

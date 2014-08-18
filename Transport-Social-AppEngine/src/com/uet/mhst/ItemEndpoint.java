@@ -1,6 +1,5 @@
 package com.uet.mhst;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,11 +25,11 @@ public class ItemEndpoint
 {
 
 	/**
-	 * This method lists all the entities inserted in datastore.
-	 * It uses HTTP GET method and paging support.
-	 *
+	 * This method lists all the entities inserted in datastore. It uses HTTP
+	 * GET method and paging support.
+	 * 
 	 * @return A CollectionResponse class containing the list of all entities
-	 * persisted and a cursor to the next page.
+	 *         persisted and a cursor to the next page.
 	 */
 	@SuppressWarnings({ "unchecked", "unused" })
 	@ApiMethod(name = "listItem")
@@ -72,7 +71,8 @@ public class ItemEndpoint
 			cursor = JDOCursorHelper.getCursor(execute);
 			if (cursor != null) cursorString = cursor.toWebSafeString();
 
-			// Tight loop for fetching all entities from datastore and accomodate
+			// Tight loop for fetching all entities from datastore and
+			// accomodate
 			// for lazy fetch.
 			for (Item obj : execute)
 				;
@@ -87,9 +87,11 @@ public class ItemEndpoint
 	}
 
 	/**
-	 * This method gets the entity having primary key id. It uses HTTP GET method.
-	 *
-	 * @param id the primary key of the java bean.
+	 * This method gets the entity having primary key id. It uses HTTP GET
+	 * method.
+	 * 
+	 * @param id
+	 *            the primary key of the java bean.
 	 * @return The entity with primary key id.
 	 */
 	@ApiMethod(name = "getItem")
@@ -109,11 +111,12 @@ public class ItemEndpoint
 	}
 
 	/**
-	 * This inserts a new entity into App Engine datastore. If the entity already
-	 * exists in the datastore, an exception is thrown.
-	 * It uses HTTP POST method.
-	 *
-	 * @param item the entity to be inserted.
+	 * This inserts a new entity into App Engine datastore. If the entity
+	 * already exists in the datastore, an exception is thrown. It uses HTTP
+	 * POST method.
+	 * 
+	 * @param item
+	 *            the entity to be inserted.
 	 * @return The inserted entity.
 	 */
 	@ApiMethod(name = "insertItem", clientIds = { Ids.WEB_CLIENT_ID,
@@ -143,11 +146,12 @@ public class ItemEndpoint
 	}
 
 	/**
-	 * This method is used for updating an existing entity. If the entity does not
-	 * exist in the datastore, an exception is thrown.
-	 * It uses HTTP PUT method.
-	 *
-	 * @param item the entity to be updated.
+	 * This method is used for updating an existing entity. If the entity does
+	 * not exist in the datastore, an exception is thrown. It uses HTTP PUT
+	 * method.
+	 * 
+	 * @param item
+	 *            the entity to be updated.
 	 * @return The updated entity.
 	 */
 
@@ -168,10 +172,11 @@ public class ItemEndpoint
 	}
 
 	/**
-	 * This method removes the entity with primary key id.
-	 * It uses HTTP DELETE method.
-	 *
-	 * @param id the primary key of the entity to be deleted.
+	 * This method removes the entity with primary key id. It uses HTTP DELETE
+	 * method.
+	 * 
+	 * @param id
+	 *            the primary key of the entity to be deleted.
 	 */
 
 	public void removeItem(@Named("id") Long id)
@@ -211,29 +216,52 @@ public class ItemEndpoint
 	{
 		return PMF.get().getPersistenceManager();
 	}
-	
+
 	@ApiMethod(name = "vote")
 	public void vote(@Named("idstt") Long idstt, Vote vote)
 	{
-		Item item = getItem(idstt);
-		ArrayList<Vote> vt = (ArrayList<Vote>) item.getVote();
-		if(!vt.contains(vote))
-			vt.add(vote);
-		else if(vt.contains(vote))
-			vt.remove(vote);
-		item.setVote(vt);
-		updateItem(item);
+		PersistenceManager mgr = getPersistenceManager();
+		Item item = null;
+		try
+		{
+			item = mgr.getObjectById(Item.class, idstt);
+			List<Vote> vt = item.getVote();
+			if (!vt.contains(vote))
+				vt.add(vote);
+			else if (vt.contains(vote)) vt.remove(vote);
+			item.setVote(vt);
+			mgr.makePersistent(item);
+//			updateItem(item);
+		}
+		finally
+		{
+			mgr.close();
+		}
+//		Item item = getItem(idstt);
+		
 	}
+
 	@ApiMethod(name = "comment")
 	public void comment(@Named("idstt") Long idstt, Comment cm)
 	{
-		Item item = getItem(idstt);
-		ArrayList<Comment> _cm = (ArrayList<Comment>) item.getComment(); 
-		if(!_cm.contains(cm))
-			_cm.add(cm);
-		else if(_cm.contains(cm))
-			_cm.remove(cm);
-		item.setComment(_cm);
-		updateItem(item);
-	}	
+		PersistenceManager mgr = getPersistenceManager();
+		Item item = null;
+		try
+		{
+			item = mgr.getObjectById(Item.class, idstt);
+			List<Comment> _cm = item.getComment();
+			if (!_cm.contains(cm))
+				_cm.add(cm);
+			else if (_cm.contains(cm)) _cm.remove(cm);
+			item.setComment(_cm);
+			mgr.makePersistent(item);
+//			updateItem(item);
+		}
+		finally
+		{
+			mgr.close();
+		}
+//		Item item = getItem(idstt);
+		
+	}
 }

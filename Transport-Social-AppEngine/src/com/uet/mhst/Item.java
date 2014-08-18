@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
@@ -24,7 +25,11 @@ public class Item
 	GeoPt point;
 	Date datetime;
 	int status;
+	@Persistent(mappedBy="item", defaultFetchGroup="true")
+	@Element(dependent = "true")
 	List<Comment> comment = new ArrayList<Comment>();
+	@Persistent(mappedBy="item", defaultFetchGroup="true")
+	@Element(dependent = "true")
 	List<Vote> vote = new ArrayList<Vote>();
 
 	// id: khóa chính trên datastore
