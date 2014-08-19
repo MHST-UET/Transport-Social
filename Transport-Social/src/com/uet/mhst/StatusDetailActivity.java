@@ -186,16 +186,15 @@ public class StatusDetailActivity extends Activity {
 						new GsonFactory(), credential);
 				Itemendpoint service = builder.build();
 				Comment cmt = new Comment();
-				// cmt.setContent(edit_comment.getText().toString());
-				cmt.setContent(item.getId().getId().toString());
+				cmt.setContent(edit_comment.getText().toString());
 				cmt.setTime(new DateTime(System.currentTimeMillis()));
 				String id = dataUser.getUserDetails().get("id");
 				cmt.setIdfb(id);
 				GeoPt point = new GeoPt();
 				point.setLatitude((float) myLocation.getLatitude());
 				point.setLongitude((float) myLocation.getLongitude());
-				item.setPoint(point);
-				service.comment(item.getId().getId(), cmt).execute();
+				cmt.setPoint(point);
+				service.comment(Long.parseLong("5075880531460096"), cmt).execute();
 			} catch (Exception e) {
 				Log.d("Could not Add Item", e.getMessage(), e);
 			}

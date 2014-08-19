@@ -7,6 +7,7 @@ import com.uet.mhst.R;
 import com.uet.mhst.itemendpoint.model.Comment;
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,8 +58,7 @@ public class CommentListAdapter extends BaseAdapter {
 			Comment commentItem = commentItems.get(position);
 			pictureFb.setProfileId(commentItem.getIdfb());
 			comment.setText(commentItem.getContent());
-			Toast.makeText(context, commentItem.getContent(), Toast.LENGTH_LONG)
-					.show();
+//			Log.i("Comment", commentItem.getContent());
 
 		}
 		return convertView;
