@@ -3,27 +3,35 @@ package com.uet.mhst;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.Signature;
-import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-
+import com.facebook.FacebookRequestError;
+import com.facebook.HttpMethod;
 import com.facebook.LoggingBehavior;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.Settings;
-import com.facebook.model.GraphUser;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
+
+import android.os.Bundle;
+import android.os.StrictMode;
+
+import com.facebook.*;
+import com.facebook.model.*;
 import com.uet.mhst.sqlite.DatabaseHandler;
+
+import android.util.Base64;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.Toast;
 
 public class LoginFacebookActivity extends Activity {
 
@@ -33,26 +41,13 @@ public class LoginFacebookActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+		.permitAll().build();
+
+StrictMode.setThreadPolicy(policy);
 		setContentView(R.layout.activity_login_facebook);
-
-		try {
-			PackageInfo info = getPackageManager().getPackageInfo(
-					"com.uet.mhst", PackageManager.GET_SIGNATURES);
-			for (Signature signature : info.signatures) {
-				MessageDigest md = MessageDigest.getInstance("SHA");
-				md.update(signature.toByteArray());
-				Log.d("KeyHash:",
-						Base64.encodeToString(md.digest(), Base64.DEFAULT));
-			}
-		} catch (NameNotFoundException e) {
-
-		} catch (NoSuchAlgorithmException e) {
-
-		}
 		buttonLoginLogout = (Button) findViewById(R.id.buttonLoginLogout);
-
 		Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
-
 		Session session = Session.getActiveSession();
 		if (session == null) {
 			if (savedInstanceState != null) {
@@ -68,7 +63,6 @@ public class LoginFacebookActivity extends Activity {
 						.setCallback(statusCallback));
 			}
 		}
-
 		updateView();
 	}
 
@@ -76,6 +70,7 @@ public class LoginFacebookActivity extends Activity {
 	public void onStart() {
 		super.onStart();
 		Session.getActiveSession().addCallback(statusCallback);
+		
 	}
 
 	@Override
@@ -100,7 +95,7 @@ public class LoginFacebookActivity extends Activity {
 
 	private void updateView() {
 		Session session = Session.getActiveSession();
-
+		
 		if (session.isOpened()) {
 
 			Request.newMeRequest(session, new Request.GraphUserCallback() {
@@ -112,7 +107,7 @@ public class LoginFacebookActivity extends Activity {
 						DatabaseHandler db = new DatabaseHandler(
 								getApplicationContext());
 						db.addUser(user.getId(), user.getName());
-
+						
 					}
 				}
 			}).executeAsync();

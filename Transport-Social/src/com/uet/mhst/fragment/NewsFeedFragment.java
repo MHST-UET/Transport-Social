@@ -1,10 +1,20 @@
 package com.uet.mhst.fragment;
 
+import com.uet.mhst.MainActivity;
+import com.uet.mhst.R;
 import java.util.ArrayList;
 import java.util.List;
-
 import me.maxwin.view.XListView;
 import me.maxwin.view.XListView.IXListViewListener;
+
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.json.gson.GsonFactory;
+
+import com.uet.mhst.adapter.FeedListAdapter;
+import com.uet.mhst.communicator.Communicator;
+import com.uet.mhst.itemendpoint.model.*;
+import com.uet.mhst.itemendpoint.*;
+import com.uet.mhst.itemendpoint.Itemendpoint.GetItem;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -16,19 +26,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
-
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.json.gson.GsonFactory;
-import com.uet.mhst.MainActivity;
-import com.uet.mhst.R;
-import com.uet.mhst.adapter.FeedListAdapter;
-import com.uet.mhst.communicator.Communicator;
-import com.uet.mhst.itemendpoint.Itemendpoint;
-import com.uet.mhst.itemendpoint.model.CollectionResponseItem;
-import com.uet.mhst.itemendpoint.model.Item;
-import com.uet.mhst.model.ItemSerializable;
 
 public class NewsFeedFragment extends Fragment implements IXListViewListener {
 	private FeedListAdapter listAdapter;
@@ -36,7 +36,6 @@ public class NewsFeedFragment extends Fragment implements IXListViewListener {
 	private ArrayList<Item> feedItems;
 	private int pos;
 	private Activity activity;
-	private Handler mHandler;
 	public static final int NUMBER_ITEM = 10;
 	public static final int REQUEST_CODE_INPUT = 113;
 
@@ -56,14 +55,11 @@ public class NewsFeedFragment extends Fragment implements IXListViewListener {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
 
-				ItemSerializable itemSer = new ItemSerializable(feedItems
-						.get(position));
-				pos = position;
 				Intent upstatus = new Intent(
 						"com.uet.mhst.StatusDetailActivity");
-				upstatus.putExtra("detail", itemSer);
+				upstatus.putExtra("id", feedItems.get(position - 1).getId()
+						.getId());
 
 				startActivityForResult(upstatus, REQUEST_CODE_INPUT);
 			}
@@ -124,6 +120,7 @@ public class NewsFeedFragment extends Fragment implements IXListViewListener {
 						new GsonFactory(), null);
 				Itemendpoint service = builder.build();
 				items = service.listItem().setLimit(NUMBER_ITEM).execute();
+
 			} catch (Exception e) {
 				Log.d("Could not retrieve News Feed", e.getMessage(), e);
 			}
@@ -132,9 +129,13 @@ public class NewsFeedFragment extends Fragment implements IXListViewListener {
 
 		protected void onPostExecute(CollectionResponseItem items) {
 			super.onPostExecute(items);
-			List<Item> _list = items.getItems();
-			for (Item item : _list) {
-				feedItems.add(item);
+			try {
+				List<Item> _list = items.getItems();
+				for (Item item : _list) {
+					feedItems.add(item);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			listAdapter.notifyDataSetChanged();
 		}
@@ -167,12 +168,17 @@ public class NewsFeedFragment extends Fragment implements IXListViewListener {
 		protected void onPostExecute(CollectionResponseItem items) {
 			super.onPostExecute(items);
 
-			if (items.getItems() != null) {
+			try {
 				List<Item> _list = items.getItems();
 				for (Item item : _list) {
+
 					feedItems.add(item);
+
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+
 			listAdapter.notifyDataSetChanged();
 
 		}
@@ -209,11 +215,16 @@ public class NewsFeedFragment extends Fragment implements IXListViewListener {
 		protected void onPostExecute(CollectionResponseItem items) {
 			super.onPostExecute(items);
 
-			List<Item> _list = items.getItems();
-			feedItems.clear();
-			for (Item item : _list) {
-				feedItems.add(item);
+			try {
+				List<Item> _list = items.getItems();
+				feedItems.clear();
+				for (Item item : _list) {
+					feedItems.add(item);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+
 			listAdapter.notifyDataSetChanged();
 
 		}

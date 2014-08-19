@@ -2,6 +2,13 @@ package com.uet.mhst;
 
 import java.util.ArrayList;
 
+import com.facebook.Session;
+import com.uet.mhst.adapter.NavDrawerListAdapter;
+import com.uet.mhst.adapter.TabsPagerAdapter;
+import com.uet.mhst.itemendpoint.model.Item;
+import com.uet.mhst.model.NavDrawerItem;
+import com.uet.mhst.sqlite.DatabaseHandler;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
@@ -18,14 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
-import com.facebook.Session;
-import com.uet.mhst.adapter.NavDrawerListAdapter;
-import com.uet.mhst.adapter.TabsPagerAdapter;
-import com.uet.mhst.communicator.Communicator;
-import com.uet.mhst.itemendpoint.model.Item;
-import com.uet.mhst.model.NavDrawerItem;
-import com.uet.mhst.sqlite.DatabaseHandler;
+import com.uet.mhst.communicator.*;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener, Communicator.ActivityCommunicator {

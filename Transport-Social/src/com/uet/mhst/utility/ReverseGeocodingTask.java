@@ -3,11 +3,11 @@ package com.uet.mhst.utility;
 import java.io.IOException;
 import java.util.List;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
-
-import com.google.android.gms.maps.model.LatLng;
 
 public class ReverseGeocodingTask {
 	private Context mContext;
