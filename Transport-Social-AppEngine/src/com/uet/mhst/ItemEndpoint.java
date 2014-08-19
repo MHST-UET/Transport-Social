@@ -11,6 +11,8 @@ import javax.jdo.Query;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
+import org.datanucleus.FetchPlan;
+
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
@@ -102,6 +104,8 @@ public class ItemEndpoint
 		try
 		{
 			item = mgr.getObjectById(Item.class, id);
+			item.getComment();
+			item.getVote();
 		}
 		finally
 		{
@@ -231,14 +235,11 @@ public class ItemEndpoint
 			else if (vt.contains(vote)) vt.remove(vote);
 			item.setVote(vt);
 			mgr.makePersistent(item);
-//			updateItem(item);
 		}
 		finally
 		{
 			mgr.close();
 		}
-//		Item item = getItem(idstt);
-		
 	}
 
 	@ApiMethod(name = "comment")
@@ -255,13 +256,10 @@ public class ItemEndpoint
 			else if (_cm.contains(cm)) _cm.remove(cm);
 			item.setComment(_cm);
 			mgr.makePersistent(item);
-//			updateItem(item);
 		}
 		finally
 		{
 			mgr.close();
-		}
-//		Item item = getItem(idstt);
-		
+		}	
 	}
 }
