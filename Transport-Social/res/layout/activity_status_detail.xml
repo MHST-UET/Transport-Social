@@ -5,7 +5,7 @@
     android:id="@+id/ScrollView2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/feed_bg" >
+    android:background="#f7f7f7" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,14 +36,14 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/feed_item_profile_info_padd" >
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical" >
 
                 <TextView
                     android:id="@+id/name"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Bùi Xuân Hiền"
+                    android:text=""
                     android:textSize="@dimen/feed_item_profile_name"
                     android:textStyle="bold" />
 
@@ -51,7 +51,7 @@
                     android:id="@+id/timestamp"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="23 phút trước"
+                    android:text=""
                     android:textColor="@color/timestamp"
                     android:textSize="@dimen/feed_item_timestamp" />
 
@@ -76,7 +76,7 @@
             android:orientation="vertical"
             android:paddingLeft="@dimen/feed_item_padding_left_right"
             android:paddingRight="@dimen/feed_item_padding_left_right"
-            android:paddingTop="@dimen/feed_item_padding_top_bottom" >
+            android:paddingTop="10dp" >
 
             <TextView
                 android:id="@+id/txt_status"
@@ -84,8 +84,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/feed_item_status_pad_left_right"
                 android:paddingRight="@dimen/feed_item_status_pad_left_right"
-                android:paddingTop="@dimen/feed_item_status_pad_top"
-                android:text="Tắc đường"
+                android:text=""
                 android:textSize="@dimen/feed_item_timestamp" />
 
             <TextView
@@ -96,7 +95,7 @@
                 android:paddingLeft="@dimen/feed_item_status_pad_left_right"
                 android:paddingRight="@dimen/feed_item_status_pad_left_right"
                 android:paddingTop="@dimen/feed_item_status_pad_top"
-                android:text="[Cộng điểm rèn luyện] Các bí thư lớp trưởng tập hợp lại danh sách các đoàn viên thanh niên lớp mình tích cực hoạt động (có kèm giấy chứng nhận) rồi mang lên văn phòng đoàn nộp trước ngày 20/8/2014 để đoàn trường cộng" />
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
@@ -132,42 +131,6 @@
                 android:background="@drawable/bg_selector"
                 android:text="Share" />
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="300dp"
-            android:layout_marginBottom="@dimen/feed_item_margin"
-            android:layout_marginLeft="@dimen/feed_item_margin"
-            android:layout_marginRight="@dimen/feed_item_margin"
-            android:background="@drawable/bg_parent_rounded_corner"
-            android:orientation="vertical" >
-
-            <ListView
-                android:id="@+id/list_comment"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                >
-            </ListView>
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/edit_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/bg_button"
-            android:ems="10" >
-
-            <requestFocus />
-        </EditText>
-
-        <Button
-            android:id="@+id/btn_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/bg_selector"
-            android:text="Button" />
     </LinearLayout>
 
 </ScrollView>

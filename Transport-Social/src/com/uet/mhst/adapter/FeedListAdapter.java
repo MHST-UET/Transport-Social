@@ -107,7 +107,7 @@ public class FeedListAdapter extends BaseAdapter {
 		timestamp.setText(timeAgo);
 		String var = "";
 		switch (item.getStatus()) {
-		case 1:
+		case 3:
 			var = "Tắc đường";
 			status.setTextColor(Color.BLUE);
 
@@ -116,11 +116,11 @@ public class FeedListAdapter extends BaseAdapter {
 			var = "Đường đông";
 			status.setTextColor(Color.MAGENTA);
 			break;
-		case 3:
+		case 4:
 			var = "Tai nạn";
 			status.setTextColor(Color.RED);
 			break;
-		case 4:
+		case 1:
 			var = "Bình thường";
 			status.setTextColor(Color.rgb(225, 209, 223));
 			break;

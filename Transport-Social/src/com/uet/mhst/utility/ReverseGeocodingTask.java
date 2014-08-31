@@ -34,13 +34,11 @@ public class ReverseGeocodingTask {
 		if (addresses != null && addresses.size() > 0) {
 			Address address = addresses.get(0);
 
-			addressText = String.format("%s %s %s", address
-					.getMaxAddressLineIndex() > 0 ? address.getAddressLine(0)
-					: "", address.getLocality() == "" ? address.getLocality()
-					: "", address.getCountryName());
+			addressText = String.format("%s - %s - %s - %s",
+					address.getAddressLine(0), address.getAddressLine(1),
+					address.getAddressLine(2), address.getAddressLine(3));
 
 		}
 		return addressText;
 	}
-
 }

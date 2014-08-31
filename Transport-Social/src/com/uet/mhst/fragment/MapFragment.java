@@ -3,31 +3,25 @@ package com.uet.mhst.fragment;
 import com.uet.mhst.MainActivity;
 import com.uet.mhst.R;
 import com.uet.mhst.communicator.*;
-import com.uet.mhst.itemendpoint.model.Item;
-import com.uet.mhst.utility.GPSTracker;
-import com.uet.mhst.utility.ReverseGeocodingTask;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
-
+import android.widget.ImageView;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapFragment extends Fragment implements
-		Communicator.FragmentCommunicator {
+		Communicator.MainMapCommunicator {
 	private GoogleMap googleMap;
 	public Context context;
 
@@ -36,8 +30,8 @@ public class MapFragment extends Fragment implements
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
 		context = getActivity();
-		// activityCommunicator = (ActivityCommunicator) context;
-		((MainActivity) context).fragmentCommunicator = this;
+		((MainActivity) context).mapCommunicator = this;
+
 	}
 
 	@Override
@@ -48,7 +42,7 @@ public class MapFragment extends Fragment implements
 				false);
 		googleMap = ((SupportMapFragment) getFragmentManager()
 				.findFragmentById(R.id.map)).getMap();
-		Button checkin = (Button) rootView.findViewById(R.id.btn_checkin);
+		ImageView checkin = (ImageView) rootView.findViewById(R.id.checkin);
 		checkin.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -65,18 +59,25 @@ public class MapFragment extends Fragment implements
 	}
 
 	@Override
-	public void passDataToFragment(Item item) {
+	public void MainPassToMap(Cursor c) {
 		// TODO Auto-generated method stub
-
-		// LatLng locationMarker = new LatLng(Double.valueOf(item.getLat()),
-		// Double.valueOf(item.getLag()));
-		// MarkerOptions marker = new MarkerOptions();
-		// marker.position(locationMarker);
-		// marker.icon(BitmapDescriptorFactory
-		// .defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-		// marker.title(item.getContent());
-		// googleMap.addMarker(marker);
-		// googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-		// locationMarker, 15));
+		((MainActivity) getActivity()).selectTab(1);
+		MarkerOptions markerOptions = null;
+		LatLng position = null;
+		googleMap.clear();
+		while (c.moveToNext()) {
+			markerOptions = new MarkerOptions();
+			position = new LatLng(Double.parseDouble(c.getString(1)),
+					Double.parseDouble(c.getString(2)));
+			markerOptions.position(position);
+			markerOptions.title(c.getString(0));
+			googleMap.addMarker(markerOptions);
+		}
+		if (position != null) {
+			CameraUpdate cameraPosition = CameraUpdateFactory
+					.newLatLng(position);
+			googleMap.animateCamera(cameraPosition);
+		}
 	}
+
 }

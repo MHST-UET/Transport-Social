@@ -46,8 +46,6 @@ public class StatusDetailActivity extends Activity {
 	private TextView timestamp;
 	private TextView content;
 	private TextView status;
-	private ListView listComment;
-	private Button btn_comment;
 	private EditText edit_comment;
 	private GoogleAccountCredential credential;
 	private SharedPreferences settings;
@@ -70,9 +68,6 @@ public class StatusDetailActivity extends Activity {
 		timestamp = (TextView) findViewById(R.id.timestamp);
 		content = (TextView) findViewById(R.id.txt_content);
 		status = (TextView) findViewById(R.id.txt_status);
-		listComment = (ListView) findViewById(R.id.list_comment);
-		btn_comment = (Button) findViewById(R.id.btn_comment);
-		edit_comment = (EditText) findViewById(R.id.edit_comment);
 		settings = getSharedPreferences("Transport Social", 0);
 		credential = GoogleAccountCredential.usingAudience(this,
 				"server:client_id:" + Ids.WEB_CLIENT_ID);
@@ -88,14 +83,6 @@ public class StatusDetailActivity extends Activity {
 			chooseAccount();
 		}
 
-		btn_comment.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				new CommentAsyncTask().execute();
-			}
-		});
 		new NewsFeedAsyncTask().execute();
 
 	}
@@ -166,11 +153,11 @@ public class StatusDetailActivity extends Activity {
 			// item.getComment().get(0).getContent(), Toast.LENGTH_LONG)
 			// .show();
 			// }
-			List<Comment> comment;
-			comment = item.getComment();
-			CommentListAdapter adapter = new CommentListAdapter(
-					getBaseContext(), comment);
-			listComment.setAdapter(adapter);
+			// List<Comment> comment;
+			// comment = item.getComment();
+			// CommentListAdapter adapter = new CommentListAdapter(
+			// getBaseContext(), comment);
+			// listComment.setAdapter(adapter);
 		}
 
 	}
@@ -194,7 +181,8 @@ public class StatusDetailActivity extends Activity {
 				point.setLatitude((float) myLocation.getLatitude());
 				point.setLongitude((float) myLocation.getLongitude());
 				cmt.setPoint(point);
-				service.comment(Long.parseLong("5075880531460096"), cmt).execute();
+				service.comment(Long.parseLong("5075880531460096"), cmt)
+						.execute();
 			} catch (Exception e) {
 				Log.d("Could not Add Item", e.getMessage(), e);
 			}

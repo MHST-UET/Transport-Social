@@ -1,42 +1,38 @@
 package com.uet.mhst.fragment;
 
-import com.uet.mhst.MainActivity;
 import com.uet.mhst.R;
 import java.util.ArrayList;
 import java.util.List;
-import me.maxwin.view.XListView;
-import me.maxwin.view.XListView.IXListViewListener;
-
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.gson.GsonFactory;
-
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import android.widget.ListView;
 import com.uet.mhst.adapter.FeedListAdapter;
-import com.uet.mhst.communicator.Communicator;
 import com.uet.mhst.itemendpoint.model.*;
 import com.uet.mhst.itemendpoint.*;
-import com.uet.mhst.itemendpoint.Itemendpoint.GetItem;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-public class NewsFeedFragment extends Fragment implements IXListViewListener {
+public class NewsFeedFragment extends Fragment {
 	private FeedListAdapter listAdapter;
-	private XListView listView;
+	private PullToRefreshListView mPullRefreshListView;
 	private ArrayList<Item> feedItems;
-	private int pos;
 	private Activity activity;
-	public static final int NUMBER_ITEM = 10;
+	public static final int NUMBER_ITEM = 5;
 	public static final int REQUEST_CODE_INPUT = 113;
 
 	@Override
@@ -44,13 +40,12 @@ public class NewsFeedFragment extends Fragment implements IXListViewListener {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_news_feed,
 				container, false);
-		listView = (XListView) rootView.findViewById(R.id.list);
+		mPullRefreshListView = (PullToRefreshListView) rootView
+				.findViewById(R.id.pull_refresh_list);
 		feedItems = new ArrayList<Item>();
 		listAdapter = new FeedListAdapter(activity, feedItems);
-		listView.setAdapter(listAdapter);
-		listView.setPullLoadEnable(true);
-		listView.setXListViewListener(this);
-		listView.setOnItemClickListener(new OnItemClickListener() {
+		mPullRefreshListView.setAdapter(listAdapter);
+		mPullRefreshListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -65,6 +60,28 @@ public class NewsFeedFragment extends Fragment implements IXListViewListener {
 			}
 		});
 
+		mPullRefreshListView
+				.setOnRefreshListener(new OnRefreshListener<ListView>() {
+					@Override
+					public void onRefresh(
+							PullToRefreshBase<ListView> refreshView) {
+
+						// Do work to refresh the list here.
+						new PullToRefreshDataTask().execute();
+					}
+				});
+
+		// Add an end-of-list listener
+		mPullRefreshListView
+				.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
+
+					@Override
+					public void onLastItemVisible() {
+						new LoadMoreDataTask().execute();
+						Toast.makeText(activity, "End of List!",
+								Toast.LENGTH_SHORT).show();
+					}
+				});
 		ImageView imageViewUpStatus = (ImageView) rootView
 				.findViewById(R.id.imageView_upstatus);
 
@@ -79,9 +96,7 @@ public class NewsFeedFragment extends Fragment implements IXListViewListener {
 				startActivity(upstatus);
 			}
 		});
-
 		new NewsFeedAsyncTask().execute();
-
 		return rootView;
 	}
 
@@ -92,12 +107,7 @@ public class NewsFeedFragment extends Fragment implements IXListViewListener {
 
 		if (requestCode == REQUEST_CODE_INPUT) {
 			if (resultCode == 1) {
-				// Toast.makeText(getActivity(), String.valueOf(pos),
-				// Toast.LENGTH_SHORT).show();
-				((MainActivity) getActivity()).selectTab(1);
-				Item i = feedItems.get(pos);
-				((Communicator.ActivityCommunicator) activity)
-						.passDataToActivity(i);
+
 			}
 		}
 	}
@@ -159,6 +169,7 @@ public class NewsFeedFragment extends Fragment implements IXListViewListener {
 						.setTime(feedItems.get(feedItems.size() - 1).getTime())
 						.setLimit(NUMBER_ITEM).execute();
 			} catch (Exception e) {
+
 				Log.d("Could not retrieve News Feed", e.getMessage(), e);
 			}
 			return items;
@@ -183,11 +194,6 @@ public class NewsFeedFragment extends Fragment implements IXListViewListener {
 
 		}
 
-		@Override
-		protected void onCancelled() {
-			// Notify the loading more operation has finished
-
-		}
 	}
 
 	private class PullToRefreshDataTask extends
@@ -226,33 +232,9 @@ public class NewsFeedFragment extends Fragment implements IXListViewListener {
 			}
 
 			listAdapter.notifyDataSetChanged();
-
+			mPullRefreshListView.onRefreshComplete();
 		}
 
-		@Override
-		protected void onCancelled() {
-
-		}
-	}
-
-	private void onLoad() {
-		listView.stopRefresh();
-		listView.stopLoadMore();
-
-	}
-
-	@Override
-	public void onRefresh() {
-		// TODO Auto-generated method stub
-		new PullToRefreshDataTask().execute();
-		onLoad();
-	}
-
-	@Override
-	public void onLoadMore() {
-		// TODO Auto-generated method stub
-		new LoadMoreDataTask().execute();
-		onLoad();
 	}
 
 }
