@@ -129,7 +129,7 @@ public class NewsFeedFragment extends Fragment {
 						AndroidHttp.newCompatibleTransport(),
 						new GsonFactory(), null);
 				Itemendpoint service = builder.build();
-				items = service.listItem().setLimit(NUMBER_ITEM).setLat(21.0369).setLon(105.782).setDistance(1.0).execute();
+				items = service.listItem().setLimit(NUMBER_ITEM).setLat(21.0369).setLon(105.782).setDistance(10.0).execute();
 
 			} catch (Exception e) {
 				Log.d("Could not retrieve News Feed", e.getMessage(), e);
@@ -167,7 +167,7 @@ public class NewsFeedFragment extends Fragment {
 				Itemendpoint service = builder.build();
 				items = service.listItem()
 						.setTimeAfter(feedItems.get(feedItems.size() - 1).getTime())
-						.setLimit(NUMBER_ITEM).setLat(21.0369).setLon(105.782).setDistance(1.0).execute();
+						.setLimit(NUMBER_ITEM).setLat(21.0369).setLon(105.782).setDistance(10.0).execute();
 			} catch (Exception e) {
 
 				Log.d("Could not retrieve News Feed", e.getMessage(), e);
@@ -210,7 +210,7 @@ public class NewsFeedFragment extends Fragment {
 						AndroidHttp.newCompatibleTransport(),
 						new GsonFactory(), null);
 				Itemendpoint service = builder.build();
-				items = service.listItem().setLimit(NUMBER_ITEM).setLat(21.0369).setLon(105.782).setDistance(1.0).execute();
+				items = service.listItem().setLimit(NUMBER_ITEM).setLat(21.0369).setLon(105.782).setDistance(10.0).execute();
 			} catch (Exception e) {
 				Log.d("Could not retrieve News Feed", e.getMessage(), e);
 			}
