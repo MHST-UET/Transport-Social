@@ -2,6 +2,7 @@ package com.uet.mhst;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -10,8 +11,6 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
-
-import org.datanucleus.FetchPlan;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -38,7 +37,11 @@ public class ItemEndpoint
 	public CollectionResponse<Item> listItem(
 			@Nullable @Named("cursor") String cursorString,
 			@Nullable @Named("limit") Integer limit,
-			@Nullable @Named("time") Date time)
+			@Nullable @Named("timeAfter") Date timeAfter,
+			@Nullable @Named("timeBefore") Date timeBefore,
+			@Nullable @Named("lat") Double lat,
+			@Nullable @Named("lon") Double lon,
+			@Nullable @Named("distance") Double distance)
 	{
 
 		PersistenceManager mgr = null;
@@ -49,12 +52,25 @@ public class ItemEndpoint
 		{
 			mgr = getPersistenceManager();
 			Query query = mgr.newQuery(Item.class);
-			if (time != null)
+			if (timeAfter != null)
 			{
-				query.setFilter("datetime<time");
+				query.setFilter("datetime<timeAfter");
 				query.declareImports("import java.util.Date");
-				query.declareParameters("Date time");
+				query.declareParameters("Date timeAfter");
 			}
+			if (timeBefore != null)
+			{
+				query.setFilter("datetime>timeBefore");
+				query.declareImports("import java.util.Date");
+				query.declareParameters("Date timeBefore");
+			}
+//			if (lat != null && lon != null && distance != null)
+//			{
+//				query.setFilter("ItemEndpoint.distanceof(lat, lon, latitude, longitude)<distance");
+//				query.declareImports("import com.uet.mhst.ItemEndpoint");
+//				query.declareImports("import java.lang.Double");
+//				query.declareParameters("Double lat, lon, distance");
+//			}
 			query.setOrdering("datetime desc");
 			if (cursorString != null && cursorString != "")
 			{
@@ -68,8 +84,13 @@ public class ItemEndpoint
 			{
 				query.setRange(0, limit);
 			}
-
-			execute = (List<Item>) query.execute();
+//			if (lat != null && lon != null && distance != null)
+//				execute = (List<Item>) query.execute(lat, lon, distance);
+			if (timeAfter != null)
+				execute = (List<Item>) query.execute(timeAfter);
+			else if (timeBefore != null)
+				execute = (List<Item>) query.execute(timeBefore);
+			else execute = (List<Item>) query.execute();
 			cursor = JDOCursorHelper.getCursor(execute);
 			if (cursor != null) cursorString = cursor.toWebSafeString();
 
@@ -78,6 +99,17 @@ public class ItemEndpoint
 			// for lazy fetch.
 			for (Item obj : execute)
 				;
+			if (lat != null && lon != null && distance != null)
+			{
+				for (Iterator<Item> iterator = execute.iterator(); iterator.hasNext();)
+				{
+					Item item = iterator.next();
+					if (distanceof(lat, lon, item.getLatitude(), item.getLongitude())>distance)
+					{
+						iterator.remove();
+					}
+				}
+			}
 		}
 		finally
 		{
@@ -215,6 +247,15 @@ public class ItemEndpoint
 		}
 		return contains;
 	}
+	
+	public static Double distanceof(Double lat1, Double lon1, Double lat2, Double lon2)
+	{
+		int R = 6371; // km
+		double x = (lon2 - lon1) * Math.cos((lat1 + lat2) / 2);
+		double y = (lat2 - lat1);
+		double distance = Math.sqrt(x * x + y * y) * R;
+		return distance;
+	}
 
 	private static PersistenceManager getPersistenceManager()
 	{
@@ -228,13 +269,15 @@ public class ItemEndpoint
 		Item item = null;
 		try
 		{
+			mgr.currentTransaction().begin();
 			item = mgr.getObjectById(Item.class, idstt);
 			List<Vote> vt = item.getVote();
 			if (!vt.contains(vote))
 				vt.add(vote);
 			else if (vt.contains(vote)) vt.remove(vote);
-			item.setVote(vt);
+//			item.setVote(vt);
 			mgr.makePersistent(item);
+			mgr.currentTransaction().commit();
 		}
 		finally
 		{
@@ -249,13 +292,15 @@ public class ItemEndpoint
 		Item item = null;
 		try
 		{
+			mgr.currentTransaction().begin();
 			item = mgr.getObjectById(Item.class, idstt);
 			List<Comment> _cm = item.getComment();
 			if (!_cm.contains(cm))
 				_cm.add(cm);
 			else if (_cm.contains(cm)) _cm.remove(cm);
-			item.setComment(_cm);
+//			item.setComment(_cm);
 			mgr.makePersistent(item);
+			mgr.currentTransaction().commit();
 		}
 		finally
 		{

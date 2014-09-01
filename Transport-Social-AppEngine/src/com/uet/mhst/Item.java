@@ -21,8 +21,8 @@ public class Item
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	Key id;
 	@Persistent
-	String idfb, content;
-	GeoPt point;
+	String idfb, content, address;
+	Double latitude, longitude;
 	Date datetime;
 	int status;
 	@Persistent(mappedBy="item", defaultFetchGroup="true")
@@ -35,13 +35,14 @@ public class Item
 	// id: khóa chính trên datastore
 	// idfb: id người dùng facebook
 	// name: tên
-	// lat: vĩ độ
-	// lag: kinh độ
+	// latitude: vĩ độ
+	// longitude: kinh độ
 	// status: trạng thái đoạn đường (1-Tắc, 2-Đông, 3-Tai nạn, 4-OK)
 	// img: link image(tạm thời chưa dùng)
 	// content: nội dung thêm
 	// voteup, votedw dùng cho Vote up, Vote down
 	// datetime: thời gian lúc up
+	// address: địa điểm trên bản đồ ứng với tọa độ GPS
 
 	public Key getId()
 	{
@@ -93,16 +94,6 @@ public class Item
 		this.content = content;
 	}
 
-	public GeoPt getPoint()
-	{
-		return point;
-	}
-
-	public void setPoint(GeoPt point)
-	{
-		this.point = point;
-	}
-
 	public List<Vote> getVote()
 	{
 		if (vote == null) vote = new ArrayList<Vote>();
@@ -123,6 +114,30 @@ public class Item
 	public void setComment(List<Comment> comment)
 	{
 		this.comment = comment;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
 	}
 
 }

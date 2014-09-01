@@ -3,29 +3,11 @@ package com.uet.mhst;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.http.impl.cookie.DateUtils;
-
-import com.facebook.Session;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.client.util.DateTime;
-import com.uet.mhst.itemendpoint.Itemendpoint;
-import com.uet.mhst.itemendpoint.model.GeoPt;
-import com.uet.mhst.itemendpoint.model.Item;
-import com.uet.mhst.sqlite.DatabaseHandler;
-import com.uet.mhst.utility.GPSTracker;
-import com.uet.mhst.utility.ReverseGeocodingTask;
-
 import android.accounts.AccountManager;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -37,14 +19,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RadioGroup;
-import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.model.LatLng;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.client.util.DateTime;
+import com.uet.mhst.itemendpoint.Itemendpoint;
+import com.uet.mhst.itemendpoint.model.Item;
+import com.uet.mhst.sqlite.DatabaseHandler;
+import com.uet.mhst.utility.GPSTracker;
+import com.uet.mhst.utility.ReverseGeocodingTask;
 
 public class UpNewsFeedActivity extends Activity {
 
@@ -187,10 +176,12 @@ public class UpNewsFeedActivity extends Activity {
 			statusItem.setStatus(status);
 			content = contentEdit.getText().toString();
 			statusItem.setContent(content);
-			GeoPt point = new GeoPt();
-			point.setLatitude((float) myLocation.getLatitude());
-			point.setLongitude((float) myLocation.getLongitude());
-			statusItem.setPoint(point);
+			statusItem.setLatitude(myLocation.getLatitude());
+			statusItem.setLongitude(myLocation.getLongitude());
+			LatLng latLng = new LatLng(myLocation.getLatitude(),
+					myLocation.getLongitude());
+			statusItem.setAddress(new ReverseGeocodingTask(getBaseContext())
+					.getAddressText(latLng));
 			Item[] params = { statusItem };
 			new AddItemAsyncTask().execute(params);
 			return true;

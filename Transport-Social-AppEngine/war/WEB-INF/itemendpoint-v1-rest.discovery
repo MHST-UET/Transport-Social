@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/Yz0bCUvfhLQW7yTab6vhQ2TvQgU\"",
+ "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/a_uQ374jZLj1-JDWrV1nHcb5M8w\"",
  "discoveryVersion": "v1",
  "id": "itemendpoint:v1",
  "name": "itemendpoint",
@@ -71,7 +71,7 @@
      "description": "View your email address"
     },
     "https://www.googleapis.com/auth/userinfo.profile": {
-     "description": "View basic information about your account"
+     "description": "View your basic profile info"
     }
    }
   }
@@ -108,8 +108,13 @@
     "item": {
      "$ref": "Item"
     },
-    "point": {
-     "$ref": "GeoPt"
+    "latitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "longitude": {
+     "type": "number",
+     "format": "double"
     },
     "time": {
      "type": "string",
@@ -117,24 +122,13 @@
     }
    }
   },
-  "GeoPt": {
-   "id": "GeoPt",
-   "type": "object",
-   "properties": {
-    "latitude": {
-     "type": "number",
-     "format": "float"
-    },
-    "longitude": {
-     "type": "number",
-     "format": "float"
-    }
-   }
-  },
   "Item": {
    "id": "Item",
    "type": "object",
    "properties": {
+    "address": {
+     "type": "string"
+    },
     "comment": {
      "type": "array",
      "items": {
@@ -150,8 +144,13 @@
     "idFB": {
      "type": "string"
     },
-    "point": {
-     "$ref": "GeoPt"
+    "latitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "longitude": {
+     "type": "number",
+     "format": "double"
     },
     "status": {
      "type": "integer",
@@ -287,12 +286,32 @@
      "type": "string",
      "location": "query"
     },
+    "distance": {
+     "type": "number",
+     "format": "double",
+     "location": "query"
+    },
+    "lat": {
+     "type": "number",
+     "format": "double",
+     "location": "query"
+    },
     "limit": {
      "type": "integer",
      "format": "int32",
      "location": "query"
     },
-    "time": {
+    "lon": {
+     "type": "number",
+     "format": "double",
+     "location": "query"
+    },
+    "timeAfter": {
+     "type": "string",
+     "format": "date-time",
+     "location": "query"
+    },
+    "timeBefore": {
      "type": "string",
      "format": "date-time",
      "location": "query"

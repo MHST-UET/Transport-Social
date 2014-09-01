@@ -1,6 +1,17 @@
 package com.uet.mhst;
 
-import java.util.List;
+import android.accounts.AccountManager;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.text.format.DateUtils;
+import android.util.Log;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -12,31 +23,11 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.DateTime;
-import com.uet.mhst.adapter.CommentListAdapter;
 import com.uet.mhst.itemendpoint.Itemendpoint;
-
 import com.uet.mhst.itemendpoint.model.Comment;
-import com.uet.mhst.itemendpoint.model.GeoPt;
 import com.uet.mhst.itemendpoint.model.Item;
 import com.uet.mhst.sqlite.DatabaseHandler;
 import com.uet.mhst.utility.GPSTracker;
-
-import android.accounts.AccountManager;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.text.format.DateUtils;
-import android.util.Log;
-import android.view.View;
-
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class StatusDetailActivity extends Activity {
 	private Long id;
@@ -177,10 +168,8 @@ public class StatusDetailActivity extends Activity {
 				cmt.setTime(new DateTime(System.currentTimeMillis()));
 				String id = dataUser.getUserDetails().get("id");
 				cmt.setIdfb(id);
-				GeoPt point = new GeoPt();
-				point.setLatitude((float) myLocation.getLatitude());
-				point.setLongitude((float) myLocation.getLongitude());
-				cmt.setPoint(point);
+				cmt.setLatitude(myLocation.getLatitude());
+				cmt.setLongitude(myLocation.getLongitude());
 				service.comment(Long.parseLong("5075880531460096"), cmt)
 						.execute();
 			} catch (Exception e) {

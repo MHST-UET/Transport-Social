@@ -12,85 +12,80 @@ import com.google.appengine.api.datastore.GeoPt;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
-public class Comment
-{
+public class Comment {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	Key id;
 	String idfb, content;
 	Date datetime;
-	GeoPt point;
+	Double latitude, longitude;
 	Item item;
 
-	public Key getId()
-	{
+	public Key getId() {
 		return id;
 	}
 
-	public void setId(Key id)
-	{
+	public void setId(Key id) {
 		this.id = id;
 	}
 
-	public Date getTime()
-	{
+	public Date getTime() {
 		return datetime;
 	}
 
-	public void setTime(Date datetime)
-	{
+	public void setTime(Date datetime) {
 		this.datetime = datetime;
 	}
 
-	public String getIdfb()
-	{
+	public String getIdfb() {
 		return idfb;
 	}
 
-	public void setIdfb(String idfb)
-	{
+	public void setIdfb(String idfb) {
 		this.idfb = idfb;
 	}
 
-	public String getContent()
-	{
+	public String getContent() {
 		return content;
 	}
 
-	public void setContent(String content)
-	{
+	public void setContent(String content) {
 		this.content = content;
 	}
 
-	public GeoPt getPoint()
-	{
-		return point;
-	}
-
-	public void setPoint(GeoPt point)
-	{
-		this.point = point;
-	}
-
-	public Item getItem()
-	{
+	public Item getItem() {
 		return item;
 	}
 
-	public void setItem(Item item)
-	{
+	public void setItem(Item item) {
 		this.item = item;
 	}
 
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
-		if (this.id == null) return false;
-		if (obj != null && obj instanceof Comment)
-		{
+		if (this.id == null)
+			return false;
+		if (obj != null && obj instanceof Comment) {
 			Comment cm = (Comment) obj;
-			if (cm.getId().compareTo(this.id) == 0) return true;
+			if (cm.getId().compareTo(this.id) == 0)
+				return true;
 		}
 		return false;
 	}
