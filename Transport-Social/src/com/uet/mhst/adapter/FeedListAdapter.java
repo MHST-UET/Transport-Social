@@ -1,34 +1,22 @@
 package com.uet.mhst.adapter;
 
 import java.util.List;
-
-import org.json.JSONObject;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.os.Bundle;
 import android.os.StrictMode;
 import com.facebook.*;
-import android.content.Intent;
-
-import com.facebook.*;
-import com.facebook.android.Facebook;
 import com.facebook.model.*;
 import com.facebook.widget.ProfilePictureView;
-import com.google.android.gms.maps.model.LatLng;
 import com.uet.mhst.R;
 import com.uet.mhst.itemendpoint.model.*;
-import com.uet.mhst.sqlite.DatabaseHandler;
-import com.uet.mhst.utility.ReverseGeocodingTask;
 
 public class FeedListAdapter extends BaseAdapter {
 
@@ -57,6 +45,7 @@ public class FeedListAdapter extends BaseAdapter {
 		return position;
 	}
 
+	@SuppressLint("InflateParams")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
@@ -79,12 +68,32 @@ public class FeedListAdapter extends BaseAdapter {
 				.findViewById(R.id.txt_address);
 		TextView content = (TextView) convertView
 				.findViewById(R.id.txt_content);
-
-		// address.setText(new ReverseGeocodingTask(activity)
-		// .getAddressText(new LatLng(item.getPoint().getLatitude(), item
-		// .getPoint().getLongitude())));
+		TextView txt_like = (TextView) convertView.findViewById(R.id.txt_like);
+		TextView txt_dislike = (TextView) convertView
+				.findViewById(R.id.txt_dislike);
+		TextView txt_comment = (TextView) convertView
+				.findViewById(R.id.txt_comment);
+		List<Vote> votes = item.getVote();
+		int voteup = 0;
+		int votedown = 0;
+		if (votes != null) {
+			for (int i = 0; i < votes.size(); i++) {
+				Vote vote = votes.get(i);
+				if (vote.getUp() == true) {
+					voteup++;
+				} else {
+					votedown++;
+				}
+			}
+		}
+		List<Comment> comments = item.getComment();
+		txt_comment.setText("0");
+		if (comments != null) {
+			txt_comment.setText(String.valueOf(comments.size()));
+		}
+		txt_like.setText(String.valueOf(voteup));
+		txt_dislike.setText(String.valueOf(votedown));
 		pictureFb.setProfileId(item.getIdFB());
-
 		Session session = Session.getActiveSession();
 		Bundle params = new Bundle();
 		params.putString("fields", "name,picture");
@@ -109,24 +118,19 @@ public class FeedListAdapter extends BaseAdapter {
 		switch (item.getStatus()) {
 		case 3:
 			var = "Tắc đường";
-			status.setTextColor(Color.BLUE);
-
 			break;
 		case 2:
 			var = "Đường đông";
-			status.setTextColor(Color.MAGENTA);
 			break;
 		case 4:
 			var = "Tai nạn";
-			status.setTextColor(Color.RED);
 			break;
 		case 1:
 			var = "Bình thường";
-			status.setTextColor(Color.rgb(225, 209, 223));
 			break;
 		}
 		status.setText("Tình trạng: " + var);
-		// address.setText(item.getAddress());
+		address.setText(item.getAddress());
 		content.setText(item.getContent());
 		return convertView;
 	}

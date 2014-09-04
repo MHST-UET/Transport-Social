@@ -52,7 +52,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
 		}
 		ImageView imgIcon = (ImageView) convertView.findViewById(R.id.icon);
 		TextView txtTitle = (TextView) convertView.findViewById(R.id.title);
-		TextView txtCount = (TextView) convertView.findViewById(R.id.counter);
+
 		ProfilePictureView profilePictureView = (ProfilePictureView) convertView
 				.findViewById(R.id.profilePicture);
 		if (position == 0) {
@@ -64,15 +64,15 @@ public class NavDrawerListAdapter extends BaseAdapter {
 			txtTitle.setTextColor(Color.BLUE);
 		} else {
 			profilePictureView.setVisibility(ProfilePictureView.GONE);
-
+			if (position <= 3)
+				imgIcon.setVisibility(View.INVISIBLE);
+			if (position == 1)
+				convertView.setPadding(0, 50, 0, 0);
+			if (position == 4)
+				convertView.setPadding(0, 150, 0, 0);
 			imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
 			txtTitle.setText(navDrawerItems.get(position).getTitle());
-			if (navDrawerItems.get(position).getCounterVisibility()) {
-				txtCount.setText(navDrawerItems.get(position).getCount());
-			} else {
-				// hide the counter view
-				txtCount.setVisibility(View.GONE);
-			}
+
 		}
 
 		return convertView;

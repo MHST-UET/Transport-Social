@@ -8,5 +8,7 @@ public class Communicator {
 
 	public interface MainMapCommunicator {
 		public void MainPassToMap(Cursor c);
+
+		public void PassTypeMaptoMap(int type);
 	}
 }

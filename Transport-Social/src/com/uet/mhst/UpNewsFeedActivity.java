@@ -133,6 +133,7 @@ public class UpNewsFeedActivity extends Activity {
 			// Display success message to user
 			Toast.makeText(getBaseContext(), "Item added succesfully",
 					Toast.LENGTH_SHORT).show();
+			finish();
 
 		}
 	}

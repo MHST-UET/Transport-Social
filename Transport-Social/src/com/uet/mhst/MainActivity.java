@@ -129,14 +129,14 @@ public class MainActivity extends FragmentActivity implements
 				.getResourceId(2, -1)));
 		// Communities, Will add a counter here
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons
-				.getResourceId(3, -1), true, "22"));
-		// Pages
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons
-				.getResourceId(4, -1)));
-		// What's hot, We will add a counter here
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons
-				.getResourceId(5, -1), true, "50+"));
+				.getResourceId(3, -1)));
 
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons
+				.getResourceId(1, -1)));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons
+				.getResourceId(2, -1)));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[6], navMenuIcons
+				.getResourceId(3, -1)));
 		// Recycle the typed array
 		navMenuIcons.recycle();
 
@@ -309,13 +309,16 @@ public class MainActivity extends FragmentActivity implements
 
 			break;
 		case 1:
-
+			mapCommunicator.PassTypeMaptoMap(1);
+			selectTab(1);
 			break;
 		case 2:
-
+			mapCommunicator.PassTypeMaptoMap(2);
+			selectTab(1);
 			break;
 		case 3:
-
+			mapCommunicator.PassTypeMaptoMap(3);
+			selectTab(1);
 			break;
 		case 4:
 

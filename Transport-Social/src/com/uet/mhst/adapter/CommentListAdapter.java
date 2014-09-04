@@ -1,5 +1,6 @@
 package com.uet.mhst.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.facebook.widget.ProfilePictureView;
@@ -21,8 +22,11 @@ public class CommentListAdapter extends BaseAdapter {
 	private List<Comment> commentItems;
 
 	public CommentListAdapter(Context context, List<Comment> commentItems) {
+		this.commentItems = new ArrayList<Comment>();
 		this.context = context;
-		this.commentItems = commentItems;
+		if (commentItems != null) {
+			this.commentItems = commentItems;
+		}
 
 	}
 
@@ -58,7 +62,7 @@ public class CommentListAdapter extends BaseAdapter {
 			Comment commentItem = commentItems.get(position);
 			pictureFb.setProfileId(commentItem.getIdfb());
 			comment.setText(commentItem.getContent());
-//			Log.i("Comment", commentItem.getContent());
+			// Log.i("Comment", commentItem.getContent());
 
 		}
 		return convertView;

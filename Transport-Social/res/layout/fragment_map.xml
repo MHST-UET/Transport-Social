@@ -21,4 +21,13 @@
         android:layout_marginTop="65dp"
         android:src="@drawable/ic_checkin" />
 
+    <ImageView
+        android:id="@+id/place"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/checkin"
+        android:layout_below="@+id/checkin"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/ic_place" />
+
 </RelativeLayout>
