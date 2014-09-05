@@ -825,7 +825,7 @@ containing a value of this type.
         public static final int ScrollView2=0x7f060026;
         public static final int action_directions=0x7f06006d;
         public static final int action_post=0x7f06006e;
-        public static final int action_settings=0x7f06006c;
+        public static final int action_settings=0x7f06006b;
         public static final int book_now=0x7f06001c;
         public static final int both=0x7f060003;
         public static final int btn_comment=0x7f060039;
@@ -908,7 +908,7 @@ containing a value of this type.
         public static final int sandbox=0x7f060014;
         public static final int satellite=0x7f06000e;
         public static final int scrollview=0x7f06000b;
-        public static final int search=0x7f06006b;
+        public static final int search=0x7f06006c;
         public static final int selectionDetails=0x7f060017;
         public static final int small=0x7f060020;
         public static final int status=0x7f060040;
@@ -965,8 +965,9 @@ containing a value of this type.
         public static final int pull_to_refresh_header_vertical=0x7f03001a;
     }
     public static final class menu {
-        public static final int options_menu=0x7f0d0000;
-        public static final int up_status_menu=0x7f0d0001;
+        public static final int main=0x7f0d0000;
+        public static final int options_menu=0x7f0d0001;
+        public static final int up_status_menu=0x7f0d0002;
     }
     public static final class string {
         public static final int action_settings=0x7f080042;
