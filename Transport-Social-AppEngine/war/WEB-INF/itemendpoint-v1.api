@@ -27,27 +27,6 @@
   "ownerName" : "uet.com",
   "packagePath" : "mhst",
   "methods" : {
-    "itemendpoint.getItem" : {
-      "path" : "item/{id}",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.uet.mhst.ItemEndpoint.getItem",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
     "itemendpoint.itemEndpoint.removeItem" : {
       "path" : "item/{id}",
       "httpMethod" : "DELETE",
@@ -86,6 +65,26 @@
           "limit" : {
             "type" : "int32",
             "required" : false
+          },
+          "timeAfter" : {
+            "type" : "datetime",
+            "required" : false
+          },
+          "timeBefore" : {
+            "type" : "datetime",
+            "required" : false
+          },
+          "lat" : {
+            "type" : "double",
+            "required" : false
+          },
+          "lon" : {
+            "type" : "double",
+            "required" : false
+          },
+          "distance" : {
+            "type" : "double",
+            "required" : false
           }
         },
         "body" : "empty"
@@ -110,6 +109,71 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+    "itemendpoint.vote" : {
+      "path" : "vote/{idstt}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.uet.mhst.ItemEndpoint.vote",
+      "request" : {
+        "parameters" : {
+          "idstt" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "itemendpoint.comment" : {
+      "path" : "comment/{idstt}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.uet.mhst.ItemEndpoint.comment",
+      "request" : {
+        "parameters" : {
+          "idstt" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "itemendpoint.getItem" : {
+      "path" : "item/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.uet.mhst.ItemEndpoint.getItem",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "itemendpoint.itemEndpoint.updateItem" : {
       "path" : "item",
       "httpMethod" : "PUT",
@@ -129,50 +193,6 @@
   },
   "descriptor" : {
     "schemas" : {
-      "Item" : {
-        "id" : "Item",
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string",
-            "format" : "int64"
-          },
-          "name" : {
-            "type" : "string"
-          },
-          "lat" : {
-            "type" : "string"
-          },
-          "lag" : {
-            "type" : "string"
-          },
-          "img" : {
-            "type" : "string"
-          },
-          "content" : {
-            "type" : "string"
-          },
-          "address" : {
-            "type" : "string"
-          },
-          "status" : {
-            "type" : "integer"
-          },
-          "idFB" : {
-            "type" : "string"
-          },
-          "voteUp" : {
-            "type" : "integer"
-          },
-          "voteDw" : {
-            "type" : "integer"
-          },
-          "time" : {
-            "type" : "string",
-            "format" : "date-time"
-          }
-        }
-      },
       "CollectionResponse_Item" : {
         "id" : "CollectionResponse_Item",
         "type" : "object",
@@ -187,14 +207,126 @@
             "type" : "string"
           }
         }
+      },
+      "Item" : {
+        "id" : "Item",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "$ref" : "Key"
+          },
+          "content" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string"
+          },
+          "latitude" : {
+            "type" : "number"
+          },
+          "longitude" : {
+            "type" : "number"
+          },
+          "status" : {
+            "type" : "integer"
+          },
+          "comment" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Comment"
+            }
+          },
+          "vote" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Vote"
+            }
+          },
+          "time" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "idFB" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Key" : {
+        "id" : "Key",
+        "type" : "object",
+        "properties" : {
+          "kind" : {
+            "type" : "string"
+          },
+          "appId" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "parent" : {
+            "$ref" : "Key"
+          },
+          "complete" : {
+            "type" : "boolean"
+          },
+          "namespace" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Comment" : {
+        "id" : "Comment",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "$ref" : "Key"
+          },
+          "idfb" : {
+            "type" : "string"
+          },
+          "content" : {
+            "type" : "string"
+          },
+          "latitude" : {
+            "type" : "number"
+          },
+          "longitude" : {
+            "type" : "number"
+          },
+          "item" : {
+            "$ref" : "Item"
+          },
+          "time" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "Vote" : {
+        "id" : "Vote",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "$ref" : "Key"
+          },
+          "idfb" : {
+            "type" : "string"
+          },
+          "up" : {
+            "type" : "boolean"
+          },
+          "item" : {
+            "$ref" : "Item"
+          }
+        }
       }
     },
     "methods" : {
-      "com.uet.mhst.ItemEndpoint.getItem" : {
-        "response" : {
-          "$ref" : "Item"
-        }
-      },
       "com.uet.mhst.ItemEndpoint.removeItem" : {
       },
       "com.uet.mhst.ItemEndpoint.listItem" : {
@@ -206,6 +338,21 @@
         "request" : {
           "$ref" : "Item"
         },
+        "response" : {
+          "$ref" : "Item"
+        }
+      },
+      "com.uet.mhst.ItemEndpoint.vote" : {
+        "request" : {
+          "$ref" : "Vote"
+        }
+      },
+      "com.uet.mhst.ItemEndpoint.comment" : {
+        "request" : {
+          "$ref" : "Comment"
+        }
+      },
+      "com.uet.mhst.ItemEndpoint.getItem" : {
         "response" : {
           "$ref" : "Item"
         }

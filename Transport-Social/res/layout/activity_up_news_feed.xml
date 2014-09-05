@@ -1,96 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="50dp"
-    android:background="@color/feed_bg"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#81a3d0"
     android:orientation="vertical" >
 
-    <RadioGroup
-        android:id="@+id/radio_status"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_parent_rounded_corner"
-        android:orientation="horizontal"
-        android:soundEffectsEnabled="true" >
-
-        <RadioButton
-            android:id="@+id/radio_tac"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/bg_button"
-            android:checked="true"
-            android:text="Tắc" />
-
-        <RadioButton
-            android:id="@+id/radio_dong"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/bg_button"
-            android:text="Đông" />
-
-        <RadioButton
-            android:id="@+id/radio_tai_nan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/bg_button"
-            android:text="Tai nạn" />
-
-        <RadioButton
-            android:id="@+id/radio_bing_thuong"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/bg_button"
-            android:text="Bình thường" />
-    </RadioGroup>
-
-    <EditText
-        android:id="@+id/editText_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_button"
-        android:ems="8"
-        android:hint="Somethings..."
-        android:inputType="textMultiLine"
-        android:lines="8" >
-
-        <requestFocus />
-    </EditText>
-
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/btn_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/bg_selector"
-            android:soundEffectsEnabled="true"
-            android:text="Photo" />
-
-        <Button
-            android:id="@+id/btn_post"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/bg_selector"
-            android:soundEffectsEnabled="true"
-            android:text="Post" />
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageView1"
         android:layout_width="fill_parent"
-        android:layout_height="320dp"
-        android:layout_gravity="center"
-        android:background="@drawable/bg_button"
-        android:padding="10dp"
-        android:scaleType="fitXY" />
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/bg_parent_rounded_corner"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="Check in"
+            android:textColor="#00E5FF"
+            android:textSize="40dp"
+            android:typeface="sans" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp" >
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vị trí:" />
+
+                <TextView
+                    android:id="@+id/txt_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Xuan Thuy - Ha Noi" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thời gian:" />
+
+                <TextView
+                    android:id="@+id/txt_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="9:53AM - 29/8/2014" />
+            </TableRow>
+        </TableLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="10dp"
+            android:background="#202442" >
+        </View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#EDFFF9" >
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Tình trạng:"
+                android:textSize="15dp" />
+
+            <Spinner
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="#202442" >
+        </View>
+
+        <EditText
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:background="#EDFFF9"
+            android:gravity="top"
+            android:hint="What&apos;s on your mind?"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="10dp" >
+        </EditText>
+    </LinearLayout>
 
 </LinearLayout>

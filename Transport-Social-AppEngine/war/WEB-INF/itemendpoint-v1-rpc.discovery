@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/skv3-y-TWscLWW1dvph-CfhMM9I\"",
+ "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/a_uQ374jZLj1-JDWrV1nHcb5M8w\"",
  "discoveryVersion": "v1",
  "id": "itemendpoint:v1",
  "name": "itemendpoint",
@@ -69,7 +69,7 @@
      "description": "View your email address"
     },
     "https://www.googleapis.com/auth/userinfo.profile": {
-     "description": "View basic information about your account"
+     "description": "View your basic profile info"
     }
    }
   }
@@ -90,6 +90,36 @@
     }
    }
   },
+  "Comment": {
+   "id": "Comment",
+   "type": "object",
+   "properties": {
+    "content": {
+     "type": "string"
+    },
+    "id": {
+     "$ref": "Key"
+    },
+    "idfb": {
+     "type": "string"
+    },
+    "item": {
+     "$ref": "Item"
+    },
+    "latitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "longitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "time": {
+     "type": "string",
+     "format": "date-time"
+    }
+   }
+  },
   "Item": {
    "id": "Item",
    "type": "object",
@@ -97,27 +127,28 @@
     "address": {
      "type": "string"
     },
+    "comment": {
+     "type": "array",
+     "items": {
+      "$ref": "Comment"
+     }
+    },
     "content": {
      "type": "string"
     },
     "id": {
-     "type": "string",
-     "format": "int64"
+     "$ref": "Key"
     },
     "idFB": {
      "type": "string"
     },
-    "img": {
-     "type": "string"
+    "latitude": {
+     "type": "number",
+     "format": "double"
     },
-    "lag": {
-     "type": "string"
-    },
-    "lat": {
-     "type": "string"
-    },
-    "name": {
-     "type": "string"
+    "longitude": {
+     "type": "number",
+     "format": "double"
     },
     "status": {
      "type": "integer",
@@ -127,18 +158,82 @@
      "type": "string",
      "format": "date-time"
     },
-    "voteDw": {
-     "type": "integer",
-     "format": "int32"
+    "vote": {
+     "type": "array",
+     "items": {
+      "$ref": "Vote"
+     }
+    }
+   }
+  },
+  "Key": {
+   "id": "Key",
+   "type": "object",
+   "properties": {
+    "appId": {
+     "type": "string"
     },
-    "voteUp": {
-     "type": "integer",
-     "format": "int32"
+    "complete": {
+     "type": "boolean"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "kind": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    },
+    "namespace": {
+     "type": "string"
+    },
+    "parent": {
+     "$ref": "Key"
+    }
+   }
+  },
+  "Vote": {
+   "id": "Vote",
+   "type": "object",
+   "properties": {
+    "id": {
+     "$ref": "Key"
+    },
+    "idfb": {
+     "type": "string"
+    },
+    "item": {
+     "$ref": "Item"
+    },
+    "up": {
+     "type": "boolean"
     }
    }
   }
  },
  "methods": {
+  "itemendpoint.comment": {
+   "id": "itemendpoint.comment",
+   "parameters": {
+    "idstt": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    },
+    "resource": {
+     "$ref": "Comment"
+    }
+   },
+   "parameterOrder": [
+    "resource",
+    "idstt"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
   "itemendpoint.getItem": {
    "id": "itemendpoint.getItem",
    "allowGet": true,
@@ -217,14 +312,54 @@
     "cursor": {
      "type": "string"
     },
+    "distance": {
+     "type": "number",
+     "format": "double"
+    },
+    "lat": {
+     "type": "number",
+     "format": "double"
+    },
     "limit": {
      "type": "integer",
      "format": "int32"
+    },
+    "lon": {
+     "type": "number",
+     "format": "double"
+    },
+    "timeAfter": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "timeBefore": {
+     "type": "string",
+     "format": "date-time"
     }
    },
    "returns": {
     "$ref": "CollectionResponse_Item"
    },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "itemendpoint.vote": {
+   "id": "itemendpoint.vote",
+   "parameters": {
+    "idstt": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    },
+    "resource": {
+     "$ref": "Vote"
+    }
+   },
+   "parameterOrder": [
+    "resource",
+    "idstt"
+   ],
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]

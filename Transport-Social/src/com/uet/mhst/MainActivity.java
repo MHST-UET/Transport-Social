@@ -8,27 +8,40 @@ import com.uet.mhst.adapter.TabsPagerAdapter;
 import com.uet.mhst.itemendpoint.model.Item;
 import com.uet.mhst.model.NavDrawerItem;
 import com.uet.mhst.sqlite.DatabaseHandler;
+import com.uet.mhst.utility.PlaceProvider;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.Toast;
+
 import com.uet.mhst.communicator.*;
 
 public class MainActivity extends FragmentActivity implements
-		ActionBar.TabListener, Communicator.ActivityCommunicator {
+		ActionBar.TabListener, LoaderCallbacks<Cursor> {
 	private ViewPager viewPager;
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
@@ -45,18 +58,23 @@ public class MainActivity extends FragmentActivity implements
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
 	private DatabaseHandler db;
-	public Communicator.FragmentCommunicator fragmentCommunicator;
+
+	// Communicator
+	public Communicator.MainMapCommunicator mapCommunicator;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
 		db = new DatabaseHandler(getBaseContext());
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		actionBar = getActionBar();
 		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(mAdapter);
-
+		ColorDrawable colorDrawable = new ColorDrawable(
+				Color.parseColor("#81a3d0"));
+		actionBar.setBackgroundDrawable(colorDrawable);
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -65,6 +83,7 @@ public class MainActivity extends FragmentActivity implements
 			actionBar.addTab(actionBar.newTab().setText(tab_name)
 					.setTabListener(this));
 		}
+
 		viewPager.setOffscreenPageLimit(2);
 		this.selectTab(1);
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -110,14 +129,14 @@ public class MainActivity extends FragmentActivity implements
 				.getResourceId(2, -1)));
 		// Communities, Will add a counter here
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons
-				.getResourceId(3, -1), true, "22"));
-		// Pages
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons
-				.getResourceId(4, -1)));
-		// What's hot, We will add a counter here
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons
-				.getResourceId(5, -1), true, "50+"));
+				.getResourceId(3, -1)));
 
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons
+				.getResourceId(1, -1)));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons
+				.getResourceId(2, -1)));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[6], navMenuIcons
+				.getResourceId(3, -1)));
 		// Recycle the typed array
 		navMenuIcons.recycle();
 
@@ -152,7 +171,67 @@ public class MainActivity extends FragmentActivity implements
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		// }
+		handleIntent(getIntent());
+	}
+
+	private void handleIntent(Intent intent) {
+		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+			doSearch(intent.getStringExtra(SearchManager.QUERY));
+		} else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+			getPlace(intent.getStringExtra(SearchManager.EXTRA_DATA_KEY));
+
+		}
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		setIntent(intent);
+		handleIntent(intent);
+	}
+
+	private void doSearch(String query) {
+		Bundle data = new Bundle();
+		data.putString("query", query);
+		getSupportLoaderManager().restartLoader(0, data, this);
+	}
+
+	private void getPlace(String query) {
+		Bundle data = new Bundle();
+		data.putString("query", query);
+
+		getSupportLoaderManager().restartLoader(1, data, this);
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int arg0, Bundle query) {
+		CursorLoader cLoader = null;
+		if (arg0 == 0)
+			cLoader = new CursorLoader(getBaseContext(),
+					PlaceProvider.SEARCH_URI, null, null,
+					new String[] { query.getString("query") }, null);
+		else if (arg0 == 1)
+			cLoader = new CursorLoader(getBaseContext(),
+					PlaceProvider.DETAILS_URI, null, null,
+					new String[] { query.getString("query") }, null);
+		return cLoader;
+
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
+		showLocations(c);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> arg0) {
+		// TODO Auto-generated method stub
+	}
+
+	private void showLocations(Cursor c) {
+		mapCommunicator.MainPassToMap(c);
+		// Toast.makeText(getBaseContext(), c.getString(0).toString(),
+		// Toast.LENGTH_SHORT).show();
 	}
 
 	/**
@@ -170,7 +249,13 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.options_menu, menu);
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		SearchView searchView = (SearchView) menu.findItem(R.id.search)
+				.getActionView();
+		searchView.setSearchableInfo(searchManager
+				.getSearchableInfo(getComponentName()));
 		return true;
 	}
 
@@ -178,11 +263,13 @@ public class MainActivity extends FragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// toggle nav drawer on selecting action bar app icon/title
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
+
 			return true;
 		}
 		// Handle action bar actions click
 		switch (item.getItemId()) {
 		case R.id.action_settings:
+
 			Session session = Session.getActiveSession();
 			if (!session.isClosed()) {
 				session.closeAndClearTokenInformation();
@@ -195,6 +282,7 @@ public class MainActivity extends FragmentActivity implements
 			this.finish();
 			return true;
 		default:
+
 			return super.onOptionsItemSelected(item);
 		}
 	}
@@ -221,13 +309,16 @@ public class MainActivity extends FragmentActivity implements
 
 			break;
 		case 1:
-
+			mapCommunicator.PassTypeMaptoMap(1);
+			selectTab(1);
 			break;
 		case 2:
-
+			mapCommunicator.PassTypeMaptoMap(2);
+			selectTab(1);
 			break;
 		case 3:
-
+			mapCommunicator.PassTypeMaptoMap(3);
+			selectTab(1);
 			break;
 		case 4:
 
@@ -295,12 +386,6 @@ public class MainActivity extends FragmentActivity implements
 		actionBar.setSelectedNavigationItem(position);
 		viewPager.setCurrentItem(position);
 
-	}
-
-	@Override
-	public void passDataToActivity(Item item) {
-		// TODO Auto-generated method stub
-		fragmentCommunicator.passDataToFragment(item);
 	}
 
 }

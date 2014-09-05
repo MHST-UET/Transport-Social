@@ -1,13 +1,13 @@
 {
   "files": [
     {
-      "downloadUrl": "/downloads/itemendpoint/v1/20140810070749/java/1.18.0-rc/uet.com-itemendpoint-v1-20140810070749-java-1.18.0-rc-sources.jar", 
-      "path": "uet.com-itemendpoint-v1-20140810070749-java-1.18.0-rc-sources.jar", 
+      "downloadUrl": "/downloads/itemendpoint/v1/20140901141354/java/1.18.0-rc/uet.com-itemendpoint-v1-20140901141354-java-1.18.0-rc-sources.jar", 
+      "path": "uet.com-itemendpoint-v1-20140901141354-java-1.18.0-rc-sources.jar", 
       "type": "source", 
-      "timestamp": "2014-08-10 07:07"
+      "timestamp": "2014-09-01 14:13"
     }, 
     {
-      "path": "uet.com-itemendpoint-v1-20140810070749-java-1.18.0-rc.jar.properties", 
+      "path": "uet.com-itemendpoint-v1-20140901141354-java-1.18.0-rc.jar.properties", 
       "type": "android.properties"
     }
   ], 
@@ -675,5 +675,5 @@
   "packagePath": "mhst", 
   "language_version": "1.18.0-rc", 
   "id": "itemendpoint:v1", 
-  "revision": 20140810070749
+  "revision": 20140901141354
 }
