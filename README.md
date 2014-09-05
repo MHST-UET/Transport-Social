@@ -11,4 +11,4 @@ An Android client which connect to backend and interract with users.<br>
 Required libraries(import and copy to workspace):<br>
 [FacebookSDK](https://docs.google.com/uc?export=download&id=0B-jQt15MTamnMmhKVGVUX3BZTFk)<br>
 [google-play-service-lib](https://docs.google.com/uc?export=download&id=0B-jQt15MTamnUFFXN3VUVHNYN00)<br>
-[XListView(new)](https://docs.google.com/uc?export=download&id=0B-jQt15MTamnYmVNZ2pydVdfWU0)<br>
+[library](https://docs.google.com/uc?export=download&id=0B-jQt15MTamnMHdWOFIxWUZQZjA)<br>
