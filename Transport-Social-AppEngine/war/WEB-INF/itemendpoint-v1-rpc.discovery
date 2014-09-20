@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"MKGA2miAJpVGF7yQTQhsoDXpye8/a_uQ374jZLj1-JDWrV1nHcb5M8w\"",
+ "etag": "\"koCc_mmAOJe4d9CoedmJUnZeEcg/-fbMaVjt3An-WqM1wXjF1Ccza4I\"",
  "discoveryVersion": "v1",
  "id": "itemendpoint:v1",
  "name": "itemendpoint",
@@ -94,6 +94,9 @@
    "id": "Comment",
    "type": "object",
    "properties": {
+    "address": {
+     "type": "string"
+    },
     "content": {
      "type": "string"
     },
@@ -340,6 +343,27 @@
    "returns": {
     "$ref": "CollectionResponse_Item"
    },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "itemendpoint.remove": {
+   "id": "itemendpoint.remove",
+   "parameters": {
+    "idfb": {
+     "type": "string",
+     "required": true
+    },
+    "idstt": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    }
+   },
+   "parameterOrder": [
+    "idstt",
+    "idfb"
+   ],
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]

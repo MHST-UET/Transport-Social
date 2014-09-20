@@ -93,6 +93,31 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+    "itemendpoint.remove" : {
+      "path" : "remove/{idstt}/{idfb}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.uet.mhst.ItemEndpoint.remove",
+      "request" : {
+        "parameters" : {
+          "idstt" : {
+            "type" : "int64",
+            "required" : true
+          },
+          "idfb" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
     "itemendpoint.insertItem" : {
       "path" : "item",
       "httpMethod" : "POST",
@@ -292,6 +317,9 @@
           "content" : {
             "type" : "string"
           },
+          "address" : {
+            "type" : "string"
+          },
           "latitude" : {
             "type" : "number"
           },
@@ -333,6 +361,8 @@
         "response" : {
           "$ref" : "CollectionResponse_Item"
         }
+      },
+      "com.uet.mhst.ItemEndpoint.remove" : {
       },
       "com.uet.mhst.ItemEndpoint.insertItem" : {
         "request" : {

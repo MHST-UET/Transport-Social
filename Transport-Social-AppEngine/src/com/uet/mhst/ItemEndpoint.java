@@ -278,4 +278,11 @@ public class ItemEndpoint {
 			mgr.close();
 		}
 	}
+	
+	@ApiMethod(name = "remove")
+	public void remove(@Named("idstt") Long idstt, @Named("idfb") String idfb) {
+		Item i = getItem(idstt);
+		if(i.getIdFB().matches(idfb))
+			removeItem(idstt);
+	}
 }
