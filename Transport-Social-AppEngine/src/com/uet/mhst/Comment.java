@@ -16,7 +16,7 @@ public class Comment {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	Key id;
-	String idfb, content, address;
+	String idfb, content, address, name;
 	Date datetime;
 	Double latitude, longitude;
 	Item item;
@@ -83,6 +83,14 @@ public class Comment {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override

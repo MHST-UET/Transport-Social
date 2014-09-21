@@ -15,20 +15,19 @@ import com.google.appengine.api.datastore.GeoPt;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
-public class Item
-{
+public class Item {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	Key id;
 	@Persistent
-	String idfb, content, address;
+	String idfb, content, address, name;
 	Double latitude, longitude;
 	Date datetime;
 	int status;
-	@Persistent(mappedBy="item", defaultFetchGroup="true")
+	@Persistent(mappedBy = "item", defaultFetchGroup = "true")
 	@Element(dependent = "true")
 	List<Comment> comment = new ArrayList<Comment>();
-	@Persistent(mappedBy="item", defaultFetchGroup="true")
+	@Persistent(mappedBy = "item", defaultFetchGroup = "true")
 	@Element(dependent = "true")
 	List<Vote> vote = new ArrayList<Vote>();
 
@@ -44,75 +43,63 @@ public class Item
 	// datetime: thời gian lúc up
 	// address: địa điểm trên bản đồ ứng với tọa độ GPS
 
-	public Key getId()
-	{
+	public Key getId() {
 		return id;
 	}
 
-	public void setId(Key id)
-	{
+	public void setId(Key id) {
 		this.id = id;
 	}
 
-	public String getIdFB()
-	{
+	public String getIdFB() {
 		return idfb;
 	}
 
-	public void setIdFB(String idfb)
-	{
+	public void setIdFB(String idfb) {
 		this.idfb = idfb;
 	}
 
-	public int getStatus()
-	{
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status)
-	{
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
-	public Date getTime()
-	{
+	public Date getTime() {
 		return datetime;
 	}
 
-	public void setTime(Date datetime)
-	{
+	public void setTime(Date datetime) {
 		this.datetime = datetime;
 	}
 
-	public String getContent()
-	{
+	public String getContent() {
 		return content;
 	}
 
-	public void setContent(String content)
-	{
+	public void setContent(String content) {
 		this.content = content;
 	}
 
-	public List<Vote> getVote()
-	{
-		if (vote == null) vote = new ArrayList<Vote>();
+	public List<Vote> getVote() {
+		if (vote == null)
+			vote = new ArrayList<Vote>();
 		return vote;
 	}
 
-	public void setVote(List<Vote> vote)
-	{
+	public void setVote(List<Vote> vote) {
 		this.vote = vote;
 	}
 
-	public List<Comment> getComment()
-	{
-		if (comment == null) comment = new ArrayList<Comment>();
+	public List<Comment> getComment() {
+		if (comment == null)
+			comment = new ArrayList<Comment>();
 		return comment;
 	}
 
-	public void setComment(List<Comment> comment)
-	{
+	public void setComment(List<Comment> comment) {
 		this.comment = comment;
 	}
 
@@ -138,6 +125,14 @@ public class Item
 
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

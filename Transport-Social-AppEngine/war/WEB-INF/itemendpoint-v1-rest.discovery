@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"koCc_mmAOJe4d9CoedmJUnZeEcg/-fbMaVjt3An-WqM1wXjF1Ccza4I\"",
+ "etag": "\"koCc_mmAOJe4d9CoedmJUnZeEcg/0S-kxpk4j0b-HiF4l8-AwKAMhz4\"",
  "discoveryVersion": "v1",
  "id": "itemendpoint:v1",
  "name": "itemendpoint",
@@ -119,6 +119,9 @@
      "type": "number",
      "format": "double"
     },
+    "name": {
+     "type": "string"
+    },
     "time": {
      "type": "string",
      "format": "date-time"
@@ -154,6 +157,9 @@
     "longitude": {
      "type": "number",
      "format": "double"
+    },
+    "name": {
+     "type": "string"
     },
     "status": {
      "type": "integer",
@@ -211,6 +217,9 @@
     },
     "item": {
      "$ref": "Item"
+    },
+    "name": {
+     "type": "string"
     },
     "up": {
      "type": "boolean"

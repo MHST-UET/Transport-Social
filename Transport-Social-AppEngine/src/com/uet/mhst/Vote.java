@@ -9,63 +9,61 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
-public class Vote
-{
+public class Vote {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	Key id;
-	String idfb;
+	String idfb, name;
 	boolean up;
 	Item item;
 
-	public Key getId()
-	{
+	public Key getId() {
 		return id;
 	}
 
-	public void setId(Key id)
-	{
+	public void setId(Key id) {
 		this.id = id;
 	}
 
-	public String getIdfb()
-	{
+	public String getIdfb() {
 		return idfb;
 	}
 
-	public void setIdfb(String idfb)
-	{
+	public void setIdfb(String idfb) {
 		this.idfb = idfb;
 	}
 
-	public boolean isUp()
-	{
+	public boolean isUp() {
 		return up;
 	}
 
-	public void setUp(boolean up)
-	{
+	public void setUp(boolean up) {
 		this.up = up;
 	}
 
-	public Item getItem()
-	{
+	public Item getItem() {
 		return item;
 	}
 
-	public void setItem(Item item)
-	{
+	public void setItem(Item item) {
 		this.item = item;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
-		if (obj != null && obj instanceof Vote)
-		{
+		if (obj != null && obj instanceof Vote) {
 			Vote vote = (Vote) obj;
-			if (vote.getIdfb().matches(this.idfb)) return true;
+			if (vote.getIdfb().matches(this.idfb))
+				return true;
 		}
 		return false;
 	}

@@ -246,6 +246,9 @@
           "address" : {
             "type" : "string"
           },
+          "name" : {
+            "type" : "string"
+          },
           "latitude" : {
             "type" : "number"
           },
@@ -320,6 +323,9 @@
           "address" : {
             "type" : "string"
           },
+          "name" : {
+            "type" : "string"
+          },
           "latitude" : {
             "type" : "number"
           },
@@ -343,6 +349,9 @@
             "$ref" : "Key"
           },
           "idfb" : {
+            "type" : "string"
+          },
+          "name" : {
             "type" : "string"
           },
           "up" : {
