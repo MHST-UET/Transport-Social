@@ -24,16 +24,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 public class NewsFeedFragment extends Fragment {
+
 	private FeedListAdapter listAdapter;
 	private PullToRefreshListView mPullRefreshListView;
 	private ArrayList<Item> feedItems;
 	private Activity activity;
 	public static final int NUMBER_ITEM = 100;
-	public static final int REQUEST_CODE_INPUT = 113;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,20 +44,6 @@ public class NewsFeedFragment extends Fragment {
 		feedItems = new ArrayList<Item>();
 		listAdapter = new FeedListAdapter(activity, feedItems);
 		mPullRefreshListView.setAdapter(listAdapter);
-		mPullRefreshListView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-
-				Intent upstatus = new Intent(
-						"com.uet.mhst.StatusDetailActivity");
-				upstatus.putExtra("id", feedItems.get(position - 1).getId()
-						.getId());
-
-				startActivityForResult(upstatus, REQUEST_CODE_INPUT);
-			}
-		});
 
 		mPullRefreshListView
 				.setOnRefreshListener(new OnRefreshListener<ListView>() {
@@ -77,39 +62,14 @@ public class NewsFeedFragment extends Fragment {
 
 					@Override
 					public void onLastItemVisible() {
-						new LoadMoreDataTask().execute();
+						// new LoadMoreDataTask().execute();
 						Toast.makeText(activity, "End of List!",
 								Toast.LENGTH_SHORT).show();
 					}
 				});
-		ImageView imageViewUpStatus = (ImageView) rootView
-				.findViewById(R.id.imageView_upstatus);
 
-		imageViewUpStatus.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-
-				Intent upstatus = new Intent("com.uet.mhst.UpNewsFeedActivity");
-
-				startActivity(upstatus);
-			}
-		});
 		new NewsFeedAsyncTask().execute();
 		return rootView;
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (requestCode == REQUEST_CODE_INPUT) {
-			if (resultCode == 1) {
-
-			}
-		}
 	}
 
 	@Override

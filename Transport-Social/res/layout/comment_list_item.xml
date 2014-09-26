@@ -1,19 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:paddingTop="10dp"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp" >
 
-    <com.facebook.widget.ProfilePictureView
-        android:id="@+id/picture_facebook"
-        android:layout_width="@dimen/feed_item_profile_pic"
-        android:layout_height="@dimen/feed_item_profile_pic"
-        android:scaleType="fitCenter" >
-    </com.facebook.widget.ProfilePictureView>
-
-    <TextView
-        android:id="@+id/txt_comment"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <com.facebook.widget.ProfilePictureView
+            android:id="@+id/picture_facebook"
+            android:layout_width="@dimen/feed_item_profile_pic"
+            android:layout_height="@dimen/feed_item_profile_pic"
+            android:scaleType="fitCenter" >
+        </com.facebook.widget.ProfilePictureView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="0dp" >
+
+        <TextView
+            android:id="@+id/nameFacebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textColor="#000000"
+            android:textSize="@dimen/feed_item_profile_name"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp" />
+
+        <TextView
+            android:id="@+id/vitri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 </LinearLayout>

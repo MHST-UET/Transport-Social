@@ -32,8 +32,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -59,6 +64,14 @@ public class MainActivity extends FragmentActivity implements
 	private NavDrawerListAdapter adapter;
 	private DatabaseHandler db;
 
+	boolean up = true;
+	FrameLayout.LayoutParams parms;
+	LinearLayout.LayoutParams par;
+	float dx = 0;
+	float dy = 0;
+	float x = 0;
+	float y = 0;
+
 	// Communicator
 	public Communicator.MainMapCommunicator mapCommunicator;
 
@@ -73,18 +86,23 @@ public class MainActivity extends FragmentActivity implements
 		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(mAdapter);
 		ColorDrawable colorDrawable = new ColorDrawable(
-				Color.parseColor("#81a3d0"));
+				Color.parseColor("#990000"));
 		actionBar.setBackgroundDrawable(colorDrawable);
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setStackedBackgroundDrawable(new ColorDrawable(getResources()
+				.getColor(R.color.white)));
 
 		// Adding Tabs
-		for (String tab_name : tabs) {
-			actionBar.addTab(actionBar.newTab().setText(tab_name)
-					.setTabListener(this));
-		}
+		actionBar.addTab(actionBar.newTab()
+				.setIcon(R.drawable.tabbar_icon_feed_white)
+				.setTabListener(this));
+		actionBar.addTab(actionBar.newTab()
+				.setIcon(R.drawable.tabbar_icon_notifications_white)
+				.setTabListener(this));
 
-		viewPager.setOffscreenPageLimit(2);
+		viewPager.setOffscreenPageLimit(1);
+
 		this.selectTab(1);
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -121,22 +139,22 @@ public class MainActivity extends FragmentActivity implements
 		// Home
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons
 				.getResourceId(0, -1)));
-		// Find People
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons
 				.getResourceId(1, -1)));
-		// Photos
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons
 				.getResourceId(2, -1)));
-		// Communities, Will add a counter here
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons
 				.getResourceId(3, -1)));
-
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons
-				.getResourceId(1, -1)));
+				.getResourceId(4, -1)));
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons
-				.getResourceId(2, -1)));
+				.getResourceId(5, -1)));
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[6], navMenuIcons
-				.getResourceId(3, -1)));
+				.getResourceId(6, -1)));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[7], navMenuIcons
+				.getResourceId(7, -1)));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[8], navMenuIcons
+				.getResourceId(8, -1)));
 		// Recycle the typed array
 		navMenuIcons.recycle();
 
@@ -172,6 +190,53 @@ public class MainActivity extends FragmentActivity implements
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		handleIntent(getIntent());
+
+		// ImageView update status
+		ImageView imageViewUpStatus = (ImageView) findViewById(R.id.imageView_upstatus);
+		imageViewUpStatus.setOnTouchListener(new View.OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN: {
+					parms = (android.widget.FrameLayout.LayoutParams) v
+							.getLayoutParams();
+
+					// par = (LinearLayout.LayoutParams)
+					// getWindow().findViewById(
+					// Window.ID_ANDROID_CONTENT).getLayoutParams();
+
+					dx = event.getRawX() - parms.leftMargin;
+					dy = event.getRawY() - parms.topMargin;
+					break;
+				}
+
+				case MotionEvent.ACTION_MOVE: {
+					x = event.getRawX();
+					y = event.getRawY();
+					parms.leftMargin = (int) (x - dx);
+					parms.topMargin = (int) (y - dy);
+					v.setLayoutParams(parms);
+					up = false;
+					break;
+				}
+
+				case MotionEvent.ACTION_UP: {
+					if (up == true) {
+						Intent upstatus = new Intent(
+								"com.uet.mhst.UpNewsFeedActivity");
+
+						startActivity(upstatus);
+					} else {
+						up = true;
+					}
+					break;
+				}
+				}
+				return true;
+			}
+		});
+		displayView(0);
 	}
 
 	private void handleIntent(Intent intent) {
@@ -268,19 +333,10 @@ public class MainActivity extends FragmentActivity implements
 		}
 		// Handle action bar actions click
 		switch (item.getItemId()) {
-		case R.id.action_settings:
+		case R.id.action_directions:
+			startActivityForResult(
+					new Intent("com.uet.mhst.DirectionActivity"), 112);
 
-			Session session = Session.getActiveSession();
-			if (!session.isClosed()) {
-				session.closeAndClearTokenInformation();
-			}
-			Intent login = new Intent(getApplicationContext(),
-					LoginFacebookActivity.class);
-			login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			db.resetTables();
-			startActivity(login);
-			this.finish();
-			return true;
 		default:
 
 			return super.onOptionsItemSelected(item);
@@ -293,8 +349,6 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// if nav drawer is opened, hide the action items
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -308,25 +362,36 @@ public class MainActivity extends FragmentActivity implements
 		case 0:
 
 			break;
-		case 1:
+		case 2:
 			mapCommunicator.PassTypeMaptoMap(1);
 			selectTab(1);
 			break;
-		case 2:
+		case 3:
 			mapCommunicator.PassTypeMaptoMap(2);
 			selectTab(1);
 			break;
-		case 3:
+		case 4:
 			mapCommunicator.PassTypeMaptoMap(3);
 			selectTab(1);
 			break;
-		case 4:
-
+		case 6:
+			startActivity(new Intent("com.uet.mhst.AboutActivity"));
 			break;
-		case 5:
-
+		case 7:
+			startActivity(new Intent("com.uet.mhst.HelpActivity"));
 			break;
-
+		case 8:
+			Session session = Session.getActiveSession();
+			if (!session.isClosed()) {
+				session.closeAndClearTokenInformation();
+			}
+			Intent login = new Intent(getApplicationContext(),
+					LoginFacebookActivity.class);
+			login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			db.resetTables();
+			startActivity(login);
+			this.finish();
+			break;
 		default:
 			break;
 		}
@@ -334,7 +399,6 @@ public class MainActivity extends FragmentActivity implements
 		// update selected item and title, then close the drawer
 		mDrawerList.setItemChecked(position, true);
 		mDrawerList.setSelection(position);
-		setTitle(navMenuTitles[position]);
 		mDrawerLayout.closeDrawer(mDrawerList);
 
 	}
@@ -367,13 +431,26 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
+		if (tab.getPosition() == 0) {
+			tab.setIcon(R.drawable.tabbar_icon_feed_pressed_white);
+		} else if (tab.getPosition() == 1) {
+			tab.setIcon(R.drawable.tabbar_icon_notifications_pressed_white);
+		} else if (tab.getPosition() == 2) {
+			tab.setIcon(R.drawable.tabbar_icon_friends_pressed_white);
+		}
 		viewPager.setCurrentItem(tab.getPosition());
 	}
 
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
-
+		if (tab.getPosition() == 0) {
+			tab.setIcon(R.drawable.tabbar_icon_feed_white);
+		} else if (tab.getPosition() == 1) {
+			tab.setIcon(R.drawable.tabbar_icon_notifications_white);
+		} else if (tab.getPosition() == 2) {
+			tab.setIcon(R.drawable.tabbar_icon_friends_white);
+		}
 	}
 
 	@Override
@@ -388,4 +465,24 @@ public class MainActivity extends FragmentActivity implements
 
 	}
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if (data != null) {
+			if (requestCode == 111) {
+				Bundle bundle = data.getBundleExtra("bundle");
+				mapCommunicator.PassAPlaceToMap(bundle);
+				selectTab(1);
+			}
+			if (requestCode == 112) {
+				if (resultCode == DirectionActivity.RESULT_CODE) {
+					String from = data.getExtras().getString("from");
+					String to = data.getExtras().getString("to");
+					mapCommunicator.PassPlaceDirectionToMap(from, to);
+				}
+
+			}
+		}
+	}
 }

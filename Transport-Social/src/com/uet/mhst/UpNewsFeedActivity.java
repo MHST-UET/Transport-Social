@@ -6,6 +6,7 @@ import java.util.Date;
 import android.accounts.AccountManager;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,8 +47,9 @@ public class UpNewsFeedActivity extends Activity {
 	private TextView txt_address, txt_time;
 	private Spinner statusSpinner;
 	private int status;
-	private String content;
+	private String content, location;
 	private EditText contentEdit;
+	private ProgressDialog progress;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,10 +63,12 @@ public class UpNewsFeedActivity extends Activity {
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm   dd/MM/yyyy");
 		String currentDateandTime = sdf.format(new Date());
 		txt_time.setText(currentDateandTime);
-		LatLng latLng = new LatLng(myLocation.getLatitude(),
-				myLocation.getLongitude());
-		txt_address.setText(new ReverseGeocodingTask(getBaseContext())
-				.getAddressText(latLng));
+
+		progress = new ProgressDialog(this);
+		progress.setMessage("Updating...");
+		progress.setIndeterminate(true);
+		
+
 		String arr[] = { "Bình thường", "Đông", "Tắc đường", "Tai nạn" };
 		statusSpinner = (Spinner) findViewById(R.id.status);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -91,7 +96,7 @@ public class UpNewsFeedActivity extends Activity {
 				});
 		ActionBar ab = getActionBar();
 		ColorDrawable colorDrawable = new ColorDrawable(
-				Color.parseColor("#81a3d0"));
+				Color.parseColor("#990000"));
 		ab.setBackgroundDrawable(colorDrawable);
 
 		myLocation = new GPSTracker(getBaseContext());
@@ -103,17 +108,39 @@ public class UpNewsFeedActivity extends Activity {
 
 		if (credential.getSelectedAccountName() != null) {
 			// Already signed in, begin app!
-			Toast.makeText(getBaseContext(),
-					"Logged in with : " + credential.getSelectedAccountName(),
-					Toast.LENGTH_SHORT).show();
+
 		} else {
 			// Not signed in, show login window or request an account.
 			chooseAccount();
 		}
+		new LocationAsyncTask().execute();
+	}
 
+	private class LocationAsyncTask extends AsyncTask<Item, Void, Void> {
+
+		protected Void doInBackground(Item... params) {
+			LatLng latLng = new LatLng(myLocation.getLatitude(),
+					myLocation.getLongitude());
+			location = new ReverseGeocodingTask(getBaseContext())
+					.getAddressText(latLng);
+			return null;
+		}
+
+		protected void onPostExecute(Void unused) {
+
+			txt_address.setText(location);
+
+		}
 	}
 
 	private class AddItemAsyncTask extends AsyncTask<Item, Void, Void> {
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			progress.show();
+		}
 
 		protected Void doInBackground(Item... params) {
 			try {
@@ -133,6 +160,7 @@ public class UpNewsFeedActivity extends Activity {
 			// Display success message to user
 			Toast.makeText(getBaseContext(), "Item added succesfully",
 					Toast.LENGTH_SHORT).show();
+			progress.dismiss();
 			finish();
 
 		}
@@ -183,6 +211,8 @@ public class UpNewsFeedActivity extends Activity {
 					myLocation.getLongitude());
 			statusItem.setAddress(new ReverseGeocodingTask(getBaseContext())
 					.getAddressText(latLng));
+			String name = dataUser.getUserDetails().get("name");
+			statusItem.setName(name);
 			Item[] params = { statusItem };
 			new AddItemAsyncTask().execute(params);
 			return true;

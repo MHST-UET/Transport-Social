@@ -1,6 +1,5 @@
 package com.uet.mhst.adapter;
 
-import com.uet.mhst.fragment.FriendFragment;
 import com.uet.mhst.fragment.MapFragment;
 import com.uet.mhst.fragment.NewsFeedFragment;
 
@@ -25,9 +24,6 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
 			return new MapFragment();
 
-		case 2:
-
-			return new FriendFragment();
 		}
 
 		return null;
@@ -36,7 +32,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public int getCount() {
 		// get item count - equal to number of tabs
-		return 3;
+		return 2;
 	}
 
 }

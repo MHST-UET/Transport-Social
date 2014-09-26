@@ -5,24 +5,24 @@ import java.util.List;
 
 import com.facebook.widget.ProfilePictureView;
 import com.uet.mhst.R;
-import com.uet.mhst.itemendpoint.model.Comment;
+import com.uet.mhst.model.Cmt;
+
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class CommentListAdapter extends BaseAdapter {
 
 	private Context context;
-	private List<Comment> commentItems;
+	private List<Cmt> commentItems;
 
-	public CommentListAdapter(Context context, List<Comment> commentItems) {
-		this.commentItems = new ArrayList<Comment>();
+	public CommentListAdapter(Context context, List<Cmt> commentItems) {
+		this.commentItems = new ArrayList<Cmt>();
 		this.context = context;
 		if (commentItems != null) {
 			this.commentItems = commentItems;
@@ -55,16 +55,30 @@ public class CommentListAdapter extends BaseAdapter {
 			LayoutInflater mInflater = (LayoutInflater) context
 					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			convertView = mInflater.inflate(R.layout.comment_list_item, null);
-			ProfilePictureView pictureFb = (ProfilePictureView) convertView
-					.findViewById(R.id.picture_facebook);
-			TextView comment = (TextView) convertView
-					.findViewById(R.id.txt_comment);
-			Comment commentItem = commentItems.get(position);
-			pictureFb.setProfileId(commentItem.getIdfb());
-			comment.setText(commentItem.getContent());
-			// Log.i("Comment", commentItem.getContent());
-
 		}
+		ProfilePictureView pictureFb = (ProfilePictureView) convertView
+				.findViewById(R.id.picture_facebook);
+		TextView comment = (TextView) convertView
+				.findViewById(R.id.txt_comment);
+		TextView nameFacebook = (TextView) convertView
+				.findViewById(R.id.nameFacebook);
+		TextView time = (TextView) convertView.findViewById(R.id.time);
+		TextView vitri = (TextView) convertView.findViewById(R.id.vitri);
+
+		Cmt commentItem = commentItems.get(position);
+
+		CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(commentItem
+				.getTime().getValue(), System.currentTimeMillis(),
+				DateUtils.SECOND_IN_MILLIS);
+		time.setText(timeAgo);
+		vitri.setText(commentItem.getAddress());
+//		time.setVisibility(View.GONE);
+//		vitri.setVisibility(View.GONE);
+		nameFacebook.setText(commentItem.getName());
+		pictureFb.setProfileId(commentItem.getIdfb());
+		comment.setText(commentItem.getContent());
+
+
 		return convertView;
 	}
 }

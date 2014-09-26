@@ -2,246 +2,77 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/LinearLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
-
-    <ScrollView
-        android:id="@+id/ScrollView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="#f7f7f7" >
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/feed_item_margin"
-                android:layout_marginLeft="@dimen/feed_item_margin"
-                android:layout_marginRight="@dimen/feed_item_margin"
-                android:layout_marginTop="@dimen/feed_item_margin"
-                android:background="@drawable/bg_parent_rounded_corner"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/feed_item_padding_top_bottom"
-                android:paddingLeft="@dimen/feed_item_padding_left_right"
-                android:paddingRight="@dimen/feed_item_padding_left_right"
-                android:paddingTop="@dimen/feed_item_padding_top_bottom" >
-
-                <com.facebook.widget.ProfilePictureView
-                    android:id="@+id/picture_facebook"
-                    android:layout_width="@dimen/feed_item_profile_pic"
-                    android:layout_height="@dimen/feed_item_profile_pic"
-                    android:scaleType="fitCenter" >
-                </com.facebook.widget.ProfilePictureView>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/name"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/feed_item_profile_name"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/timestamp"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/timestamp"
-                        android:textSize="@dimen/feed_item_timestamp" />
-
-                    <TextView
-                        android:id="@+id/txt_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/timestamp"
-                        android:textSize="@dimen/feed_item_address" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/feed_item_margin"
-                android:layout_marginLeft="@dimen/feed_item_margin"
-                android:layout_marginRight="@dimen/feed_item_margin"
-                android:layout_marginTop="@dimen/feed_item_margin"
-                android:background="@drawable/bg_parent_rounded_corner"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/feed_item_padding_left_right"
-                android:paddingRight="@dimen/feed_item_padding_left_right"
-                android:paddingTop="10dp" >
-
-                <TextView
-                    android:id="@+id/txt_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/feed_item_status_pad_left_right"
-                    android:paddingRight="@dimen/feed_item_status_pad_left_right"
-                    android:textSize="@dimen/feed_item_timestamp" />
-
-                <TextView
-                    android:id="@+id/txt_content"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="@dimen/feed_item_status_pad_left_right"
-                    android:paddingRight="@dimen/feed_item_status_pad_left_right"
-                    android:paddingTop="@dimen/feed_item_status_pad_top" />
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/feed_bg" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp" >
-
-                    <ImageView
-                        android:id="@+id/imageView1"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_like" />
-
-                    <TextView
-                        android:id="@+id/txt_like"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0" />
-
-                    <ImageView
-                        android:id="@+id/imageView3"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="10dp"
-                        android:src="@drawable/ic_dislike" />
-
-                    <TextView
-                        android:id="@+id/txt_dislike"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0" />
-
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="10dp"
-                        android:src="@drawable/ic_comment" />
-
-                    <TextView
-                        android:id="@+id/txt_comment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/feed_item_margin"
-                android:layout_marginLeft="@dimen/feed_item_margin"
-                android:layout_marginRight="@dimen/feed_item_margin"
-                android:layout_marginTop="@dimen/feed_item_margin"
-                android:layout_weight="0"
-                android:background="@drawable/bg_parent_rounded_corner"
-                android:orientation="vertical" >
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="@dimen/feed_item_margin"
-                    android:background="@drawable/bg_parent_rounded_corner"
-                    android:orientation="horizontal" >
-
-                    <Button
-                        android:id="@+id/btn_voteup"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_selector"
-                        android:text="Vote up" />
-
-                    <Button
-                        android:id="@+id/btn_votedown"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_selector"
-                        android:text="Vote down" />
-
-                    <Button
-                        android:id="@+id/button2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_selector"
-                        android:text="Share" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Comment"
-                    android:textSize="20dp" />
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="@dimen/feed_item_margin"
-                    android:layout_marginTop="@dimen/feed_item_margin"
-                    android:background="#f7f7f7" />
-
-                <ListView
-                    android:id="@+id/listComment"
-                    android:layout_width="match_parent"
-                    android:layout_height="1000dp"
-                    android:layout_marginLeft="@dimen/feed_item_margin" >
-                </ListView>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+    android:background="@drawable/bg_activity_comment"
+    android:orientation="vertical"
+    android:padding="10dp" >
 
     <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_weight="0.54"
+        android:background="#EDFFF9" >
+
+        <ImageView
+            android:id="@+id/img_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:src="@drawable/arrow_left" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Comments"
+            android:textColor="@color/list_divider"
+            android:textSize="17dp"
+            android:textStyle="bold|italic" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/list_divider" />
+
+    <ListView
+        android:id="@+id/listComment"
+        android:layout_width="fill_parent"
+        android:layout_height="400dp"
+        android:layout_marginLeft="@dimen/feed_item_margin"
+        android:layout_weight="0.54" >
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout2"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_marginBottom="@dimen/feed_item_margin"
-        android:layout_marginLeft="@dimen/feed_item_margin"
-        android:layout_marginRight="@dimen/feed_item_margin"
-        android:layout_marginTop="@dimen/feed_item_margin"
-        android:layout_weight="0"
-        android:background="@drawable/bg_parent_rounded_corner" >
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_parent_rounded_corner"
+        android:orientation="horizontal"
+        android:padding="1dp" >
 
         <EditText
             android:id="@+id/edit_comment"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_height="match_parent"
             android:layout_weight="2"
-            android:background="#f7f7f7"
+            android:focusable="true"
             android:hint="Something....."
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:padding="2dp" />
 
         <Button
             android:id="@+id/btn_comment"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@drawable/bg_selector"
             android:text="Post" />
     </LinearLayout>

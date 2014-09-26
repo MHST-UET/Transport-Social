@@ -5,19 +5,27 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/feed_bg"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingTop="8dp" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/feed_item_margin"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="@dimen/feed_item_margin"
         android:layout_marginRight="@dimen/feed_item_margin"
-        android:layout_marginTop="@dimen/feed_item_margin"
+        android:layout_marginTop="8dp"
         android:background="@drawable/bg_parent_rounded_corner"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/feed_item_padding_top_bottom"
-        android:paddingTop="@dimen/feed_item_padding_top_bottom" >
+        android:paddingTop="10dp" >
+
+        <ImageView
+            android:id="@+id/img_moreaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/feed_story_chevron" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -82,7 +90,7 @@
 
         <View
             android:layout_width="fill_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.05dp"
             android:background="@color/feed_bg" />
 
         <LinearLayout
@@ -91,43 +99,99 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp" >
 
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_like" />
-
             <TextView
                 android:id="@+id/txt_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0" />
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_dislike" />
+            <TextView
+                android:id="@+id/nameFacebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" vote up" />
 
             <TextView
                 android:id="@+id/txt_dislike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="0dp"
                 android:text="0" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_comment" />
+            <TextView
+                android:id="@+id/vitri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" vote down" />
 
             <TextView
                 android:id="@+id/txt_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="0dp"
                 android:text="0" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" comments" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp" >
+
+            <Button
+                android:id="@+id/btn_voteup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_selector"
+                android:drawableLeft="@drawable/ufi_icon_voteup"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Vote up"
+                android:textSize="10dp" />
+
+            <Button
+                android:id="@+id/btn_votedown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_selector"
+                android:drawableLeft="@drawable/ufi_icon_votedown"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Vote down"
+                android:textSize="10dp" />
+
+            <Button
+                android:id="@+id/btn_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_selector"
+                android:drawableLeft="@drawable/ufi_icon_comment"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Comment"
+                android:textSize="10dp" />
+
+            <Button
+                android:id="@+id/btn_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_selector"
+                android:drawableLeft="@drawable/ufi_icon_share"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Share"
+                android:textSize="10dp" />
         </LinearLayout>
     </LinearLayout>
 

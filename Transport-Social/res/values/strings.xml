@@ -11,24 +11,33 @@
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
         <item>Home</item>
+        <item></item>
         <item>Normal Map</item>
         <item>Terrain Map</item>
         <item>Hybrid Map</item>
-        <item>Settings</item>
+        <item></item>
         <item>About</item>
         <item>Helps</item>
+        <item>Logout</item>
     </string-array>
 
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
-        <item>@drawable/ic_home</item>
-        <item>@drawable/ic_action_settings</item>
+        <item>@drawable/ic_empty</item>
+        <item>@drawable/ic_empty</item>
+        <item>@drawable/ic_layerslight_transit</item>
+        <item>@drawable/ic_layerslight_terrain</item>
+        <item>@drawable/ic_layerslight_google_earth</item>
+        <item>@drawable/ic_empty</item>
         <item>@drawable/ic_action_about</item>
         <item>@drawable/ic_action_help</item>
+        <item>@drawable/ic_logout</item>
     </array>
 
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
+    <string name="title_activity_about">About</string>
+    <string name="title_activity_help">Help</string>
 
 </resources>

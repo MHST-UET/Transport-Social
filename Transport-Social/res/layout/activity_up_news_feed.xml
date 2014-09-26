@@ -16,7 +16,7 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/nameFacebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/vitri"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Vị trí:" />
@@ -46,8 +46,8 @@
                     android:id="@+id/txt_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Xuan Thuy - Ha Noi" />
+                    android:layout_marginLeft="10dp" />
+
             </TableRow>
 
             <TableRow
@@ -65,8 +65,8 @@
                     android:id="@+id/txt_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="9:53AM - 29/8/2014" />
+                    android:layout_marginLeft="10dp" />
+
             </TableRow>
         </TableLayout>
 

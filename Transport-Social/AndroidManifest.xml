@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.uet.mhst"
     android:versionCode="1"
@@ -36,7 +37,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".LoginFacebookActivity"
-            android:label="Login Facebook" >
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -63,7 +65,9 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name="com.facebook.LoginActivity" />
+        <activity
+            android:name="com.facebook.LoginActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".UpNewsFeedActivity"
             android:label="Status" >
@@ -74,17 +78,65 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".DirectionActivity"
+            android:label="Direction Activity" >
+            <intent-filter>
+                <action android:name="com.uet.mhst.DirectionActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".StatusDetailActivity"
-            android:label="Status Detail" >
+            android:label="Status Detail"
+            android:theme="@style/Theme.Transparent" >
             <intent-filter>
                 <action android:name="com.uet.mhst.StatusDetailActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MoreActionActivity"
+            android:label="MoreActionActivity"
+            android:theme="@style/Theme.TransparentCompass" >
+            <intent-filter>
+                <action android:name="com.uet.mhst.MoreActionActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CompassActivity"
+            android:label="CompassActivity"
+            android:theme="@style/Theme.TransparentCompass" >
+            <intent-filter>
+                <action android:name="com.uet.mhst.CompassActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about" >
+            <intent-filter>
+                <action android:name="com.uet.mhst.AboutActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".HelpActivity"
+            android:label="Help" >
+            <intent-filter>
+                <action android:name="com.uet.mhst.HelpActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <provider
-            android:name="com.uet.mhst.utility.PlaceProvider"
+            android:name=".utility.PlaceProvider"
             android:authorities="com.uet.mhst.utility.PlaceProvider"
             android:exported="false" />
 

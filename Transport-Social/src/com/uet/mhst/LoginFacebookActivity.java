@@ -31,11 +31,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class LoginFacebookActivity extends Activity {
 
-	private Button buttonLoginLogout;
+	private ImageView buttonLoginLogout;
 	private Session.StatusCallback statusCallback = new SessionStatusCallback();
 
 	@Override
@@ -46,7 +47,7 @@ public class LoginFacebookActivity extends Activity {
 
 StrictMode.setThreadPolicy(policy);
 		setContentView(R.layout.activity_login_facebook);
-		buttonLoginLogout = (Button) findViewById(R.id.buttonLoginLogout);
+		buttonLoginLogout = (ImageView) findViewById(R.id.buttonLoginLogout);
 		Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
 		Session session = Session.getActiveSession();
 		if (session == null) {

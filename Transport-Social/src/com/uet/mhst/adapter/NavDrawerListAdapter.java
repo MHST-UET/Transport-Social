@@ -61,15 +61,13 @@ public class NavDrawerListAdapter extends BaseAdapter {
 			profilePictureView.setProfileId(db.getUserDetails().get("id"));
 			txtTitle.setText(db.getUserDetails().get("name"));
 			txtTitle.setTextSize(30);
-			txtTitle.setTextColor(Color.BLUE);
+
 		} else {
 			profilePictureView.setVisibility(ProfilePictureView.GONE);
-			if (position <= 3)
-				imgIcon.setVisibility(View.INVISIBLE);
-			if (position == 1)
+
+			if (position == 1 || position == 5)
 				convertView.setPadding(0, 50, 0, 0);
-			if (position == 4)
-				convertView.setPadding(0, 150, 0, 0);
+
 			imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
 			txtTitle.setText(navDrawerItems.get(position).getTitle());
 

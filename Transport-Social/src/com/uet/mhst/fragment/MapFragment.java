@@ -1,6 +1,9 @@
 package com.uet.mhst.fragment;
 
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.uet.mhst.MainActivity;
 import com.uet.mhst.R;
@@ -10,20 +13,29 @@ import com.uet.mhst.itemendpoint.Itemendpoint;
 import com.uet.mhst.itemendpoint.model.CollectionResponseItem;
 import com.uet.mhst.itemendpoint.model.Item;
 import com.uet.mhst.utility.GPSTracker;
+import com.uet.mhst.utility.GoogleMapUtis;
 
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.HttpMethod;
@@ -34,20 +46,57 @@ import com.facebook.model.GraphObject;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.CancelableCallback;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.plus.model.moments.ItemScope;
 import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpRequestFactory;
+import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.client.http.HttpResponse;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
+import com.google.api.client.util.Key;
+import com.google.maps.android.PolyUtil;
+import com.google.maps.android.SphericalUtil;
 
 public class MapFragment extends Fragment implements
 		Communicator.MainMapCommunicator {
+	private static final HttpTransport HTTP_TRANSPORT = AndroidHttp
+			.newCompatibleTransport();
+	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
 	private GoogleMap googleMap;
 	public Context context;
 	private GPSTracker myLocation;
+	private List<Marker> markers = new ArrayList<Marker>();
+	private Handler handler = new Handler();
+	private Random random = new Random();
+	private List<LatLng> latLngs = new ArrayList<LatLng>();
+	private Animator animator = new Animator();
+	private final Handler mHandler = new Handler();
+	private boolean directionsFetched = false;
+	private LinearLayout layout_infor;
+	private TextView txt_from, txt_to;
+	private ImageView img_direction;
+	private Runnable runner = new Runnable() {
+		@Override
+		public void run() {
+			setHasOptionsMenu(true);
+		}
+	};
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -64,21 +113,17 @@ public class MapFragment extends Fragment implements
 
 		View rootView = inflater.inflate(R.layout.fragment_map, container,
 				false);
+		layout_infor = (LinearLayout) rootView.findViewById(R.id.layout_infor);
+		txt_from = (TextView) rootView.findViewById(R.id.txt_from);
+		txt_to = (TextView) rootView.findViewById(R.id.txt_to);
+		img_direction = (ImageView) rootView.findViewById(R.id.img_direction);
+		layout_infor.setVisibility(View.INVISIBLE);
+
 		googleMap = ((SupportMapFragment) getFragmentManager()
 				.findFragmentById(R.id.map)).getMap();
 		myLocation = new GPSTracker(context);
-		ImageView checkin = (ImageView) rootView.findViewById(R.id.checkin);
-		checkin.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent upstatus = new Intent("com.uet.mhst.UpNewsFeedActivity");
-
-				startActivity(upstatus);
-
-			}
-		});
+		ImageView img_compass = (ImageView) rootView
+				.findViewById(R.id.img_compass);
 		ImageView place = (ImageView) rootView.findViewById(R.id.place);
 		place.setOnClickListener(new View.OnClickListener() {
 
@@ -86,6 +131,14 @@ public class MapFragment extends Fragment implements
 			public void onClick(View v) {
 
 				new PlaceAsyncTask().execute();
+			}
+		});
+		img_compass.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				startActivity(new Intent("com.uet.mhst.CompassActivity"));
 			}
 		});
 		googleMap.setMyLocationEnabled(true);
@@ -100,18 +153,24 @@ public class MapFragment extends Fragment implements
 		MarkerOptions markerOptions = null;
 		LatLng position = null;
 		googleMap.clear();
+		layout_infor.setVisibility(View.INVISIBLE);
 		while (c.moveToNext()) {
 			markerOptions = new MarkerOptions();
 			position = new LatLng(Double.parseDouble(c.getString(1)),
 					Double.parseDouble(c.getString(2)));
 			markerOptions.position(position);
 			markerOptions.title(c.getString(0));
+
 			googleMap.addMarker(markerOptions);
 		}
 		if (position != null) {
-			CameraUpdate cameraPosition = CameraUpdateFactory
-					.newLatLng(position);
-			googleMap.animateCamera(cameraPosition);
+
+			CameraPosition cameraPosition = new CameraPosition.Builder()
+					.target(position).zoom(15).build();
+
+			googleMap.animateCamera(CameraUpdateFactory
+					.newCameraPosition(cameraPosition));
+
 		}
 	}
 
@@ -142,8 +201,7 @@ public class MapFragment extends Fragment implements
 			super.onPostExecute(result);
 
 			List<Item> list = items.getItems();
-			Toast.makeText(context, String.valueOf(list.size()),
-					Toast.LENGTH_LONG).show();
+
 			for (Item tem : list) {
 
 				String var = "";
@@ -162,13 +220,22 @@ public class MapFragment extends Fragment implements
 					break;
 				}
 
-				MarkerOptions marker = new MarkerOptions().position(
-						new LatLng(tem.getLatitude(), tem.getLongitude()))
-						.title(var + " - " + tem.getAddress());
+				MarkerOptions marker = new MarkerOptions()
+						.position(
+								new LatLng(tem.getLatitude(), tem
+										.getLongitude())).title(var)
+						.snippet(tem.getAddress());
 
 				googleMap.addMarker(marker);
 
 			}
+
+			CameraPosition cameraPosition = new CameraPosition.Builder()
+					.target(new LatLng(list.get(0).getLatitude(), list.get(0)
+							.getLongitude())).zoom(15).build();
+
+			googleMap.animateCamera(CameraUpdateFactory
+					.newCameraPosition(cameraPosition));
 
 		}
 	}
@@ -185,4 +252,380 @@ public class MapFragment extends Fragment implements
 		}
 	}
 
+	@Override
+	public void PassAPlaceToMap(Bundle bundle) {
+		// TODO Auto-generated method stub
+		layout_infor.setVisibility(View.INVISIBLE);
+		googleMap.clear();
+		MarkerOptions marker = new MarkerOptions()
+				.position(
+						new LatLng(bundle.getDouble("lat"), bundle
+								.getDouble("lng")))
+				.title(bundle.getString("status"))
+				.snippet(bundle.getString("address"));
+
+		CameraPosition cameraPosition = new CameraPosition.Builder()
+				.target(new LatLng(bundle.getDouble("lat"), bundle
+						.getDouble("lng"))).zoom(15).build();
+
+		googleMap.animateCamera(CameraUpdateFactory
+				.newCameraPosition(cameraPosition));
+		googleMap.addMarker(marker);
+	}
+
+	@Override
+	public void PassPlaceDirectionToMap(String from, String to) {
+		// TODO Auto-generated method stub
+		txt_from.setText("From: " + from);
+		txt_to.setText("To: " + to);
+		layout_infor.setVisibility(View.VISIBLE);
+		new DirectionsFetcher(from, to).execute();
+	}
+
+	public void clearMarkers() {
+		googleMap.clear();
+		markers.clear();
+	}
+
+	public static class DirectionsResult {
+
+		@Key("routes")
+		public List<Route> routes;
+
+	}
+
+	public static class Route {
+		@Key("overview_polyline")
+		public OverviewPolyLine overviewPolyLine;
+
+	}
+
+	public static class OverviewPolyLine {
+		@Key("points")
+		public String points;
+
+	}
+
+	public void addPolylineToMap(List<LatLng> latLngs) {
+		PolylineOptions options = new PolylineOptions();
+		for (LatLng latLng : latLngs) {
+			options.add(latLng);
+		}
+		googleMap.addPolyline(options);
+	}
+
+	private void updateNavigationStopStart() {
+		// MenuItem startAnimation = this.menu
+		// .findItem(R.id.action_bar_start_animation);
+		// startAnimation.setVisible(!animator.isAnimating() &&
+		// directionsFetched);
+		// MenuItem stopAnimation = this.menu
+		// .findItem(R.id.action_bar_stop_animation);
+		// stopAnimation.setVisible(animator.isAnimating());
+	}
+
+	private class DirectionsFetcher extends AsyncTask<URL, Integer, Void> {
+
+		private String origin;
+		private String destination;
+		private boolean check = true;
+
+		public DirectionsFetcher(String origin, String destination) {
+			this.origin = origin;
+			this.destination = destination;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			clearMarkers();
+			getActivity().setProgressBarIndeterminateVisibility(Boolean.TRUE);
+
+		}
+
+		protected Void doInBackground(URL... urls) {
+			try {
+				HttpRequestFactory requestFactory = HTTP_TRANSPORT
+						.createRequestFactory(new HttpRequestInitializer() {
+							@Override
+							public void initialize(HttpRequest request) {
+								request.setParser(new JsonObjectParser(
+										JSON_FACTORY));
+							}
+						});
+
+				GenericUrl url = new GenericUrl(
+						"http://maps.googleapis.com/maps/api/directions/json");
+				url.put("origin", origin);
+				url.put("destination", destination);
+				url.put("sensor", false);
+
+				HttpRequest request = requestFactory.buildGetRequest(url);
+				HttpResponse httpResponse = request.execute();
+				DirectionsResult directionsResult = httpResponse
+						.parseAs(DirectionsResult.class);
+
+				String encodedPoints = directionsResult.routes.get(0).overviewPolyLine.points;
+				latLngs = PolyUtil.decode(encodedPoints);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			return null;
+
+		}
+
+		protected void onProgressUpdate(Integer... progress) {
+		}
+
+		protected void onPostExecute(Void result) {
+
+			addPolylineToMap(latLngs);
+
+			GoogleMapUtis.fixZoomForLatLngs(googleMap, latLngs);
+
+			img_direction.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					if (check == true) {
+						check = !check;
+						animator.startAnimation(false, latLngs);
+					} else {
+						check = !check;
+						animator.stopAnimation();
+
+					}
+
+				}
+			});
+
+		}
+	}
+
+	public class Animator implements Runnable {
+
+		private static final int ANIMATE_SPEEED = 1500;
+		private static final int ANIMATE_SPEEED_TURN = 1500;
+		private static final int BEARING_OFFSET = 20;
+
+		private final Interpolator interpolator = new LinearInterpolator();
+
+		private boolean animating = false;
+
+		private List<LatLng> latLngs = new ArrayList<LatLng>();
+
+		int currentIndex = 0;
+
+		float tilt = 90;
+		float zoom = 15.5f;
+		boolean upward = true;
+
+		long start = SystemClock.uptimeMillis();
+
+		LatLng endLatLng = null;
+		LatLng beginLatLng = null;
+
+		boolean showPolyline = false;
+
+		private Marker trackingMarker;
+
+		public void reset() {
+			resetMarkers();
+			start = SystemClock.uptimeMillis();
+			currentIndex = 0;
+			endLatLng = getEndLatLng();
+			beginLatLng = getBeginLatLng();
+
+		}
+
+		public void stopAnimation() {
+			animating = false;
+			mHandler.removeCallbacks(animator);
+
+		}
+
+		public void initialize(boolean showPolyLine) {
+			reset();
+			this.showPolyline = showPolyLine;
+
+			highLightMarker(0);
+
+			if (showPolyLine) {
+				polyLine = initializePolyLine();
+			}
+
+			// We first need to put the camera in the correct position for the
+			// first run (we need 2 markers for this).....
+			LatLng markerPos = latLngs.get(0);
+			LatLng secondPos = latLngs.get(1);
+
+			setInitialCameraPosition(markerPos, secondPos);
+
+		}
+
+		private void setInitialCameraPosition(LatLng markerPos, LatLng secondPos) {
+
+			float bearing = GoogleMapUtis.bearingBetweenLatLngs(markerPos,
+					secondPos);
+
+			trackingMarker = googleMap.addMarker(new MarkerOptions().position(
+					markerPos).title("Direction"));
+
+			float mapZoom = googleMap.getCameraPosition().zoom >= 16 ? googleMap
+					.getCameraPosition().zoom : 16;
+
+			CameraPosition cameraPosition = new CameraPosition.Builder()
+					.target(markerPos).bearing(bearing + BEARING_OFFSET)
+					.tilt(90).zoom(mapZoom).build();
+
+			googleMap.animateCamera(
+					CameraUpdateFactory.newCameraPosition(cameraPosition),
+					ANIMATE_SPEEED_TURN, new CancelableCallback() {
+
+						@Override
+						public void onFinish() {
+
+							animator.reset();
+							Handler handler = new Handler();
+							handler.post(animator);
+						}
+
+						@Override
+						public void onCancel() {
+
+						}
+					});
+		}
+
+		private Polyline polyLine;
+		private PolylineOptions rectOptions = new PolylineOptions();
+
+		private Polyline initializePolyLine() {
+			// polyLinePoints = new ArrayList<LatLng>();
+			rectOptions.add(latLngs.get(0));
+			return googleMap.addPolyline(rectOptions);
+		}
+
+		/**
+		 * Add the marker to the polyline.
+		 */
+		private void updatePolyLine(LatLng latLng) {
+			List<LatLng> points = polyLine.getPoints();
+			points.add(latLng);
+			polyLine.setPoints(points);
+		}
+
+		public void startAnimation(boolean showPolyLine, List<LatLng> latLngs) {
+			if (trackingMarker != null) {
+				trackingMarker.remove();
+			}
+			this.animating = true;
+			this.latLngs = latLngs;
+			if (latLngs.size() > 2) {
+				initialize(showPolyLine);
+			}
+
+		}
+
+		public boolean isAnimating() {
+			return this.animating;
+		}
+
+		@Override
+		public void run() {
+
+			long elapsed = SystemClock.uptimeMillis() - start;
+			double t = interpolator.getInterpolation((float) elapsed
+					/ ANIMATE_SPEEED);
+			LatLng intermediatePosition = SphericalUtil.interpolate(
+					beginLatLng, endLatLng, t);
+
+			Double mapZoomDouble = 18.5 - (Math.abs((0.5 - t)) * 5);
+			float mapZoom = mapZoomDouble.floatValue();
+
+			trackingMarker.setPosition(intermediatePosition);
+
+			if (showPolyline) {
+				updatePolyLine(intermediatePosition);
+			}
+
+			if (t < 1) {
+				mHandler.postDelayed(this, 16);
+			} else {
+
+				// imagine 5 elements - 0|1|2|3|4 currentindex must be smaller
+				// than 4
+				if (currentIndex < latLngs.size() - 2) {
+
+					currentIndex++;
+
+					endLatLng = getEndLatLng();
+					beginLatLng = getBeginLatLng();
+
+					start = SystemClock.uptimeMillis();
+
+					Double heading = SphericalUtil.computeHeading(beginLatLng,
+							endLatLng);
+
+					highLightMarker(currentIndex);
+
+					CameraPosition cameraPosition = new CameraPosition.Builder()
+							.target(endLatLng)
+							.bearing(heading.floatValue() /* + BEARING_OFFSET */)
+							// .bearing(bearingL + BEARING_OFFSET)
+							.tilt(tilt)
+							.zoom(googleMap.getCameraPosition().zoom).build();
+
+					googleMap.animateCamera(CameraUpdateFactory
+							.newCameraPosition(cameraPosition),
+							ANIMATE_SPEEED_TURN, null);
+
+					// start = SystemClock.uptimeMillis();
+					mHandler.postDelayed(this, 16);
+
+				} else {
+					currentIndex++;
+					highLightMarker(currentIndex);
+					stopAnimation();
+				}
+
+			}
+		}
+
+		private LatLng getEndLatLng() {
+			return latLngs.get(currentIndex + 1);
+		}
+
+		private LatLng getBeginLatLng() {
+			return latLngs.get(currentIndex);
+		}
+
+	};
+
+	private void highLightMarker(int index) {
+		if (markers.size() >= index + 1) {
+			highLightMarker(markers.get(index));
+		}
+	}
+
+	/**
+	 * Highlight the marker by marker.
+	 */
+	private void highLightMarker(Marker marker) {
+
+		if (marker != null) {
+			marker.setIcon(BitmapDescriptorFactory
+					.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+			marker.showInfoWindow();
+		}
+
+	}
+
+	private void resetMarkers() {
+		for (Marker marker : this.markers) {
+			marker.setIcon(BitmapDescriptorFactory
+					.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+		}
+	}
 }

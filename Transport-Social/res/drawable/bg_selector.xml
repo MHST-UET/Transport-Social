@@ -7,6 +7,7 @@
     <item android:drawable="@drawable/bg_click" android:state_focused="true" android:state_pressed="true"/>
     <!-- Button Pressed -->
     <item android:drawable="@drawable/bg_click" android:state_focused="false" android:state_pressed="true"/>
+
     <!-- Button Default Image -->
     <item android:drawable="@drawable/bg_button"/>
 
