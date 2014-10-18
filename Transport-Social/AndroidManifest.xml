@@ -16,9 +16,6 @@
         android:name="com.uet.mhst.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
     <!-- Allows to receive map -->
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-feature android:name="android.hardware.camera" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -89,7 +86,7 @@
         <activity
             android:name=".StatusDetailActivity"
             android:label="Status Detail"
-            android:theme="@style/Theme.Transparent" >
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
             <intent-filter>
                 <action android:name="com.uet.mhst.StatusDetailActivity" />
 
@@ -126,6 +123,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".SettingActivity"
+            android:label="Setting" >
+            <intent-filter>
+                <action android:name="com.uet.mhst.SettingActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".HelpActivity"
             android:label="Help" >
             <intent-filter>
@@ -134,6 +140,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".MyService"
+            android:enabled="true" />
+
+        <receiver android:name="SettingsActivity$switchButtonListener" />
 
         <provider
             android:name=".utility.PlaceProvider"

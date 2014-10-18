@@ -1,11 +1,11 @@
 package com.uet.mhst;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -15,9 +15,14 @@ public class AboutActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
+
+		ActionBar actionBar = getActionBar();
 		ColorDrawable colorDrawable = new ColorDrawable(
-				Color.parseColor("#3b5998"));
-		getActionBar().setBackgroundDrawable(colorDrawable);
+				Color.parseColor("#990000"));
+		actionBar.setBackgroundDrawable(colorDrawable);
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
 		TextView textView1 = (TextView) findViewById(R.id.textView1);
 		textView1
 				.setText(Html
@@ -59,5 +64,19 @@ public class AboutActivity extends Activity {
 						.fromHtml("<a href=\"https://developers.google.com/appengine/\">Google App Engine</a>"));
 		textView6.setMovementMethod(android.text.method.LinkMovementMethod
 				.getInstance());
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+
+		case android.R.id.home:
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+
 	}
 }

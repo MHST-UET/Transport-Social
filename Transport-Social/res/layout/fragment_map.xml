@@ -17,18 +17,10 @@
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="22dp"
-        android:layout_marginTop="65dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="69dp"
+        android:background="@drawable/edittext_comment"
         android:src="@drawable/ic_place" />
-
-    <ImageView
-        android:id="@+id/img_compass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/place"
-        android:layout_below="@+id/place"
-        android:layout_marginTop="15dp"
-        android:src="@android:drawable/ic_menu_compass" />
 
     <LinearLayout
         android:id="@+id/layout_infor"
@@ -59,7 +51,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="to" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -76,5 +67,15 @@
                 android:src="@drawable/ic_preview" />
         </LinearLayout>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_compass"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/place"
+        android:layout_below="@+id/place"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/edittext_comment"
+        android:src="@android:drawable/ic_menu_compass" />
 
 </RelativeLayout>

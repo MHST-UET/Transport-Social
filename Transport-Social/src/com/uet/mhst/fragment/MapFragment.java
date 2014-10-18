@@ -3,7 +3,6 @@ package com.uet.mhst.fragment;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import com.uet.mhst.MainActivity;
 import com.uet.mhst.R;
@@ -18,36 +17,28 @@ import com.uet.mhst.utility.GoogleMapUtis;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.model.GraphObject;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.CancelableCallback;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -56,7 +47,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.plus.model.moments.ItemScope;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
@@ -68,7 +58,6 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.DateTime;
 import com.google.api.client.util.Key;
 import com.google.maps.android.PolyUtil;
 import com.google.maps.android.SphericalUtil;
@@ -82,21 +71,13 @@ public class MapFragment extends Fragment implements
 	public Context context;
 	private GPSTracker myLocation;
 	private List<Marker> markers = new ArrayList<Marker>();
-	private Handler handler = new Handler();
-	private Random random = new Random();
+	private ProgressDialog progress;
 	private List<LatLng> latLngs = new ArrayList<LatLng>();
 	private Animator animator = new Animator();
 	private final Handler mHandler = new Handler();
-	private boolean directionsFetched = false;
 	private LinearLayout layout_infor;
 	private TextView txt_from, txt_to;
 	private ImageView img_direction;
-	private Runnable runner = new Runnable() {
-		@Override
-		public void run() {
-			setHasOptionsMenu(true);
-		}
-	};
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -113,6 +94,9 @@ public class MapFragment extends Fragment implements
 
 		View rootView = inflater.inflate(R.layout.fragment_map, container,
 				false);
+		progress = new ProgressDialog(getActivity());
+		progress.setMessage("Loading...");
+		progress.setIndeterminate(true);
 		layout_infor = (LinearLayout) rootView.findViewById(R.id.layout_infor);
 		txt_from = (TextView) rootView.findViewById(R.id.txt_from);
 		txt_to = (TextView) rootView.findViewById(R.id.txt_to);
@@ -142,14 +126,17 @@ public class MapFragment extends Fragment implements
 			}
 		});
 		googleMap.setMyLocationEnabled(true);
-
+		googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+		googleMap.getUiSettings().setZoomControlsEnabled(false);
+		googleMap.getUiSettings().setRotateGesturesEnabled(true);
+		googleMap.getUiSettings().setCompassEnabled(true);
 		return rootView;
 	}
 
 	@Override
 	public void MainPassToMap(Cursor c) {
 		// TODO Auto-generated method stub
-		((MainActivity) getActivity()).selectTab(1);
+		((MainActivity) getActivity()).selectTab(0);
 		MarkerOptions markerOptions = null;
 		LatLng position = null;
 		googleMap.clear();
@@ -176,17 +163,31 @@ public class MapFragment extends Fragment implements
 
 	private class PlaceAsyncTask extends AsyncTask<Void, Void, Void> {
 		CollectionResponseItem items = null;
+		SharedPreferences pre = context.getSharedPreferences("dataSetting",
+				context.MODE_PRIVATE);
+		private int num = 0;
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			progress.show();
+		}
 
 		protected Void doInBackground(Void... unused) {
-
 			try {
+
 				Itemendpoint.Builder builder = new Itemendpoint.Builder(
 						AndroidHttp.newCompatibleTransport(),
 						new GsonFactory(), null);
 				Itemendpoint service = builder.build();
 
-				items = service.listItem().setLon(myLocation.getLongitude())
-						.setLat(myLocation.getLatitude()).setDistance(100.0)
+				items = service
+						.listItem()
+						.setLon(myLocation.getLongitude())
+						.setLat(myLocation.getLatitude())
+						.setDistance(Double.valueOf(pre.getString("rad", "0")))
+						.setLimit(Integer.valueOf(pre.getString("number", "0")))
 						.execute();
 
 			} catch (Exception e) {
@@ -199,44 +200,51 @@ public class MapFragment extends Fragment implements
 		protected void onPostExecute(Void result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
+			googleMap.clear();
+			try {
 
-			List<Item> list = items.getItems();
+				List<Item> list = items.getItems();
+				num = list.size();
+				for (Item tem : list) {
 
-			for (Item tem : list) {
+					String var = "";
+					switch (tem.getStatus()) {
+					case 3:
+						var = "Tắc đường";
+						break;
+					case 2:
+						var = "Đường đông";
+						break;
+					case 4:
+						var = "Tai nạn";
+						break;
+					case 1:
+						var = "Bình thường";
+						break;
+					}
 
-				String var = "";
-				switch (tem.getStatus()) {
-				case 3:
-					var = "Tắc đường";
-					break;
-				case 2:
-					var = "Đường đông";
-					break;
-				case 4:
-					var = "Tai nạn";
-					break;
-				case 1:
-					var = "Bình thường";
-					break;
+					MarkerOptions marker = new MarkerOptions()
+							.position(
+									new LatLng(tem.getLatitude(), tem
+											.getLongitude())).title(var)
+							.snippet(tem.getAddress());
+
+					googleMap.addMarker(marker);
+
 				}
 
-				MarkerOptions marker = new MarkerOptions()
-						.position(
-								new LatLng(tem.getLatitude(), tem
-										.getLongitude())).title(var)
-						.snippet(tem.getAddress());
+				CameraPosition cameraPosition = new CameraPosition.Builder()
+						.target(new LatLng(list.get(0).getLatitude(), list.get(
+								0).getLongitude())).zoom(15).build();
 
-				googleMap.addMarker(marker);
+				googleMap.animateCamera(CameraUpdateFactory
+						.newCameraPosition(cameraPosition));
+			} catch (Exception e) {
 
 			}
-
-			CameraPosition cameraPosition = new CameraPosition.Builder()
-					.target(new LatLng(list.get(0).getLatitude(), list.get(0)
-							.getLongitude())).zoom(15).build();
-
-			googleMap.animateCamera(CameraUpdateFactory
-					.newCameraPosition(cameraPosition));
-
+			progress.dismiss();
+			Toast.makeText(context, String.valueOf(num) + " places",
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -275,6 +283,7 @@ public class MapFragment extends Fragment implements
 
 	@Override
 	public void PassPlaceDirectionToMap(String from, String to) {
+		((MainActivity) getActivity()).selectTab(0);
 		// TODO Auto-generated method stub
 		txt_from.setText("From: " + from);
 		txt_to.setText("To: " + to);
@@ -312,16 +321,6 @@ public class MapFragment extends Fragment implements
 			options.add(latLng);
 		}
 		googleMap.addPolyline(options);
-	}
-
-	private void updateNavigationStopStart() {
-		// MenuItem startAnimation = this.menu
-		// .findItem(R.id.action_bar_start_animation);
-		// startAnimation.setVisible(!animator.isAnimating() &&
-		// directionsFetched);
-		// MenuItem stopAnimation = this.menu
-		// .findItem(R.id.action_bar_stop_animation);
-		// stopAnimation.setVisible(animator.isAnimating());
 	}
 
 	private class DirectionsFetcher extends AsyncTask<URL, Integer, Void> {

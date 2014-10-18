@@ -32,7 +32,7 @@
         android:background="@color/list_background"
         android:choiceMode="singleChoice"
         android:divider="@color/list_divider"
-        android:dividerHeight="1dp"
+        android:dividerHeight="0.5dp"
         android:listSelector="@drawable/list_selector"
         android:paddingTop="10dp" />
 

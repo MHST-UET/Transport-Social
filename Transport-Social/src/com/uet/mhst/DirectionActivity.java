@@ -3,12 +3,14 @@ package com.uet.mhst;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -45,10 +47,12 @@ public class DirectionActivity extends Activity {
 		super.onCreate(arg0);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_direction);
+		ActionBar actionBar = getActionBar();
 		ColorDrawable colorDrawable = new ColorDrawable(
 				Color.parseColor("#990000"));
-		getActionBar().setBackgroundDrawable(colorDrawable);
-		// to = (EditText) findViewById(R.id.to);
+		actionBar.setBackgroundDrawable(colorDrawable);
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 		Button btnLoadDirections = (Button) findViewById(R.id.load_directions);
 
 		btnLoadDirections.setOnClickListener(new View.OnClickListener() {
@@ -171,6 +175,20 @@ public class DirectionActivity extends Activity {
 
 		@Key("id")
 		public String id;
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+
+		case android.R.id.home:
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 
 	}
 }

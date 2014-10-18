@@ -12,9 +12,8 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="15dp"
-        android:layout_weight="0.54"
         android:background="#EDFFF9" >
 
         <ImageView
@@ -49,32 +48,49 @@
         android:layout_weight="0.54" >
     </ListView>
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/timestamp" />
+
     <LinearLayout
         android:id="@+id/LinearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/bg_parent_rounded_corner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="0"
+        android:background="@drawable/bg_button"
         android:orientation="horizontal"
-        android:padding="1dp" >
+        android:padding="2dp" >
 
         <EditText
             android:id="@+id/edit_comment"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:focusable="true"
-            android:hint="Something....."
-            android:maxLines="1"
-            android:padding="2dp" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/edittext_comment"
+            android:ems="5"
+            android:hint="Write a comment..."
+            android:inputType="textMultiLine" >
+        </EditText>
 
-        <Button
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/timestamp" />
+
+        <ImageButton
             android:id="@+id/btn_comment"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bg_selector"
-            android:text="Post" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0"
+            android:background="@drawable/edittext_comment"
+            android:src="@drawable/icon_send_comment" />
     </LinearLayout>
 
 </LinearLayout>

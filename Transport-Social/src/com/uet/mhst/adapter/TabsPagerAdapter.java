@@ -19,10 +19,11 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 		switch (index) {
 		case 0:
 
-			return new NewsFeedFragment();
+			return new MapFragment();
+
 		case 1:
 
-			return new MapFragment();
+			return new NewsFeedFragment();
 
 		}
 

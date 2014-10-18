@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import com.google.android.gms.maps.model.LatLng;
@@ -57,8 +58,8 @@ public class StatusDetailActivity extends Activity {
 				listCmt.getListComments());
 
 		listComment.setAdapter(adapter);
-
-		Button btn_comment = (Button) findViewById(R.id.btn_comment);
+		listComment.setSelection(adapter.getCount() -1);
+		ImageButton btn_comment = (ImageButton) findViewById(R.id.btn_comment);
 
 		btn_comment.setOnClickListener(new View.OnClickListener() {
 
@@ -80,6 +81,7 @@ public class StatusDetailActivity extends Activity {
 
 				listCmt.add(cmt);
 				adapter.notifyDataSetChanged();
+				listComment.setSelection(adapter.getCount() -1);
 				edit_comment.setText("");
 
 				new Thread(new Runnable() {

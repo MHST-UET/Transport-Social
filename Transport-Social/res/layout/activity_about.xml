@@ -28,7 +28,7 @@
         android:text="TextView" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/txt_rad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView2"
@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView4"
-        android:layout_below="@+id/textView5"
+        android:layout_below="@+id/txt_rad"
         android:layout_marginTop="29dp"
         android:text="TextView" />
 

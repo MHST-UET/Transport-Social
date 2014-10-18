@@ -59,27 +59,20 @@ public class UpNewsFeedActivity extends Activity {
 		txt_address = (TextView) findViewById(R.id.txt_address);
 		txt_time = (TextView) findViewById(R.id.txt_time);
 		contentEdit = (EditText) findViewById(R.id.content);
-
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm   dd/MM/yyyy");
 		String currentDateandTime = sdf.format(new Date());
 		txt_time.setText(currentDateandTime);
-
 		progress = new ProgressDialog(this);
 		progress.setMessage("Updating...");
 		progress.setIndeterminate(true);
-		
-
 		String arr[] = { "Bình thường", "Đông", "Tắc đường", "Tai nạn" };
 		statusSpinner = (Spinner) findViewById(R.id.status);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, arr);
-
 		adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-
 		statusSpinner.setAdapter(adapter);
 		statusSpinner
 				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
 					@Override
 					public void onItemSelected(AdapterView<?> parent,
 							View view, int position, long id) {
@@ -94,10 +87,12 @@ public class UpNewsFeedActivity extends Activity {
 					}
 
 				});
-		ActionBar ab = getActionBar();
+		ActionBar actionBar = getActionBar();
 		ColorDrawable colorDrawable = new ColorDrawable(
 				Color.parseColor("#990000"));
-		ab.setBackgroundDrawable(colorDrawable);
+		actionBar.setBackgroundDrawable(colorDrawable);
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		myLocation = new GPSTracker(getBaseContext());
 		dataUser = new DatabaseHandler(getBaseContext());
@@ -158,7 +153,7 @@ public class UpNewsFeedActivity extends Activity {
 		protected void onPostExecute(Void unused) {
 
 			// Display success message to user
-			Toast.makeText(getBaseContext(), "Item added succesfully",
+			Toast.makeText(getBaseContext(), "Status updated succesfully",
 					Toast.LENGTH_SHORT).show();
 			progress.dismiss();
 			finish();
@@ -216,7 +211,9 @@ public class UpNewsFeedActivity extends Activity {
 			Item[] params = { statusItem };
 			new AddItemAsyncTask().execute(params);
 			return true;
-
+		case android.R.id.home:
+			finish();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

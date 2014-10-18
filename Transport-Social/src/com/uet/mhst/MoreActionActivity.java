@@ -40,7 +40,7 @@ public class MoreActionActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-
+				
 			}
 		});
 	}

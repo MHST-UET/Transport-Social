@@ -77,21 +77,21 @@ public class CompassActivity extends Activity implements SensorEventListener {
 
 		if ((360 >= baseAzimuth && baseAzimuth >= 337.5)
 				|| (0 <= baseAzimuth && baseAzimuth <= 22.5))
-			bearingText = "N";
+			bearingText = "Bắc";
 		else if (baseAzimuth > 22.5 && baseAzimuth < 67.5)
-			bearingText = "NE";
+			bearingText = "Đông Bắc";
 		else if (baseAzimuth >= 67.5 && baseAzimuth <= 112.5)
-			bearingText = "E";
+			bearingText = "Đông";
 		else if (baseAzimuth > 112.5 && baseAzimuth < 157.5)
-			bearingText = "SE";
+			bearingText = "Đông Nam";
 		else if (baseAzimuth >= 157.5 && baseAzimuth <= 202.5)
-			bearingText = "S";
+			bearingText = "Nam";
 		else if (baseAzimuth > 202.5 && baseAzimuth < 247.5)
-			bearingText = "SW";
+			bearingText = "Tây Nam";
 		else if (baseAzimuth >= 247.5 && baseAzimuth <= 292.5)
-			bearingText = "W";
+			bearingText = "Tây";
 		else if (baseAzimuth > 292.5 && baseAzimuth < 337.5)
-			bearingText = "NW";
+			bearingText = "Tây Bắc";
 		else
 			bearingText = "?";
 

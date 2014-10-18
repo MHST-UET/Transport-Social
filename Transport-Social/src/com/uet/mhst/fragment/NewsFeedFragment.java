@@ -14,6 +14,7 @@ import com.uet.mhst.adapter.FeedListAdapter;
 import com.uet.mhst.itemendpoint.model.*;
 import com.uet.mhst.itemendpoint.*;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,7 +33,8 @@ public class NewsFeedFragment extends Fragment {
 	private PullToRefreshListView mPullRefreshListView;
 	private ArrayList<Item> feedItems;
 	private Activity activity;
-	public static final int NUMBER_ITEM = 100;
+	public static final int NUMBER_ITEM = 10;
+	private ProgressDialog progress;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +46,10 @@ public class NewsFeedFragment extends Fragment {
 		feedItems = new ArrayList<Item>();
 		listAdapter = new FeedListAdapter(activity, feedItems);
 		mPullRefreshListView.setAdapter(listAdapter);
+
+		progress = new ProgressDialog(getActivity());
+		progress.setMessage("Loading...");
+		progress.setIndeterminate(true);
 
 		mPullRefreshListView
 				.setOnRefreshListener(new OnRefreshListener<ListView>() {
@@ -63,8 +69,8 @@ public class NewsFeedFragment extends Fragment {
 					@Override
 					public void onLastItemVisible() {
 						// new LoadMoreDataTask().execute();
-						Toast.makeText(activity, "End of List!",
-								Toast.LENGTH_SHORT).show();
+
+						new LoadMoreDataTask().execute();
 					}
 				});
 
@@ -81,6 +87,12 @@ public class NewsFeedFragment extends Fragment {
 
 	private class NewsFeedAsyncTask extends
 			AsyncTask<Void, Void, CollectionResponseItem> {
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			progress.show();
+		}
 
 		protected CollectionResponseItem doInBackground(Void... unused) {
 			CollectionResponseItem items = null;
@@ -108,11 +120,19 @@ public class NewsFeedFragment extends Fragment {
 				e.printStackTrace();
 			}
 			listAdapter.notifyDataSetChanged();
+			progress.dismiss();
 		}
 	}
 
 	private class LoadMoreDataTask extends
 			AsyncTask<Void, Void, CollectionResponseItem> {
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			progress.show();
+		}
 
 		@Override
 		protected CollectionResponseItem doInBackground(Void... params) {
@@ -153,7 +173,7 @@ public class NewsFeedFragment extends Fragment {
 			}
 
 			listAdapter.notifyDataSetChanged();
-
+			progress.dismiss();
 		}
 
 	}
