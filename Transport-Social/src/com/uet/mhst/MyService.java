@@ -134,7 +134,7 @@ public class MyService extends Service {
 							getApplicationContext(), 0, not, 0);
 					notification.contentView.setOnClickPendingIntent(
 							R.id.btn_save, launch);
-
+					notification.flags |= Notification.FLAG_ONGOING_EVENT;
 					notificationId = 1;
 					notificationManager.notify(notificationId, notification);
 				}
