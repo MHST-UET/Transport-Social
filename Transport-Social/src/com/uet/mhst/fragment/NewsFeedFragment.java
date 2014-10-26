@@ -13,9 +13,12 @@ import android.widget.ListView;
 import com.uet.mhst.adapter.FeedListAdapter;
 import com.uet.mhst.itemendpoint.model.*;
 import com.uet.mhst.itemendpoint.*;
+import com.uet.mhst.utility.ConnectionDetector;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,9 +26,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 
 public class NewsFeedFragment extends Fragment {
 
@@ -35,6 +35,8 @@ public class NewsFeedFragment extends Fragment {
 	private Activity activity;
 	public static final int NUMBER_ITEM = 10;
 	private ProgressDialog progress;
+	private ConnectionDetector cd;
+	Boolean isInternetPresent = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,7 +48,7 @@ public class NewsFeedFragment extends Fragment {
 		feedItems = new ArrayList<Item>();
 		listAdapter = new FeedListAdapter(activity, feedItems);
 		mPullRefreshListView.setAdapter(listAdapter);
-
+		cd = new ConnectionDetector(activity);
 		progress = new ProgressDialog(getActivity());
 		progress.setMessage("Loading...");
 		progress.setIndeterminate(true);
@@ -58,7 +60,16 @@ public class NewsFeedFragment extends Fragment {
 							PullToRefreshBase<ListView> refreshView) {
 
 						// Do work to refresh the list here.
-						new PullToRefreshDataTask().execute();
+						isInternetPresent = cd.isConnectingToInternet();
+						if (isInternetPresent) {
+							new PullToRefreshDataTask().execute();
+						} else {
+
+							showAlertDialog(activity, "No Internet",
+									"You don't have internet connection.",
+									false);
+						}
+
 					}
 				});
 
@@ -70,11 +81,27 @@ public class NewsFeedFragment extends Fragment {
 					public void onLastItemVisible() {
 						// new LoadMoreDataTask().execute();
 
-						new LoadMoreDataTask().execute();
+						isInternetPresent = cd.isConnectingToInternet();
+						if (isInternetPresent) {
+							new LoadMoreDataTask().execute();
+						} else {
+
+							showAlertDialog(activity, "No Internet",
+									"You don't have internet connection.",
+									false);
+						}
 					}
 				});
 
-		new NewsFeedAsyncTask().execute();
+		isInternetPresent = cd.isConnectingToInternet();
+		if (isInternetPresent) {
+			new NewsFeedAsyncTask().execute();
+		} else {
+
+			showAlertDialog(activity, "No Internet",
+					"You don't have internet connection.", false);
+		}
+
 		return rootView;
 	}
 
@@ -217,6 +244,27 @@ public class NewsFeedFragment extends Fragment {
 			mPullRefreshListView.onRefreshComplete();
 		}
 
+	}
+
+	@SuppressWarnings("deprecation")
+	public void showAlertDialog(Context context, String title, String message,
+			Boolean status) {
+		AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+
+		// Setting Dialog Title
+		alertDialog.setTitle(title);
+
+		// Setting Dialog Message
+		alertDialog.setMessage(message);
+
+		// Setting OK Button
+		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+
+		// Showing Alert Message
+		alertDialog.show();
 	}
 
 }

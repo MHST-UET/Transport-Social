@@ -2,11 +2,14 @@ package com.uet.mhst;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import android.accounts.AccountManager;
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -21,7 +24,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,7 @@ import com.google.api.client.util.DateTime;
 import com.uet.mhst.itemendpoint.Itemendpoint;
 import com.uet.mhst.itemendpoint.model.Item;
 import com.uet.mhst.sqlite.DatabaseHandler;
+import com.uet.mhst.utility.ConnectionDetector;
 import com.uet.mhst.utility.GPSTracker;
 import com.uet.mhst.utility.ReverseGeocodingTask;
 
@@ -50,11 +53,15 @@ public class UpNewsFeedActivity extends Activity {
 	private String content, location;
 	private EditText contentEdit;
 	private ProgressDialog progress;
+	private ConnectionDetector cd;
+	Boolean isInternetPresent = false;
 
+	@SuppressLint("SimpleDateFormat")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_up_news_feed);
+		cd = new ConnectionDetector(getBaseContext());
 		myLocation = new GPSTracker(getBaseContext());
 		txt_address = (TextView) findViewById(R.id.txt_address);
 		txt_time = (TextView) findViewById(R.id.txt_time);
@@ -108,7 +115,16 @@ public class UpNewsFeedActivity extends Activity {
 			// Not signed in, show login window or request an account.
 			chooseAccount();
 		}
-		new LocationAsyncTask().execute();
+
+		isInternetPresent = cd.isConnectingToInternet();
+		if (isInternetPresent) {
+			new LocationAsyncTask().execute();
+		} else {
+
+			showAlertDialog(this, "No Internet",
+					"You don't have internet connection.", false);
+		}
+
 	}
 
 	private class LocationAsyncTask extends AsyncTask<Item, Void, Void> {
@@ -193,23 +209,33 @@ public class UpNewsFeedActivity extends Activity {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 		case R.id.action_post:
-			Item statusItem = new Item();
-			String id = dataUser.getUserDetails().get("id");
-			statusItem.setIdFB(id);
-			statusItem.setTime(new DateTime(System.currentTimeMillis()));
-			statusItem.setStatus(status);
-			content = contentEdit.getText().toString();
-			statusItem.setContent(content);
-			statusItem.setLatitude(myLocation.getLatitude());
-			statusItem.setLongitude(myLocation.getLongitude());
-			LatLng latLng = new LatLng(myLocation.getLatitude(),
-					myLocation.getLongitude());
-			statusItem.setAddress(new ReverseGeocodingTask(getBaseContext())
-					.getAddressText(latLng));
-			String name = dataUser.getUserDetails().get("name");
-			statusItem.setName(name);
-			Item[] params = { statusItem };
-			new AddItemAsyncTask().execute(params);
+
+			isInternetPresent = cd.isConnectingToInternet();
+			if (isInternetPresent) {
+
+				Item statusItem = new Item();
+				String id = dataUser.getUserDetails().get("id");
+				statusItem.setIdFB(id);
+				statusItem.setTime(new DateTime(System.currentTimeMillis()));
+				statusItem.setStatus(status);
+				content = contentEdit.getText().toString();
+				statusItem.setContent(content);
+				statusItem.setLatitude(myLocation.getLatitude());
+				statusItem.setLongitude(myLocation.getLongitude());
+				LatLng latLng = new LatLng(myLocation.getLatitude(),
+						myLocation.getLongitude());
+				statusItem
+						.setAddress(new ReverseGeocodingTask(getBaseContext())
+								.getAddressText(latLng));
+				String name = dataUser.getUserDetails().get("name");
+				statusItem.setName(name);
+				Item[] params = { statusItem };
+				new AddItemAsyncTask().execute(params);
+			} else {
+
+				showAlertDialog(this, "No Internet",
+						"You don't have internet connection.", false);
+			}
 			return true;
 		case android.R.id.home:
 			finish();
@@ -231,5 +257,26 @@ public class UpNewsFeedActivity extends Activity {
 		editor.commit();
 		credential.setSelectedAccountName(accountName);
 
+	}
+
+	@SuppressWarnings("deprecation")
+	public void showAlertDialog(Context context, String title, String message,
+			Boolean status) {
+		AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+
+		// Setting Dialog Title
+		alertDialog.setTitle(title);
+
+		// Setting Dialog Message
+		alertDialog.setMessage(message);
+
+		// Setting OK Button
+		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+
+		// Showing Alert Message
+		alertDialog.show();
 	}
 }

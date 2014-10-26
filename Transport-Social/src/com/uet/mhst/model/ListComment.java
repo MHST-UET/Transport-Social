@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.uet.mhst.itemendpoint.model.Comment;
 
+@SuppressWarnings("serial")
 public class ListComment implements Serializable {
 	private List<Cmt> listComments;
 	private Long id;

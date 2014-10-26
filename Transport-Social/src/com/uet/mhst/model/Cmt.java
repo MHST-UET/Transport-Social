@@ -5,6 +5,7 @@ import java.io.Serializable;
 import com.google.api.client.util.DateTime;
 import com.uet.mhst.itemendpoint.model.Comment;
 
+@SuppressWarnings("serial")
 public class Cmt implements Serializable {
 	private Long id;
 	private String idfb, name, address;

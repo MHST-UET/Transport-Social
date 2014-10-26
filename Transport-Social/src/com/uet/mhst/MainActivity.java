@@ -1,7 +1,6 @@
 package com.uet.mhst;
 
 import java.util.ArrayList;
-
 import com.facebook.Session;
 import com.uet.mhst.adapter.NavDrawerListAdapter;
 import com.uet.mhst.adapter.TabsPagerAdapter;
@@ -41,8 +40,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
-
 import com.uet.mhst.communicator.*;
 
 public class MainActivity extends FragmentActivity implements

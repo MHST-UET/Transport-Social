@@ -1,41 +1,29 @@
 package com.uet.mhst;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import com.facebook.FacebookRequestError;
-import com.facebook.HttpMethod;
 import com.facebook.LoggingBehavior;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.Settings;
-
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.Signature;
-
 import android.os.Bundle;
 import android.os.StrictMode;
-
-import com.facebook.*;
 import com.facebook.model.*;
 import com.uet.mhst.sqlite.DatabaseHandler;
+import com.uet.mhst.utility.ConnectionDetector;
 
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 public class LoginFacebookActivity extends Activity {
-
+	private ConnectionDetector cd;
+	Boolean isInternetPresent = false;
 	private ImageView buttonLoginLogout;
 	private Session.StatusCallback statusCallback = new SessionStatusCallback();
 
@@ -43,10 +31,10 @@ public class LoginFacebookActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-		.permitAll().build();
-
-StrictMode.setThreadPolicy(policy);
+				.permitAll().build();
+		StrictMode.setThreadPolicy(policy);
 		setContentView(R.layout.activity_login_facebook);
+		cd = new ConnectionDetector(getBaseContext());
 		buttonLoginLogout = (ImageView) findViewById(R.id.buttonLoginLogout);
 		Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
 		Session session = Session.getActiveSession();
@@ -71,7 +59,7 @@ StrictMode.setThreadPolicy(policy);
 	public void onStart() {
 		super.onStart();
 		Session.getActiveSession().addCallback(statusCallback);
-		
+
 	}
 
 	@Override
@@ -96,7 +84,7 @@ StrictMode.setThreadPolicy(policy);
 
 	private void updateView() {
 		Session session = Session.getActiveSession();
-		
+
 		if (session.isOpened()) {
 
 			Request.newMeRequest(session, new Request.GraphUserCallback() {
@@ -108,7 +96,7 @@ StrictMode.setThreadPolicy(policy);
 						DatabaseHandler db = new DatabaseHandler(
 								getApplicationContext());
 						db.addUser(user.getId(), user.getName());
-						
+
 					}
 				}
 			}).executeAsync();
@@ -122,7 +110,15 @@ StrictMode.setThreadPolicy(policy);
 
 			buttonLoginLogout.setOnClickListener(new OnClickListener() {
 				public void onClick(View view) {
-					onClickLogin();
+
+					isInternetPresent = cd.isConnectingToInternet();
+					if (isInternetPresent) {
+						onClickLogin();
+					} else {
+						showAlertDialog(LoginFacebookActivity.this,
+								"No Internet",
+								"You don't have internet connection.", false);
+					}
 				}
 			});
 		}
@@ -146,4 +142,24 @@ StrictMode.setThreadPolicy(policy);
 		}
 	}
 
+	@SuppressWarnings("deprecation")
+	public void showAlertDialog(Context context, String title, String message,
+			Boolean status) {
+		AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+
+		// Setting Dialog Title
+		alertDialog.setTitle(title);
+
+		// Setting Dialog Message
+		alertDialog.setMessage(message);
+
+		// Setting OK Button
+		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+
+		// Showing Alert Message
+		alertDialog.show();
+	}
 }

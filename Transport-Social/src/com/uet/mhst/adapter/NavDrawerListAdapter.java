@@ -1,17 +1,15 @@
 package com.uet.mhst.adapter;
 
 import java.util.ArrayList;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.facebook.widget.ProfilePictureView;
 import com.uet.mhst.R;
 import com.uet.mhst.model.NavDrawerItem;
@@ -43,6 +41,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
 		return position;
 	}
 
+	@SuppressLint("InflateParams")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {

@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.format.DateUtils;
@@ -14,13 +17,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.os.Bundle;
 import android.os.StrictMode;
 import com.facebook.*;
-import com.facebook.model.*;
 import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.ProfilePictureView;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -30,10 +30,12 @@ import com.uet.mhst.itemendpoint.Itemendpoint;
 import com.uet.mhst.itemendpoint.model.*;
 import com.uet.mhst.model.ListComment;
 import com.uet.mhst.sqlite.DatabaseHandler;
+import com.uet.mhst.utility.ConnectionDetector;
 
 public class FeedListAdapter extends BaseAdapter {
 	private Activity activity;
-
+	private ConnectionDetector cd;
+	Boolean isInternetPresent = false;
 	private LayoutInflater inflater;
 	private List<Item> Items = new ArrayList<Item>();
 	private Item item;
@@ -48,7 +50,7 @@ public class FeedListAdapter extends BaseAdapter {
 		this.activity = activity;
 		this.Items = Items;
 		uiHelper = new UiLifecycleHelper(this.activity, null);
-
+		cd = new ConnectionDetector(activity);
 	}
 
 	@Override
@@ -220,10 +222,10 @@ public class FeedListAdapter extends BaseAdapter {
 					break;
 				}
 				bundle.putString("status", var);
-//				bundle.("", Items.get(position).);
-//				bundle.("", Items.get(position).);
-//				bundle.("", Items.get(position).);
-//				bundle.("", Items.get(position).);
+				// bundle.("", Items.get(position).);
+				// bundle.("", Items.get(position).);
+				// bundle.("", Items.get(position).);
+				// bundle.("", Items.get(position).);
 				moreAction.putExtra("bundle", bundle);
 				activity.startActivityForResult(moreAction, 111);
 			}
@@ -454,20 +456,27 @@ public class FeedListAdapter extends BaseAdapter {
 		public void run() {
 			// TODO Auto-generated method stub
 			super.run();
-			Itemendpoint.Builder builder = new Itemendpoint.Builder(
-					AndroidHttp.newCompatibleTransport(), new GsonFactory(),
-					null);
-			Itemendpoint service = builder.build();
-			Vote vote = new Vote();
-			vote.setName(dataUser.getUserDetails().get("name"));
-			vote.setIdfb(idf);
-			vote.setUp(up);
 
-			try {
-				service.vote(id, vote).execute();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			isInternetPresent = cd.isConnectingToInternet();
+			if (isInternetPresent) {
+
+				Itemendpoint.Builder builder = new Itemendpoint.Builder(
+						AndroidHttp.newCompatibleTransport(),
+						new GsonFactory(), null);
+				Itemendpoint service = builder.build();
+				Vote vote = new Vote();
+				vote.setName(dataUser.getUserDetails().get("name"));
+				vote.setIdfb(idf);
+				vote.setUp(up);
+
+				try {
+					service.vote(id, vote).execute();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+
 			}
 		}
 	}
@@ -480,4 +489,24 @@ public class FeedListAdapter extends BaseAdapter {
 		ProfilePictureView pictureFb;
 	}
 
+	@SuppressWarnings("deprecation")
+	public void showAlertDialog(Context context, String title, String message,
+			Boolean status) {
+		AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+
+		// Setting Dialog Title
+		alertDialog.setTitle(title);
+
+		// Setting Dialog Message
+		alertDialog.setMessage(message);
+
+		// Setting OK Button
+		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+
+		// Showing Alert Message
+		alertDialog.show();
+	}
 }

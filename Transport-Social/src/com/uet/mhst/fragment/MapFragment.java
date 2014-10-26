@@ -163,6 +163,7 @@ public class MapFragment extends Fragment implements
 
 	private class PlaceAsyncTask extends AsyncTask<Void, Void, Void> {
 		CollectionResponseItem items = null;
+		@SuppressWarnings("static-access")
 		SharedPreferences pre = context.getSharedPreferences("dataSetting",
 				context.MODE_PRIVATE);
 		private int num = 0;
@@ -539,9 +540,6 @@ public class MapFragment extends Fragment implements
 					/ ANIMATE_SPEEED);
 			LatLng intermediatePosition = SphericalUtil.interpolate(
 					beginLatLng, endLatLng, t);
-
-			Double mapZoomDouble = 18.5 - (Math.abs((0.5 - t)) * 5);
-			float mapZoom = mapZoomDouble.floatValue();
 
 			trackingMarker.setPosition(intermediatePosition);
 
