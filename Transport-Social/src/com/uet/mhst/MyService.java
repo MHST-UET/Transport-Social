@@ -144,7 +144,7 @@ public class MyService extends Service {
 						Log.d("Could not retrieve News Feed", e.getMessage(), e);
 					}
 					try {
-						Thread.sleep(10000);
+						Thread.sleep(30000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -153,7 +153,7 @@ public class MyService extends Service {
 				} else {
 
 					try {
-						Thread.sleep(10000);
+						Thread.sleep(30000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

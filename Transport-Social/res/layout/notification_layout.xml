@@ -38,6 +38,7 @@
         android:id="@+id/btn_save"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:background="@drawable/bg_button"
         android:layout_gravity="center"
         android:src="@drawable/action_bar_post" />
 
